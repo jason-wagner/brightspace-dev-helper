@@ -1,0 +1,7 @@
+.env
+.idea/
+.nova/
+vendor/
+composer.lock
+composer.phar
+valence/
