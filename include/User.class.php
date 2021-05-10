@@ -1,7 +1,7 @@
 <?php
 
 class User {
-	private $valence;
+	protected $valence;
 	public $userid;
 
 	public function __construct(Valence $valence, int $userid) {

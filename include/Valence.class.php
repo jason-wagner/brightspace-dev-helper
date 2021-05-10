@@ -29,12 +29,12 @@ class Valence {
 		return $this->apirequest("/d2l/api/versions/");
 	}
 
-	public function user($userid) {
-		return new User($this, $userid);
+	public function user($userid, $userclass = User::class) {
+		return new $userclass($this, $userid);
 	}
 
-	public function course($orgid) {
-		return new Course($this, $orgid);
+	public function course($orgid, $courseclass = Course::class) {
+		return new $courseclass($this, $orgid);
 	}
 
 	public function getUserIdFromUsername(string $username) {

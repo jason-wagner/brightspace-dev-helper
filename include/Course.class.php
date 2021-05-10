@@ -2,7 +2,7 @@
 
 
 class Course {
-	private $valence;
+	protected $valence;
 	public $orgid;
 
 	public function __construct(Valence $valence, int $orgid) {
