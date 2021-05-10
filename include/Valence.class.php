@@ -33,4 +33,24 @@ class Valence
 	{
 		return $this->apirequest("/d2l/api/versions/");
 	}
+
+	public function getUserIdFromUsername(string $username)
+	{
+		try {
+			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?username=$username");
+			return $data->UserId ?? null;
+		} catch(Exception $e) {
+			return null;
+		}
+	}
+
+	public function getOrgUnitIdFromOfferingCode(string $offeringcode)
+	{
+		try {
+			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=3&exactOrgUnitCode=$offeringcode");
+			return $data->Items[0]->Identifier ?? null;
+		} catch(Exception $e) {
+			return null;
+		}
+	}
 }
