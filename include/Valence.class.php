@@ -46,13 +46,29 @@ class Valence {
 		}
 	}
 
-	public function getOrgUnitIdFromOfferingCode(string $offeringcode) {
+	public function getOrgUnitIdFromCode(string $offeringcode, int $orgunittype) {
 		try {
-			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=3&exactOrgUnitCode=$offeringcode");
+			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=$orgunittype&exactOrgUnitCode=$offeringcode");
 			return $data->Items[0]->Identifier ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
+	}
+
+	public function getOrgUnitIdFromOfferingCode(string $offeringcode) {
+		return $this->getOrgUnitIdFromCode($offeringcode, 3);
+	}
+
+	public function getOrgUnitIdFromSemesterCode(string $semestercode) {
+		return $this->getOrgUnitIdFromCode($semestercode, 5);
+	}
+
+	public function getOrgUnitIdFromTemplateCode(string $templatecode) {
+		return $this->getOrgUnitIdFromCode($templatecode, 2);
+	}
+
+	public function getOrgUnitIdFromDepartmentCode(string $departmentcode) {
+		return $this->getOrgUnitIdFromCode($departmentcode, 226);
 	}
 
 	public function enrollUser(int $orgunitid, int $userid, int $roleid) {
