@@ -46,4 +46,14 @@ class Valence {
 			return null;
 		}
 	}
+
+	public function enrollUser(int $orgunitid, int $userid, int $roleid) {
+		$data = [
+			'OrgUnitId' => $orgunitid,
+			'UserId' => $userid,
+			'RoleId' => $roleid
+		];
+
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/", "POST", $data);
+	}
 }
