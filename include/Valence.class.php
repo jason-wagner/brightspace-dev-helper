@@ -29,6 +29,14 @@ class Valence {
 		return $this->apirequest("/d2l/api/versions/");
 	}
 
+	public function user($userid) {
+		return new User($this, $userid);
+	}
+
+	public function course($orgid) {
+		return new Course($this, $orgid);
+	}
+
 	public function getUserIdFromUsername(string $username) {
 		try {
 			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?username=$username");
