@@ -56,4 +56,40 @@ class Valence {
 
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/", "POST", $data);
 	}
+
+	public function createCourseOffering(string $name, string $code, string $path, int $coursetemplateid, int $semesterid, ?string $startdate, ?string $enddate, ?int $localeid, bool $forcelocal, bool $showaddressbook, ?string $description_text, bool $canselfregister) {
+		$data = [
+			"Name" => $name,
+			"Code" => $code,
+			"Path" => $path,
+			"CourseTemplateId" => $coursetemplateid,
+			"SemesterId" => $semesterid,
+			"StartDate" => $startdate,
+			"EndDate" =>  $enddate,
+			"LocaleId" => $localeid,
+			"ForceLocale" => $forcelocal,
+			"ShowAddressBook" => $showaddressbook,
+			"Description" => ['Type' => 'Text', 'Content' => $description_text],
+			"CanSelfRegister" => $canselfregister
+		];
+
+		return $this->apirequest('POST', "/d2l/api/lp/".self::VERSION_LP."/courses/", $data);
+	}
+
+	public function updateCourseOffering(int $orgid, string $name, string $code, ?string $startdate, ?string $enddate, bool $isactive, string $description_text) {
+		$data = [
+			"Name" => $name,
+			"Code" => $code,
+			"StartDate" => $startdate,
+			"EndDate" =>  $enddate,
+			"IsActive" => $isactive,
+			"Description" => ['Type' => 'Text', 'Content' => $description_text]
+		];
+
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/286252", "PUT", $data);
+	}
+
+	public function deleteCourseOffering(int $orgid) {
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgid", "DELETE");
+	}
 }
