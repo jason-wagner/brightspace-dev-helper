@@ -22,7 +22,7 @@ class Valence {
 	}
 
 	public function whoami() {
-		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/users/whoami");
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/whoami");
 	}
 
 	public function versions() {
