@@ -106,7 +106,7 @@ class Valence {
 			"CanSelfRegister" => $canselfregister
 		];
 
-		return $this->apirequest('POST', "/d2l/api/lp/".self::VERSION_LP."/courses/", $data);
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/", "POST", $data);
 	}
 
 	public function updateCourseOffering(int $orgid, string $name, string $code, ?string $startdate, ?string $enddate, bool $isactive, string $description_text) {
