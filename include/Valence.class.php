@@ -46,6 +46,15 @@ class Valence {
 		}
 	}
 
+	public function getUserIdFromOrgDefinedId(string $orgdefid) {
+		try {
+			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?orgDefinedId=$orgdefid");
+			return $data->UserId ?? null;
+		} catch(Exception $e) {
+			return null;
+		}
+	}
+
 	public function getOrgUnitIdFromCode(string $offeringcode, int $orgunittype) {
 		try {
 			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=$orgunittype&exactOrgUnitCode=$offeringcode");
