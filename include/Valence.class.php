@@ -18,7 +18,7 @@ class Valence {
 		$uri = $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), $method);
 		$response = $this->httpclient->request($method, $uri, ['json' => $data]);
 		$responseCode = $response->getStatusCode();
-		return json_decode($response->getBody());
+		return json_decode($response->getBody(), 1);
 	}
 
 	public function whoami() {
@@ -40,7 +40,7 @@ class Valence {
 	public function getUserIdFromUsername(string $username) {
 		try {
 			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?username=$username");
-			return $data->UserId ?? null;
+			return $data['UserId'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
@@ -49,7 +49,7 @@ class Valence {
 	public function getUserIdFromOrgDefinedId(string $orgdefid) {
 		try {
 			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?orgDefinedId=$orgdefid");
-			return $data->UserId ?? null;
+			return $data['UserId'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
@@ -58,7 +58,7 @@ class Valence {
 	public function getOrgUnitIdFromCode(string $offeringcode, int $orgunittype) {
 		try {
 			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=$orgunittype&exactOrgUnitCode=$offeringcode");
-			return $data->Items[0]->Identifier ?? null;
+			return $data['Items'][0]['Identifier'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
