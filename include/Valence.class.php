@@ -3,8 +3,9 @@
 use GuzzleHttp\Client;
 
 class Valence {
-	private $httpclient, $handler;
+	private $httpclient, $handler, $responseType;
 	public const VERSION_LP = 1.26;
+	protected $responseBody, $responseCode;
 
 	public function __construct()
 	{
@@ -13,14 +14,50 @@ class Valence {
 		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
 		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $_ENV['D2L_VALENCE_USER_ID'], $_ENV['D2L_VALENCE_USER_KEY']);
 		$this->httpclient = new Client(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
+
+		$this->responseCode = null;
+		$this->responseBody = null;
+		$this->responseType = 'body';
 	}
 
 	public function apirequest(string $route, string $method = 'GET', array $data = null)
 	{
 		$uri = $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), $method);
 		$response = $this->httpclient->request($method, $uri, ['json' => $data]);
-		$responseCode = $response->getStatusCode();
-		return json_decode($response->getBody(), 1);
+
+		$this->responseCode = $response->getStatusCode();
+		$this->responseBody = json_decode($response->getBody(), 1);
+
+		if($this->responseType == 'body')
+			return $this->responseBody;
+		else if($this->responseType == 'code')
+			return $this->responseCode;
+		else
+			return ['code' => $this->responseCode, 'body' => $this->responseBody];
+	}
+
+	public function getResponseType()
+	{
+		return $this->responseType;
+	}
+
+	public function setResponseType(string $type)
+	{
+		if(!in_array(strtolower($type), ['body', 'code', 'both']))
+			return false;
+
+		$this->responseType = strtolower($type);
+		return true;
+	}
+
+	public function lastResponseCode()
+	{
+		return $this->responseCode;
+	}
+
+	public function lastResponseBody()
+	{
+		return $this->responseBody;
 	}
 
 	public function whoami() {
@@ -42,7 +79,7 @@ class Valence {
 	public function getUserIdFromUsername(string $username) {
 		try {
 			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?username=$username");
-			return $data['UserId'] ?? null;
+			return $this->lastResponseBody()['UserId'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
@@ -51,7 +88,7 @@ class Valence {
 	public function getUserIdFromOrgDefinedId(string $orgdefid) {
 		try {
 			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?orgDefinedId=$orgdefid");
-			return $data['UserId'] ?? null;
+			return $this->lastResponseBody()['UserId'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
@@ -60,7 +97,7 @@ class Valence {
 	public function getOrgUnitIdFromCode(string $offeringcode, int $orgunittype) {
 		try {
 			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=$orgunittype&exactOrgUnitCode=$offeringcode");
-			return $data['Items'][0]['Identifier'] ?? null;
+			return $this->lastResponseBody()['Items'][0]['Identifier'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
