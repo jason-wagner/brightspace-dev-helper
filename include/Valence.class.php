@@ -7,8 +7,7 @@ class Valence {
 	public const VERSION_LP = 1.26;
 	protected $responseBody, $responseCode;
 
-	public function __construct()
-	{
+	public function __construct() {
 		$authContextFactory = new D2LAppContextFactory();
 		$authContext = $authContextFactory->createSecurityContext($_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY']);
 		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
@@ -20,8 +19,7 @@ class Valence {
 		$this->responseType = 'body';
 	}
 
-	public function apirequest(string $route, string $method = 'GET', array $data = null)
-	{
+	public function apirequest(string $route, string $method = 'GET', array $data = null) {
 		$uri = $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), $method);
 		$response = $this->httpclient->request($method, $uri, ['json' => $data]);
 
@@ -36,13 +34,11 @@ class Valence {
 			return ['code' => $this->responseCode, 'body' => $this->responseBody];
 	}
 
-	public function getResponseType()
-	{
+	public function getResponseType() {
 		return $this->responseType;
 	}
 
-	public function setResponseType(string $type)
-	{
+	public function setResponseType(string $type) {
 		if(!in_array(strtolower($type), ['body', 'code', 'both']))
 			return false;
 
@@ -50,13 +46,11 @@ class Valence {
 		return true;
 	}
 
-	public function lastResponseCode()
-	{
+	public function lastResponseCode() {
 		return $this->responseCode;
 	}
 
-	public function lastResponseBody()
-	{
+	public function lastResponseBody() {
 		return $this->responseBody;
 	}
 
@@ -129,8 +123,7 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/", "POST", $data);
 	}
 
-	public function getCourseOffering(int $orgid)
-	{
+	public function getCourseOffering(int $orgid) {
 		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/courses/$orgid");
 	}
 
@@ -170,8 +163,7 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgid", "DELETE");
 	}
 
-	public function getUser(int $userid)
-	{
+	public function getUser(int $userid) {
 		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/profile/user/$userid");
 	}
 }
