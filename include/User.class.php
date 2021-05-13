@@ -10,6 +10,6 @@ class User {
 	}
 
 	public function get() {
-		return $this->valence->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/profile/user/{$this->userid}");
+		return $this->valence->getUser($this->userid);
 	}
 }

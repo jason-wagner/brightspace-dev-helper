@@ -129,6 +129,11 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/", "POST", $data);
 	}
 
+	public function getCourseOffering(int $orgid)
+	{
+		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/courses/$orgid");
+	}
+
 	public function createCourseOffering(string $name, string $code, string $path, int $coursetemplateid, int $semesterid, ?string $startdate, ?string $enddate, ?int $localeid, bool $forcelocal, bool $showaddressbook, ?string $description_text, bool $canselfregister) {
 		$data = [
 			"Name" => $name,
@@ -163,5 +168,10 @@ class Valence {
 
 	public function deleteCourseOffering(int $orgid) {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgid", "DELETE");
+	}
+
+	public function getUser(int $userid)
+	{
+		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/profile/user/$userid");
 	}
 }

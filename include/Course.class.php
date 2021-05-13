@@ -11,6 +11,6 @@ class Course {
 	}
 
 	public function get() {
-		return $this->valence->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/courses/{$this->orgid}");
+		return $this->valence->getCourseOffering($this->orgid);
 	}
 }
