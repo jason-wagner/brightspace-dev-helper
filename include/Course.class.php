@@ -10,7 +10,7 @@ class Course {
 		$this->orgUnitId = $orgUnitId;
 	}
 
-	public function get() {
+	public function get(): array {
 		return $this->valence->getCourseOffering($this->orgUnitId);
 	}
 }

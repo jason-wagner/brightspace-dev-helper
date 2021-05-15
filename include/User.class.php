@@ -9,7 +9,7 @@ class User {
 		$this->userId = $userId;
 	}
 
-	public function get() {
+	public function get(): array {
 		return $this->valence->getUser($this->userId);
 	}
 }
