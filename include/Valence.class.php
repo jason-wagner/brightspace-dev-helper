@@ -25,7 +25,7 @@ class Valence {
 		$this->newCourseClass = Course::class;
 	}
 
-	public function apirequest(string $route, string $method = 'GET', array $data = null): array {
+	public function apirequest(string $route, string $method = 'GET', ?array $data = null): array {
 		$uri = $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), $method);
 		$response = $this->httpclient->request($method, $uri, ['json' => $data]);
 
