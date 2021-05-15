@@ -18,6 +18,7 @@ class Valence {
 		$this->responseCode = null;
 		$this->responseBody = null;
 		$this->responseType = 'body';
+		$this->returnObjectOnCreate = false;
 
 		$this->newUserClass = User::class;
 		$this->newCourseClass = Course::class;
