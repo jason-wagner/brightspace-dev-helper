@@ -1,6 +1,8 @@
 <?php
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 
 class Valence {
 	private $httpclient, $handler, $returnObjectOnCreate, $logMode, $logFileHandler;
@@ -27,13 +29,24 @@ class Valence {
 
 	public function apirequest(string $route, string $method = 'GET', ?array $data = null): array {
 		$uri = $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), $method);
-		$response = $this->httpclient->request($method, $uri, ['json' => $data]);
 
-		$this->responseCode = $response->getStatusCode();
-		$this->responseBody = json_decode($response->getBody(), 1);
+		try {
+			$response = $this->httpclient->request($method, $uri, ['json' => $data]);
 
-		if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
-			$this->logrequest($route, $method, $data);
+			$this->responseCode = $response->getStatusCode();
+			$this->responseBody = json_decode($response->getBody(), 1);
+
+			if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
+				$this->logrequest($route, $method, $data);
+		} catch(ClientException | ServerException $exception) {
+			$response = $exception->getResponse();
+
+			$this->responseCode = $response->getStatusCode();
+			$this->responseBody = $response->getBody()->getContents();
+
+			if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
+				$this->logrequest($route, $method, $data);
+		}
 
 		return ['code' => $this->responseCode, 'body' => $this->responseBody];
 	}
