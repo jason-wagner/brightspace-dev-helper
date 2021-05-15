@@ -49,10 +49,6 @@ class Valence {
 		fwrite($this->logFileHandler, $logEntry);
 	}
 
-	public function getResponseType() {
-		return $this->responseType;
-	}
-
 	public function setLogging(int $logMode, ?string $logFile = null) {
 		$this->logMode = $logMode;
 
