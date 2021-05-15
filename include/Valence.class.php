@@ -3,7 +3,7 @@
 use GuzzleHttp\Client;
 
 class Valence {
-	private $httpclient, $handler, $responseType, $returnObjectOnCreate, $logMode, $logFileHandler;
+	private $httpclient, $handler, $returnObjectOnCreate, $logMode, $logFileHandler;
 	public const VERSION_LP = 1.26;
 	protected $responseBody, $responseCode;
 	public $newUserClass, $newCourseClass;
@@ -17,7 +17,6 @@ class Valence {
 
 		$this->responseCode = null;
 		$this->responseBody = null;
-		$this->responseType = 'body';
 		$this->returnObjectOnCreate = false;
 		$this->logMode = 0;
 		$this->logFileHandler = null;
@@ -36,12 +35,7 @@ class Valence {
 		if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
 			$this->logrequest($route, $method, $data);
 
-		if($this->responseType == 'body')
-			return $this->responseBody;
-		else if($this->responseType == 'code')
-			return $this->responseCode;
-		else
-			return ['code' => $this->responseCode, 'body' => $this->responseBody];
+		return ['code' => $this->responseCode, 'body' => $this->responseBody];
 	}
 
 	private function logrequest(string $route, string $method, ?array $data) {
