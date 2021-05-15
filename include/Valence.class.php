@@ -5,7 +5,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
 class Valence {
-	private $httpclient, $handler, $returnObjectOnCreate, $logMode, $logFileHandler;
+	private $httpclient, $handler, $returnObjectOnCreate, $logMode, $logFileHandler, $exitOnError;
 	public const VERSION_LP = 1.26;
 	protected $responseBody, $responseCode;
 	public $newUserClass, $newCourseClass;
@@ -20,6 +20,7 @@ class Valence {
 		$this->responseCode = null;
 		$this->responseBody = null;
 		$this->returnObjectOnCreate = false;
+		$this->exitOnError = true;
 		$this->logMode = 0;
 		$this->logFileHandler = null;
 
@@ -46,6 +47,11 @@ class Valence {
 
 			if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
 				$this->logrequest($route, $method, $data);
+
+			if($this->exitOnError) {
+				fwrite(STDERR, "Error: {$this->responseCode} {$this->responseBody} (exiting...)\n");
+				exit(1);
+			}
 		}
 
 		return ['code' => $this->responseCode, 'body' => $this->responseBody];
@@ -67,6 +73,10 @@ class Valence {
 
 	public function setReturnObjectOnCreate(bool $returnobject): void {
 		$this->returnObjectOnCreate = $returnobject;
+	}
+
+	public function setExitOnError(bool $exitonerror): void {
+		$this->exitOnError = $exitonerror;
 	}
 
 	public function lastResponseCode(): int {
