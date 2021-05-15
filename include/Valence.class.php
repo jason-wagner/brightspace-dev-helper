@@ -74,12 +74,12 @@ class Valence {
 		return $this->apirequest("/d2l/api/versions/");
 	}
 
-	public function user($userid, $userclass = User::class) {
-		return new $userclass($this, $userid);
+	public function user(int $userid) {
+		return new $this->newUserClass($this, $userid);
 	}
 
-	public function course($orgid, $courseclass = Course::class) {
-		return new $courseclass($this, $orgid);
+	public function course(int $orgid) {
+		return new $this->newCourseClass($this, $orgid);
 	}
 
 	public function getUserIdFromUsername(string $username) {
