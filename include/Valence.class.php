@@ -6,6 +6,7 @@ class Valence {
 	private $httpclient, $handler, $responseType;
 	public const VERSION_LP = 1.26;
 	protected $responseBody, $responseCode;
+	public $newUserClass, $newCourseClass;
 
 	public function __construct() {
 		$authContextFactory = new D2LAppContextFactory();
@@ -17,6 +18,9 @@ class Valence {
 		$this->responseCode = null;
 		$this->responseBody = null;
 		$this->responseType = 'body';
+
+		$this->newUserClass = User::class;
+		$this->newCourseClass = Course::class;
 	}
 
 	public function apirequest(string $route, string $method = 'GET', array $data = null) {
@@ -52,6 +56,14 @@ class Valence {
 
 	public function lastResponseBody() {
 		return $this->responseBody;
+	}
+
+	public function setUserClass($userclass) {
+		$this->newUserClass = $userclass;
+	}
+
+	public function setCourseClass($courseclass) {
+		$this->newCourseClass = $courseclass;
 	}
 
 	public function whoami() {
