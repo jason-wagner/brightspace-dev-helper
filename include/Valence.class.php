@@ -95,93 +95,75 @@ class Valence {
 		}
 	}
 
-	public function getUserIdFromOrgDefinedId(string $orgdefid) {
+	public function getUserIdFromOrgDefinedId(string $orgDefinedId) {
 		try {
-			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?orgDefinedId=$orgdefid");
+			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?orgDefinedId=$orgDefinedId");
 			return $this->lastResponseBody()['UserId'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
 	}
 
-	public function getOrgUnitIdFromCode(string $offeringcode, int $orgunittype) {
+	public function getOrgUnitIdFromCode(string $orgUnitCode, int $orgUnitType) {
 		try {
-			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=$orgunittype&exactOrgUnitCode=$offeringcode");
+			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=$orgUnitType&exactOrgUnitCode=$orgUnitCode");
 			return $this->lastResponseBody()['Items'][0]['Identifier'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
 	}
 
-	public function getOrgUnitIdFromOfferingCode(string $offeringcode) {
-		return $this->getOrgUnitIdFromCode($offeringcode, 3);
+	public function getOrgUnitIdFromOfferingCode(string $offeringCode) {
+		return $this->getOrgUnitIdFromCode($offeringCode, 3);
 	}
 
-	public function getOrgUnitIdFromSemesterCode(string $semestercode) {
-		return $this->getOrgUnitIdFromCode($semestercode, 5);
+	public function getOrgUnitIdFromSemesterCode(string $semesterCode) {
+		return $this->getOrgUnitIdFromCode($semesterCode, 5);
 	}
 
-	public function getOrgUnitIdFromTemplateCode(string $templatecode) {
-		return $this->getOrgUnitIdFromCode($templatecode, 2);
+	public function getOrgUnitIdFromTemplateCode(string $templateCode) {
+		return $this->getOrgUnitIdFromCode($templateCode, 2);
 	}
 
-	public function getOrgUnitIdFromDepartmentCode(string $departmentcode) {
-		return $this->getOrgUnitIdFromCode($departmentcode, 226);
+	public function getOrgUnitIdFromDepartmentCode(string $departmentCode) {
+		return $this->getOrgUnitIdFromCode($departmentCode, 226);
 	}
 
-	public function enrollUser(int $orgunitid, int $userid, int $roleid) {
-		$data = [
-			'OrgUnitId' => $orgunitid,
-			'UserId' => $userid,
-			'RoleId' => $roleid
-		];
+	public function enrollUser(int $OrgUnitId, int $UserId, int $RoleId) {
+		$data = compact('OrgUnitId', 'UserId', 'RoleId');
 
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/", "POST", $data);
 	}
 
-	public function getCourseOffering(int $orgid) {
-		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/courses/$orgid");
+	public function getCourseOffering(int $orgUnitId) {
+		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/courses/$orgUnitId");
 	}
 
-	public function createCourseOffering(string $name, string $code, string $path, int $coursetemplateid, int $semesterid, ?string $startdate, ?string $enddate, ?int $localeid, bool $forcelocal, bool $showaddressbook, ?string $description_text, bool $canselfregister) {
-		$data = [
-			"Name" => $name,
-			"Code" => $code,
-			"Path" => $path,
-			"CourseTemplateId" => $coursetemplateid,
-			"SemesterId" => $semesterid,
-			"StartDate" => $startdate,
-			"EndDate" =>  $enddate,
-			"LocaleId" => $localeid,
-			"ForceLocale" => $forcelocal,
-			"ShowAddressBook" => $showaddressbook,
-			"Description" => ['Type' => 'Text', 'Content' => $description_text],
-			"CanSelfRegister" => $canselfregister
-		];
+	public function createCourseOffering(string $Name, string $Code, string $Path, int $CourseTemplateId, int $SemesterId, ?string $StartDate, ?string $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, ?string $DescriptionText, bool $CanSelfRegister) {
+		$data = compact('Name', 'Code', 'Path', 'CourseTemplateId', 'SemesterId', 'StartDate', 'EndDate', 'LocaleId', 'ForceLocale', 'ShowAddressBook', 'CanSelfRegister');
+		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
 
 		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/", "POST", $data);
 
 		return $this->returnObjectOnCreate ? $this->course($response['Identifier']) : $response;
 	}
 
-	public function updateCourseOffering(int $orgid, string $name, string $code, ?string $startdate, ?string $enddate, bool $isactive, string $description_text) {
-		$data = [
-			"Name" => $name,
-			"Code" => $code,
-			"StartDate" => $startdate,
-			"EndDate" =>  $enddate,
-			"IsActive" => $isactive,
-			"Description" => ['Type' => 'Text', 'Content' => $description_text]
-		];
+	public function updateCourseOffering(int $orgUnitId, string $Name, string $Code, ?string $StartDate, ?string $EndDate, bool $IsActive, string $DescriptionText) {
+		$data = compact('Name', 'Code', 'StartDate', 'EndDate', 'IsActive');
+		$data['Description'] = ['Type' => 'Text', 'COntent' => $DescriptionText];
 
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/286252", "PUT", $data);
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "PUT", $data);
 	}
 
-	public function deleteCourseOffering(int $orgid) {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgid", "DELETE");
+	public function deleteCourseOffering(int $orgUnitId) {
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "DELETE");
 	}
 
-	public function getUser(int $userid) {
-		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/profile/user/$userid");
+	public function getUser(int $userId) {
+		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/users/$userId");
+	}
+
+	public function getUserProfile(int $userId) {
+		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/profile/user/$userId");
 	}
 }

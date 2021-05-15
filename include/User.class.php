@@ -2,14 +2,14 @@
 
 class User {
 	protected $valence;
-	public $userid;
+	public $userId;
 
-	public function __construct(Valence $valence, int $userid) {
+	public function __construct(Valence $valence, int $userId) {
 		$this->valence = $valence;
-		$this->userid = $userid;
+		$this->userId = $userId;
 	}
 
 	public function get() {
-		return $this->valence->getUser($this->userid);
+		return $this->valence->getUser($this->userId);
 	}
 }

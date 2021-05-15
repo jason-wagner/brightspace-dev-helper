@@ -3,14 +3,14 @@
 
 class Course {
 	protected $valence;
-	public $orgid;
+	public $orgUnitId;
 
-	public function __construct(Valence $valence, int $orgid) {
+	public function __construct(Valence $valence, int $orgUnitId) {
 		$this->valence = $valence;
-		$this->orgid = $orgid;
+		$this->orgUnitId = $orgUnitId;
 	}
 
 	public function get() {
-		return $this->valence->getCourseOffering($this->orgid);
+		return $this->valence->getCourseOffering($this->orgUnitId);
 	}
 }
