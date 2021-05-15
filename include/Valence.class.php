@@ -3,7 +3,7 @@
 use GuzzleHttp\Client;
 
 class Valence {
-	private $httpclient, $handler, $responseType, $returnObjectOnCreate;
+	private $httpclient, $handler, $responseType, $returnObjectOnCreate, $logMode, $logFileHandler;
 	public const VERSION_LP = 1.26;
 	protected $responseBody, $responseCode;
 	public $newUserClass, $newCourseClass;
@@ -19,6 +19,8 @@ class Valence {
 		$this->responseBody = null;
 		$this->responseType = 'body';
 		$this->returnObjectOnCreate = false;
+		$this->logMode = 0;
+		$this->logFileHandler = null;
 
 		$this->newUserClass = User::class;
 		$this->newCourseClass = Course::class;
@@ -31,6 +33,9 @@ class Valence {
 		$this->responseCode = $response->getStatusCode();
 		$this->responseBody = json_decode($response->getBody(), 1);
 
+		if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
+			$this->logrequest($route, $method, $data);
+
 		if($this->responseType == 'body')
 			return $this->responseBody;
 		else if($this->responseType == 'code')
@@ -39,8 +44,22 @@ class Valence {
 			return ['code' => $this->responseCode, 'body' => $this->responseBody];
 	}
 
+	private function logrequest(string $route, string $method, ?array $data) {
+		$logEntry = date("Y-m-d H:i:s") . " $method $route " . json_encode($data ?? []) . " $this->responseCode\n";
+		fwrite($this->logFileHandler, $logEntry);
+	}
+
 	public function getResponseType() {
 		return $this->responseType;
+	}
+
+	public function setLogging(int $logMode, ?string $logFile = null) {
+		$this->logMode = $logMode;
+
+		if($this->logFileHandler)
+			fclose($this->logFileHandler);
+
+		$this->logFileHandler = fopen($logFile ?? 'valence.log', 'a');
 	}
 
 	public function setResponseType(string $type) {
