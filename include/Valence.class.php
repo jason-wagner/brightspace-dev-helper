@@ -3,7 +3,7 @@
 use GuzzleHttp\Client;
 
 class Valence {
-	private $httpclient, $handler, $responseType;
+	private $httpclient, $handler, $responseType, $returnObjectOnCreate;
 	public const VERSION_LP = 1.26;
 	protected $responseBody, $responseCode;
 	public $newUserClass, $newCourseClass;
@@ -48,6 +48,10 @@ class Valence {
 
 		$this->responseType = strtolower($type);
 		return true;
+	}
+
+	public function setReturnObjectOnCreate(bool $returnobject) {
+		$this->returnObjectOnCreate = $returnobject;
 	}
 
 	public function lastResponseCode() {
@@ -155,7 +159,9 @@ class Valence {
 			"CanSelfRegister" => $canselfregister
 		];
 
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/", "POST", $data);
+
+		return $this->returnObjectOnCreate ? $this->course($response['Identifier']) : $response;
 	}
 
 	public function updateCourseOffering(int $orgid, string $name, string $code, ?string $startdate, ?string $enddate, bool $isactive, string $description_text) {
