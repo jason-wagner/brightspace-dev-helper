@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\ServerException;
 
 class Valence {
 	private $httpclient, $handler, $returnObjectOnCreate, $logMode, $logFileHandler, $exitOnError;
-	public const VERSION_LP = 1.26;
+	public const VERSION_LP = 1.30;
 	protected $responseBody, $responseCode;
 	public $newUserClass, $newCourseClass;
 
