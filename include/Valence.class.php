@@ -160,6 +160,14 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/", "POST", $data);
 	}
 
+	public function enrollStudent(int $OrgUnitId, int $UserId): array {
+		return $this->enrollUser($OrgUnitId, $UserId, $_ENV['D2L_VALENCE_ROLEID_STUDENT']);
+	}
+
+	public function enrollInstructor(int $OrgUnitId, int $UserId): array {
+		return $this->enrollUser($OrgUnitId, $UserId, $_ENV['D2L_VALENCE_ROLEID_INSTRUCTOR']);
+	}
+
 	public function getCourseOffering(int $orgUnitId): array {
 		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/courses/$orgUnitId");
 	}
