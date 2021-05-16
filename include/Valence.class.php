@@ -170,7 +170,7 @@ class Valence {
 	}
 
 	public function getCourseOffering(int $orgUnitId): array {
-		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/courses/$orgUnitId");
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId");
 	}
 
 	public function createCourseOffering(string $Name, string $Code, string $Path, int $CourseTemplateId, int $SemesterId, ?string $StartDate, ?string $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, ?string $DescriptionText, bool $CanSelfRegister) {
@@ -194,10 +194,10 @@ class Valence {
 	}
 
 	public function getUser(int $userId): array {
-		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/users/$userId");
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/$userId");
 	}
 
 	public function getUserProfile(int $userId): array {
-		return $this->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/profile/user/$userId");
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/profile/user/$userId");
 	}
 }
