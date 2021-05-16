@@ -13,7 +13,7 @@ class User {
 		return $this->valence->getUser($this->userId);
 	}
 
-	public function enrollInCourse(int $OrgUnitId, int $RoleId) {
+	public function enrollInCourse(int $OrgUnitId, int $RoleId): array {
 		return $this->valence->enrollUser($OrgUnitId, $this->userId, $RoleId);
 	}
 
