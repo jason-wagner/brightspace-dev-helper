@@ -189,7 +189,7 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "PUT", $data);
 	}
 
-	public function deleteCourseOffering(int $orgUnitId) {
+	public function deleteCourseOffering(int $orgUnitId): array {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "DELETE");
 	}
 
