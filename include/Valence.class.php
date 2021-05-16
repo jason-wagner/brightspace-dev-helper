@@ -139,19 +139,19 @@ class Valence {
 	}
 
 	public function getOrgUnitIdFromOfferingCode(string $offeringCode): ?int {
-		return $this->getOrgUnitIdFromCode($offeringCode, 3);
+		return $this->getOrgUnitIdFromCode($offeringCode, $_ENV['D2L_VALENCE_ORGUNITTYPEID_COURSEOFFERING']);
 	}
 
 	public function getOrgUnitIdFromSemesterCode(string $semesterCode): ?int {
-		return $this->getOrgUnitIdFromCode($semesterCode, 5);
+		return $this->getOrgUnitIdFromCode($semesterCode, $_ENV['D2L_VALENCE_ORGUNITTYPEID_SEMESTER']);
 	}
 
 	public function getOrgUnitIdFromTemplateCode(string $templateCode): ?int {
-		return $this->getOrgUnitIdFromCode($templateCode, 2);
+		return $this->getOrgUnitIdFromCode($templateCode, $_ENV['D2L_VALENCE_ORGUNITTYPEID_TEMPLATE']);
 	}
 
 	public function getOrgUnitIdFromDepartmentCode(string $departmentCode): ?int {
-		return $this->getOrgUnitIdFromCode($departmentCode, 226);
+		return $this->getOrgUnitIdFromCode($departmentCode, $_ENV['D2L_VALENCE_ORGUNITTYPEID_DEPARTMENT']);
 	}
 
 	public function enrollUser(int $OrgUnitId, int $UserId, int $RoleId): array {
