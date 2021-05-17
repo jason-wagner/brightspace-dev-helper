@@ -1,4 +1,6 @@
 .env
+.env.production
+.env.test
 .idea/
 .nova/
 vendor/
