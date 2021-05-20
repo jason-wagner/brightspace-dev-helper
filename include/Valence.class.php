@@ -9,7 +9,7 @@ class Valence {
 	public const VERSION_LP = '1.30';
 	public const VERSION_LE = '1.52';
 	protected $responseBody, $responseCode;
-	public $newUserClass, $newCourseClass;
+	public $newUserClass, $newCourseClass, $roleIds, $orgtypeIds;
 
 	public function __construct() {
 		$authContextFactory = new D2LAppContextFactory();
@@ -27,6 +27,9 @@ class Valence {
 
 		$this->newUserClass = User::class;
 		$this->newCourseClass = Course::class;
+
+		$this->roleIds = [];
+		$this->orgtypeIds = [];
 	}
 
 	public function apirequest(string $route, string $method = 'GET', ?array $data = null): array {
@@ -96,12 +99,28 @@ class Valence {
 		$this->newCourseClass = $courseclass;
 	}
 
+	public function setInternalIds(): void {
+		foreach ($this->getRoles()['body'] as $role)
+			$this->roleIds[$role['DisplayName']] = $role['Identifier'];
+
+		foreach($this->getOrgUnitTypes()['body'] as $orgtype)
+			$this->orgtypeIds[$orgtype['Code']] = $orgtype['Id'];
+	}
+
 	public function whoami(): array {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/whoami");
 	}
 
 	public function versions(): array {
 		return $this->apirequest("/d2l/api/versions/");
+	}
+
+	public function getRoles(): array {
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/{$_ENV['D2L_VALENCE_ROOT_ORGID']}/roles/");
+	}
+
+	public function getOrgUnitTypes(): array {
+		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/outypes/");
 	}
 
 	public function user(int $userid): User {
@@ -140,19 +159,31 @@ class Valence {
 	}
 
 	public function getOrgUnitIdFromOfferingCode(string $offeringCode): ?int {
-		return $this->getOrgUnitIdFromCode($offeringCode, $_ENV['D2L_VALENCE_ORGUNITTYPEID_COURSEOFFERING']);
+		if(!count($this->orgtypeIds))
+			$this->setInternalIds();
+
+		return $this->getOrgUnitIdFromCode($offeringCode, $this->orgtypeIds['Course Offering']);
 	}
 
 	public function getOrgUnitIdFromSemesterCode(string $semesterCode): ?int {
-		return $this->getOrgUnitIdFromCode($semesterCode, $_ENV['D2L_VALENCE_ORGUNITTYPEID_SEMESTER']);
+		if(!count($this->orgtypeIds))
+			$this->setInternalIds();
+
+		return $this->getOrgUnitIdFromCode($semesterCode, $this->orgtypeIds['Semester']);
 	}
 
 	public function getOrgUnitIdFromTemplateCode(string $templateCode): ?int {
-		return $this->getOrgUnitIdFromCode($templateCode, $_ENV['D2L_VALENCE_ORGUNITTYPEID_TEMPLATE']);
+		if(!count($this->orgtypeIds))
+			$this->setInternalIds();
+
+		return $this->getOrgUnitIdFromCode($templateCode, $this->orgtypeIds['Course Template']);
 	}
 
 	public function getOrgUnitIdFromDepartmentCode(string $departmentCode): ?int {
-		return $this->getOrgUnitIdFromCode($departmentCode, $_ENV['D2L_VALENCE_ORGUNITTYPEID_DEPARTMENT']);
+		if(!count($this->orgtypeIds))
+			$this->setInternalIds();
+
+		return $this->getOrgUnitIdFromCode($departmentCode, $this->orgtypeIds['Department']);
 	}
 
 	public function enrollUser(int $OrgUnitId, int $UserId, int $RoleId): array {
