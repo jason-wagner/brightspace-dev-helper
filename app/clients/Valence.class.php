@@ -219,7 +219,6 @@ class Valence {
 	public function createCourseOffering(string $Name, string $Code, string $Path, int $CourseTemplateId, int $SemesterId, ?string $StartDate, ?string $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, ?string $DescriptionText, bool $CanSelfRegister) {
 		$data = compact('Name', 'Code', 'Path', 'CourseTemplateId', 'SemesterId', 'StartDate', 'EndDate', 'LocaleId', 'ForceLocale', 'ShowAddressBook', 'CanSelfRegister');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-
 		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/", "POST", $data);
 		return $this->returnObjectOnCreate ? $this->course($response['Identifier']) : $response;
 	}
@@ -251,7 +250,6 @@ class Valence {
 	public function updateCourseSection(int $orgUnitId, int $sectionId, string $Name, string $Code, string $DescriptionText): array {
 		$data = compact('Name', 'Code');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/$sectionId", "PUT", $data);
 	}
 
