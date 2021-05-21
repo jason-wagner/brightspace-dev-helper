@@ -13,12 +13,24 @@ use ValenceHelper\Block\Role;
 use ValenceHelper\Block\WhoAmIUser;
 
 class Valence {
-	private $httpclient, $handler, $returnObjectOnCreate, $logMode, $logFileHandler, $exitOnError;
+	private $httpclient, $handler;
+
+	private $returnObjectOnCreate = false;
+	private $logMode = 0;
+	private $logFileHandler = null;
+	private $exitOnError = true;
+
 	public const VERSION_LP = '1.30';
 	public const VERSION_LE = '1.52';
 
-	protected $responseCode, $responseError;
-	public $newUserClass, $newCourseClass, $roleIds, $orgtypeIds;
+	protected $responseCode = null;
+	protected $responseError = null;
+
+	public $newUserClass = ValenceUser::class;
+	public $newCourseClass = ValenceCourse::class;
+
+	public $roleIds = [];
+	public $orgtypeIds = [];
 
 	public function __construct() {
 		$authContextFactory = new \D2LAppContextFactory();
@@ -26,19 +38,6 @@ class Valence {
 		$hostSpec = new \D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
 		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $_ENV['D2L_VALENCE_USER_ID'], $_ENV['D2L_VALENCE_USER_KEY']);
 		$this->httpclient = new Client(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
-
-		$this->responseCode = null;
-		$this->responseError = null;
-		$this->returnObjectOnCreate = false;
-		$this->exitOnError = true;
-		$this->logMode = 0;
-		$this->logFileHandler = null;
-
-		$this->newUserClass = ValenceUser::class;
-		$this->newCourseClass = ValenceCourse::class;
-
-		$this->roleIds = [];
-		$this->orgtypeIds = [];
 	}
 
 	public function apirequest(string $route, string $method = 'GET', ?array $data = null): ?array {
