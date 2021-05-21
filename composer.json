@@ -5,6 +5,6 @@
         "nesbot/carbon": "^2.48"
     },
 	"autoload": {
-		"classmap": ["include/", "custom/"]
+		"classmap": ["app/", "client-custom/"]
 	}
 }

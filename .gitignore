@@ -7,4 +7,4 @@ vendor/
 composer.lock
 composer.phar
 valence/
-custom/
+client-custom/
