@@ -86,6 +86,10 @@ class Valence {
 		return $this->responseCode;
 	}
 
+	public function isValidResponseCode(): bool {
+		return floor($this->responseCode()/100) == 2;
+	}
+
 	public function setUserClass($userclass): void {
 		$this->newUserClass = $userclass;
 	}
