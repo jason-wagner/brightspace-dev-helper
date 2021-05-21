@@ -128,7 +128,7 @@ class Valence {
 
 	public function versions(): array {
 		$response = $this->apirequest("/d2l/api/versions/");
-		$this->buildarray($response, ProductVersions::class);
+		return $this->buildarray($response, ProductVersions::class);
 	}
 
 	public function getRole($roleId): ?Role {
