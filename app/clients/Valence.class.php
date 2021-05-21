@@ -6,6 +6,9 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
+use D2LAppContextFactory;
+use D2LHostSpec;
+
 use ValenceHelper\Block\LegalPreferredNames;
 use ValenceHelper\Block\OrgUnitType;
 use ValenceHelper\Block\ProductVersions;
@@ -33,9 +36,9 @@ class Valence {
 	public $orgtypeIds = [];
 
 	public function __construct() {
-		$authContextFactory = new \D2LAppContextFactory();
+		$authContextFactory = new D2LAppContextFactory();
 		$authContext = $authContextFactory->createSecurityContext($_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY']);
-		$hostSpec = new \D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
+		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
 		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $_ENV['D2L_VALENCE_USER_ID'], $_ENV['D2L_VALENCE_USER_KEY']);
 		$this->httpclient = new Client(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
 	}
