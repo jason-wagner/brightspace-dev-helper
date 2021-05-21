@@ -101,7 +101,7 @@ class Valence {
 			$this->responseError = $response->getBody()->getContents();
 
 			if($this->logMode == 2)
-				$this->logrequest($route, $method);
+				$this->logrequest($route, 'GET');
 
 			if($this->exitOnError) {
 				fwrite(STDERR, "Error: $this->responseCode $this->responseError (exiting...)\n");
