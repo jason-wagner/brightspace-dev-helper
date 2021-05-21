@@ -225,7 +225,7 @@ class Valence {
 
 	public function updateCourseOffering(int $orgUnitId, string $Name, string $Code, ?string $StartDate, ?string $EndDate, bool $IsActive, string $DescriptionText): array {
 		$data = compact('Name', 'Code', 'StartDate', 'EndDate', 'IsActive');
-		$data['Description'] = ['Type' => 'Text', 'COntent' => $DescriptionText];
+		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "PUT", $data);
 	}
 
