@@ -13,6 +13,14 @@ class User {
 		return $this->valence->getUser($this->userId);
 	}
 
+	public function getNames(): LegalPreferredNames {
+		return $this->valence->getUserNames($this->userId);
+	}
+
+	public function updateNames(string $LegalFirstName, string $LegalLastName, ?string $PreferredFirstName, ?string $PreferredLastName): LegalPreferredNames {
+		return $this->valence->updateUserNames($this->userId, $LegalFirstName, $LegalLastName, $PreferredFirstName, $PreferredLastName);
+	}
+
 	public function enrollInCourse(int $OrgUnitId, int $RoleId): array {
 		return $this->valence->enrollUser($OrgUnitId, $this->userId, $RoleId);
 	}

@@ -65,6 +65,15 @@ class Valence {
 		fwrite($this->logFileHandler, $logEntry);
 	}
 
+	private function buildarray(array $response, $class): array {
+		$return = [];
+
+		foreach($response as $item)
+			$return[] = new $class($item);
+
+		return $return;
+	}
+
 	public function setLogging(int $logMode, ?string $logFile = null): void {
 		$this->logMode = $logMode;
 
@@ -99,27 +108,47 @@ class Valence {
 	}
 
 	public function setInternalIds(): void {
-		foreach ($this->getRoles()['body'] as $role)
-			$this->roleIds[$role['DisplayName']] = $role['Identifier'];
+		foreach ($this->getRoles() as $role)
+			$this->roleIds[$role->DisplayName] = $role->Identifier;
 
-		foreach($this->getOrgUnitTypes()['body'] as $orgtype)
-			$this->orgtypeIds[$orgtype['Code']] = $orgtype['Id'];
+		foreach($this->getOrgUnitTypes() as $orgtype)
+			$this->orgtypeIds[$orgtype->Code] = $orgtype->Id;
 	}
 
-	public function whoami(): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/whoami");
+	public function whoami(): ?WhoAmIUser {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/whoami");
+		return $this->isValidResponseCode() ? new WhoAmIUser($response) : null;
+	}
+
+	public function version(string $productCode): ?ProductVersions {
+		$response = $this->apirequest("/d2l/api/$productCode/versions/");
+
+		return $this->isValidResponseCode() ? new ProductVersions($response) : null;
 	}
 
 	public function versions(): array {
-		return $this->apirequest("/d2l/api/versions/");
+		$response = $this->apirequest("/d2l/api/versions/");
+		$this->buildarray($response, ProductVersions::class);
+	}
+
+	public function getRole($roleId): ?Role {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/roles/$roleId");
+		return $this->isValidResponseCode() ? new Role($response) : null;
 	}
 
 	public function getRoles(): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/{$_ENV['D2L_VALENCE_ROOT_ORGID']}/roles/");
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/{$_ENV['D2L_VALENCE_ROOT_ORGID']}/roles/");
+		return $this->buildarray($response, Role::class);
+	}
+
+	public function getOrgUnitType($orgUnitTypeId): ?OrgUnitType {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/outypes/$orgUnitTypeId");
+		return $this->isValidResponseCode() ? new OrgUnitType($response) : null;
 	}
 
 	public function getOrgUnitTypes(): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/outypes/");
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/outypes/");
+		return $this->buildarray($response, OrgUnitType::class);
 	}
 
 	public function user(int $userid): User {
@@ -337,13 +366,15 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/$userId");
 	}
 
-	public function getUserNames(int $userId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/$userId/names");
+	public function getUserNames(int $userId): ?LegalPreferredNames {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/$userId/names");
+		return $this->isValidResponseCode() ? new LegalPreferredNames($response) : null;
 	}
 
-	public function updateUserNames(int $userId, string $LegalFirstName, string $LegalLastName, ?string $PreferredFirstName, ?string $PreferredLastName): array {
+	public function updateUserNames(int $userId, string $LegalFirstName, string $LegalLastName, ?string $PreferredFirstName, ?string $PreferredLastName): ?LegalPreferredNames {
 		$data = compact('LegalFirstName', 'LegalLastName', 'PreferredFirstName', 'PreferredLastName');
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/$userId/names", "PUT", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/$userId/names", "PUT", $data);
+		return $this->isValidResponseCode() ? new LegalPreferredNames($response) : null;
 	}
 
 	public function getUserProfile(int $userId): array {
