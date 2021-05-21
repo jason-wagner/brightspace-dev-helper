@@ -1,7 +1,8 @@
 <?php
 
+namespace ValenceHelper;
 
-class Course {
+class ValenceCourse {
 	protected $valence;
 	public $orgUnitId;
 

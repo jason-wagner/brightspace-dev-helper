@@ -1,5 +1,8 @@
 <?php
 
+namespace ValenceHelper\Block;
+
+use ValenceHelper\Block;
 
 class Role extends Block {
 	public $Identifier;

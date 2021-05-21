@@ -1,5 +1,8 @@
 <?php
 
+namespace ValenceHelper\Block;
+
+use ValenceHelper\Block;
 
 class WhoAmIUser extends Block {
 	public $Identifier;

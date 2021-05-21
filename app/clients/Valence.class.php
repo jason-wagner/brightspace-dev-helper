@@ -1,8 +1,16 @@
 <?php
 
+namespace ValenceHelper;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
+
+use ValenceHelper\Block\LegalPreferredNames;
+use ValenceHelper\Block\OrgUnitType;
+use ValenceHelper\Block\ProductVersions;
+use ValenceHelper\Block\Role;
+use ValenceHelper\Block\WhoAmIUser;
 
 class Valence {
 	private $httpclient, $handler, $returnObjectOnCreate, $logMode, $logFileHandler, $exitOnError;
@@ -12,9 +20,9 @@ class Valence {
 	public $newUserClass, $newCourseClass, $roleIds, $orgtypeIds;
 
 	public function __construct() {
-		$authContextFactory = new D2LAppContextFactory();
+		$authContextFactory = new \D2LAppContextFactory();
 		$authContext = $authContextFactory->createSecurityContext($_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY']);
-		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
+		$hostSpec = new \D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
 		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $_ENV['D2L_VALENCE_USER_ID'], $_ENV['D2L_VALENCE_USER_KEY']);
 		$this->httpclient = new Client(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
 
@@ -24,8 +32,8 @@ class Valence {
 		$this->logMode = 0;
 		$this->logFileHandler = null;
 
-		$this->newUserClass = User::class;
-		$this->newCourseClass = Course::class;
+		$this->newUserClass = ValenceUser::class;
+		$this->newCourseClass = ValenceCourse::class;
 
 		$this->roleIds = [];
 		$this->orgtypeIds = [];
@@ -151,11 +159,11 @@ class Valence {
 		return $this->buildarray($response, OrgUnitType::class);
 	}
 
-	public function user(int $userid): User {
+	public function user(int $userid): ValenceUser {
 		return new $this->newUserClass($this, $userid);
 	}
 
-	public function course(int $orgid): Course {
+	public function course(int $orgid): ValenceCourse {
 		return new $this->newCourseClass($this, $orgid);
 	}
 

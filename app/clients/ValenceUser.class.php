@@ -1,6 +1,10 @@
 <?php
 
-class User {
+namespace ValenceHelper;
+
+use ValenceHelper\Block\LegalPreferredNames;
+
+class ValenceUser {
 	protected $valence;
 	public $userId;
 

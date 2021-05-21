@@ -1,5 +1,6 @@
 <?php
 
+namespace ValenceHelper;
 
 class Block {
 	public function __construct(array $response) {
