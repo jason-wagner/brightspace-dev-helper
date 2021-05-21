@@ -17,6 +17,6 @@ class OrgUnitType extends Block
 		foreach(['Id', 'Code', 'Name', 'Description', 'SortOrder'] as $key)
 			$this->$key = $response[$key];
 
-		$this->Permissions = new Permissions(['CanDelete' => $response['CanDelete'], 'CanEdit' => $response['CanEdit']]);
+		$this->Permissions = new Permissions($response['Permissions']);
 	}
 }
