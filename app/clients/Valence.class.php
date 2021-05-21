@@ -16,7 +16,8 @@ class Valence {
 	private $httpclient, $handler, $returnObjectOnCreate, $logMode, $logFileHandler, $exitOnError;
 	public const VERSION_LP = '1.30';
 	public const VERSION_LE = '1.52';
-	protected $responseCode;
+
+	protected $responseCode, $responseError;
 	public $newUserClass, $newCourseClass, $roleIds, $orgtypeIds;
 
 	public function __construct() {
@@ -27,6 +28,7 @@ class Valence {
 		$this->httpclient = new Client(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
 
 		$this->responseCode = null;
+		$this->responseError = null;
 		$this->returnObjectOnCreate = false;
 		$this->exitOnError = true;
 		$this->logMode = 0;
@@ -39,7 +41,7 @@ class Valence {
 		$this->orgtypeIds = [];
 	}
 
-	public function apirequest(string $route, string $method = 'GET', ?array $data = null): array {
+	public function apirequest(string $route, string $method = 'GET', ?array $data = null): ?array {
 		$uri = $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), $method);
 
 		try {
@@ -54,13 +56,13 @@ class Valence {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
-			$responseBody = $response->getBody()->getContents();
+			$this->responseError = $response->getBody()->getContents();
 
 			if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
 				$this->logrequest($route, $method, $data);
 
 			if($this->exitOnError) {
-				fwrite(STDERR, "Error: $this->responseCode $responseBody (exiting...)\n");
+				fwrite(STDERR, "Error: $this->responseError $responseBody (exiting...)\n");
 				exit(1);
 			}
 		}
@@ -99,8 +101,12 @@ class Valence {
 		$this->exitOnError = $exitonerror;
 	}
 
-	public function responseCode(): int {
+	public function responseCode(): ?int {
 		return $this->responseCode;
+	}
+
+	public function responseError(): ?string {
+		return $this->responseError;
 	}
 
 	public function isValidResponseCode(): bool {
