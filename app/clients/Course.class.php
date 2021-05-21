@@ -18,8 +18,8 @@ class Course {
 		return $this->valence->enrollUser($this->orgUnitId, $UserId, $RoleId);
 	}
 
-	public function unenrollUser(int $UserId): array {
-		return $this->valence->unenrollUser($UserId, $this->orgUnitId);
+	public function unenrollUser(int $UserId): void {
+		$this->valence->unenrollUser($UserId, $this->orgUnitId);
 	}
 
 	public function getEnrollment(int $userId): array {
@@ -54,8 +54,8 @@ class Course {
 		return $this->valence->initializeCourseSections($this->orgUnitId, $EnrollmentStyle, $EnrollmentQuantity, $AuthEnroll, $RandomizeEnrollments);
 	}
 
-	public function deleteSection(int $sectionId): array {
-		return $this->valence->deleteCourseSection($this->orgUnitId, $sectionId);
+	public function deleteSection(int $sectionId): void {
+		$this->valence->deleteCourseSection($this->orgUnitId, $sectionId);
 	}
 
 	public function enrollUserInSection(int $sectionId, int $UserId): array {
@@ -82,8 +82,8 @@ class Course {
 		return $this->valence->createCourseGroupCategory($this->orgUnitId, $Name, $DescriptionText, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
 	}
 
-	public function deleteGroupCategory(int $groupCategoryId): array {
-		return $this->valence->deleteCourseGroupCategory($this->orgUnitId, $groupCategoryId);
+	public function deleteGroupCategory(int $groupCategoryId): void {
+		$this->valence->deleteCourseGroupCategory($this->orgUnitId, $groupCategoryId);
 	}
 
 	public function updateGroupCategory(int $groupCategoryId, string $Name, string $DescriptionText, int $EnrollmentType, ?int $EnrollmentQuantity, bool $AutoEnrollment, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): array {
@@ -110,11 +110,11 @@ class Course {
 		return $this->valence->enrollUserInGroup($this->orgUnitId, $groupCategoryId, $groupId, $UserId);
 	}
 
-	public function unenrollUserFromGroup(int $groupCategoryId, int $groupId, int $userId): array {
-		return $this->valence->unenrollUserFromGroup($this->orgUnitId, $groupCategoryId, $groupId, $userId);
+	public function unenrollUserFromGroup(int $groupCategoryId, int $groupId, int $userId): void {
+		$this->valence->unenrollUserFromGroup($this->orgUnitId, $groupCategoryId, $groupId, $userId);
 	}
 
-	public function deleteGroup(int $groupCategoryId, int $groupId): array {
-		return $this->valence->deleteCourseGroup($this->orgUnitId, $groupCategoryId, $groupId);
+	public function deleteGroup(int $groupCategoryId, int $groupId): void {
+		$this->valence->deleteCourseGroup($this->orgUnitId, $groupCategoryId, $groupId);
 	}
 }

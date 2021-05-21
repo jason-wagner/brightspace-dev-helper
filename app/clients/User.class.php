@@ -33,8 +33,8 @@ class User {
 		return $this->valence->enrollInstructor($OrgUnitId, $this->userId);
 	}
 
-	public function unenroll(int $orgUnitId): array {
-		return $this->valence->unenrollUser($this->userId, $orgUnitId);
+	public function unenroll(int $orgUnitId): void {
+		$this->valence->unenrollUser($this->userId, $orgUnitId);
 	}
 
 	public function getEnrollment(int $orgUnitId): array {
@@ -49,7 +49,7 @@ class User {
 		return $this->valence->enrollUserInGroup($orgUnitId, $groupCategoryId, $groupId, $this->userId);
 	}
 
-	public function unenrollFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId): array {
-		return $this->valence->unenrollUserFromGroup($orgUnitId, $groupCategoryId, $groupId, $this->userId);
+	public function unenrollFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId): void {
+		$this->valence->unenrollUserFromGroup($orgUnitId, $groupCategoryId, $groupId, $this->userId);
 	}
 }

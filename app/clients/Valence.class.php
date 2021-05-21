@@ -219,8 +219,8 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/", "POST", $data);
 	}
 
-	public function unenrollUser(int $userId, int $orgUnitId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/users/$userId/orgUnits/$orgUnitId", "DELETE");
+	public function unenrollUser(int $userId, int $orgUnitId): void {
+		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/users/$userId/orgUnits/$orgUnitId", "DELETE");
 	}
 
 	public function getEnrollment(int $orgUnitId, int $userId): array {
@@ -258,8 +258,8 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "PUT", $data);
 	}
 
-	public function deleteCourseOffering(int $orgUnitId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "DELETE");
+	public function deleteCourseOffering(int $orgUnitId): void {
+		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "DELETE");
 	}
 
 	public function getCourseSections(int $orgUnitId): array {
@@ -287,8 +287,8 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/", "PUT", $data);
 	}
 
-	public function deleteCourseSection(int $orgUnitId, int $sectionId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/$sectionId", "DELETE");
+	public function deleteCourseSection(int $orgUnitId, int $sectionId): void {
+		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/$sectionId", "DELETE");
 	}
 
 	public function enrollUserInCourseSection(int $orgUnitId, int $sectionId, int $UserId): array {
@@ -319,8 +319,8 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/", "POST", $data);
 	}
 
-	public function deleteCourseGroupCategory(int $orgUnitId, int $groupCategoryId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId", "DELETE");
+	public function deleteCourseGroupCategory(int $orgUnitId, int $groupCategoryId): void {
+		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId", "DELETE");
 	}
 
 	public function updateCourseGroupCategory(int $orgUnitId, int $groupCategoryId, string $Name, string $DescriptionText, int $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): array {
@@ -354,12 +354,12 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId/enrollments/", "POST", $data);
 	}
 
-	public function unenrollUserFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $userId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId/enrollments/$userId");
+	public function unenrollUserFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $userId): void {
+		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId/enrollments/$userId", "DELETE");
 	}
 
-	public function deleteCourseGroup(int $orgUnitId, int $groupCategoryId, int $groupId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId", "DELETE");
+	public function deleteCourseGroup(int $orgUnitId, int $groupCategoryId, int $groupId): void {
+		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId", "DELETE");
 	}
 
 	public function getUser(int $userId): array {
