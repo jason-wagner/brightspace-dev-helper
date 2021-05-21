@@ -81,7 +81,7 @@ class Valence {
 		}
 	}
 
-	private function logrequest(string $route, string $method, ?array $data): void {
+	private function logrequest(string $route, string $method, ?array $data = null): void {
 		$logEntry = date("Y-m-d H:i:s") . " $method $route " . json_encode($data ?? []) . " $this->responseCode\n";
 		fwrite($this->logFileHandler, $logEntry);
 	}
