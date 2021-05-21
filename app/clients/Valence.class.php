@@ -8,7 +8,7 @@ class Valence {
 	private $httpclient, $handler, $returnObjectOnCreate, $logMode, $logFileHandler, $exitOnError;
 	public const VERSION_LP = '1.30';
 	public const VERSION_LE = '1.52';
-	protected $responseBody, $responseCode;
+	protected $responseCode;
 	public $newUserClass, $newCourseClass, $roleIds, $orgtypeIds;
 
 	public function __construct() {
@@ -19,7 +19,6 @@ class Valence {
 		$this->httpclient = new Client(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
 
 		$this->responseCode = null;
-		$this->responseBody = null;
 		$this->returnObjectOnCreate = false;
 		$this->exitOnError = true;
 		$this->logMode = 0;
@@ -39,7 +38,7 @@ class Valence {
 			$response = $this->httpclient->request($method, $uri, ['json' => $data]);
 
 			$this->responseCode = $response->getStatusCode();
-			$this->responseBody = json_decode($response->getBody(), 1);
+			$responseBody = json_decode($response->getBody(), 1);
 
 			if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
 				$this->logrequest($route, $method, $data);
@@ -47,18 +46,18 @@ class Valence {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
-			$this->responseBody = $response->getBody()->getContents();
+			$responseBody = $response->getBody()->getContents();
 
 			if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
 				$this->logrequest($route, $method, $data);
 
 			if($this->exitOnError) {
-				fwrite(STDERR, "Error: {$this->responseCode} {$this->responseBody} (exiting...)\n");
+				fwrite(STDERR, "Error: {$this->responseCode} {$responseBody} (exiting...)\n");
 				exit(1);
 			}
 		}
 
-		return ['code' => $this->responseCode, 'body' => $this->responseBody];
+		return $responseBody;
 	}
 
 	private function logrequest(string $route, string $method, ?array $data): void {
@@ -83,12 +82,8 @@ class Valence {
 		$this->exitOnError = $exitonerror;
 	}
 
-	public function lastResponseCode(): int {
+	public function responseCode(): int {
 		return $this->responseCode;
-	}
-
-	public function lastResponseBody(): array {
-		return $this->responseBody;
 	}
 
 	public function setUserClass($userclass): void {
