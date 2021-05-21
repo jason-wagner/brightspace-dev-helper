@@ -128,8 +128,8 @@ class Valence {
 
 	public function getUserIdFromUsername(string $username): ?int {
 		try {
-			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?username=$username");
-			return $this->lastResponseBody()['UserId'] ?? null;
+			$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?username=$username");
+			return $response['UserId'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
@@ -137,8 +137,8 @@ class Valence {
 
 	public function getUserIdFromOrgDefinedId(string $orgDefinedId): ?int {
 		try {
-			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?orgDefinedId=$orgDefinedId");
-			return $this->lastResponseBody()['UserId'] ?? null;
+			$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/?orgDefinedId=$orgDefinedId");
+			return $response['UserId'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
@@ -146,8 +146,8 @@ class Valence {
 
 	public function getOrgUnitIdFromCode(string $orgUnitCode, int $orgUnitType): ?int {
 		try {
-			$data = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=$orgUnitType&exactOrgUnitCode=$orgUnitCode");
-			return $this->lastResponseBody()['Items'][0]['Identifier'] ?? null;
+			$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=$orgUnitType&exactOrgUnitCode=$orgUnitCode");
+			return $this->$response['Items'][0]['Identifier'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
