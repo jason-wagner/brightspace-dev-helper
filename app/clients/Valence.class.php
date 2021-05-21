@@ -54,6 +54,8 @@ class Valence {
 
 			if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
 				$this->logrequest($route, $method, $data);
+
+			return $responseBody;
 		} catch(ClientException | ServerException $exception) {
 			$response = $exception->getResponse();
 
@@ -67,9 +69,9 @@ class Valence {
 				fwrite(STDERR, "Error: $this->responseCode $this->responseError (exiting...)\n");
 				exit(1);
 			}
-		}
 
-		return $responseBody;
+			return null;
+		}
 	}
 
 	private function logrequest(string $route, string $method, ?array $data): void {
