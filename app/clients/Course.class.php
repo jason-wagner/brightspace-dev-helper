@@ -82,7 +82,7 @@ class Course {
 		return $this->valence->createCourseGroupCategory($this->orgUnitId, $Name, $DescriptionText, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
 	}
 
-	public function deleteGroupCategory(int $orgUnitId, int $groupCategoryId): array {
+	public function deleteGroupCategory(int $groupCategoryId): array {
 		return $this->valence->deleteCourseGroupCategory($this->orgUnitId, $groupCategoryId);
 	}
 
