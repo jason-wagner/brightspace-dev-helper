@@ -61,7 +61,7 @@ class Valence {
 				$this->logrequest($route, $method, $data);
 
 			if($this->exitOnError) {
-				fwrite(STDERR, "Error: $this->responseError $responseBody (exiting...)\n");
+				fwrite(STDERR, "Error: $this->responseCode $this->responseError (exiting...)\n");
 				exit(1);
 			}
 		}
