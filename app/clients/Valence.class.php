@@ -151,7 +151,7 @@ class Valence {
 	public function getOrgUnitIdFromCode(string $orgUnitCode, int $orgUnitType): ?int {
 		try {
 			$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/orgstructure/?orgUnitType=$orgUnitType&exactOrgUnitCode=$orgUnitCode");
-			return $this->$response['Items'][0]['Identifier'] ?? null;
+			return $response['Items'][0]['Identifier'] ?? null;
 		} catch(Exception $e) {
 			return null;
 		}
