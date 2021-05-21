@@ -2,7 +2,9 @@
 
 namespace ValenceHelper;
 
+use ValenceHelper\Block\EnrollmentData;
 use ValenceHelper\Block\LegalPreferredNames;
+use ValenceHelper\Block\UserData;
 
 class ValenceUser {
 	protected $valence;
@@ -13,7 +15,7 @@ class ValenceUser {
 		$this->userId = $userId;
 	}
 
-	public function get(): array {
+	public function get(): ?UserData {
 		return $this->valence->getUser($this->userId);
 	}
 
@@ -25,15 +27,15 @@ class ValenceUser {
 		return $this->valence->updateUserNames($this->userId, $LegalFirstName, $LegalLastName, $PreferredFirstName, $PreferredLastName);
 	}
 
-	public function enrollInCourse(int $OrgUnitId, int $RoleId): array {
+	public function enrollInCourse(int $OrgUnitId, int $RoleId): ?EnrollmentData {
 		return $this->valence->enrollUser($OrgUnitId, $this->userId, $RoleId);
 	}
 
-	public function enrollAsStudent(int $OrgUnitId): array {
+	public function enrollAsStudent(int $OrgUnitId): ?EnrollmentData {
 		return $this->valence->enrollStudent($OrgUnitId, $this->userId);
 	}
 
-	public function enrollAsInstructor(int $OrgUnitId): array {
+	public function enrollAsInstructor(int $OrgUnitId): ?EnrollmentData {
 		return $this->valence->enrollInstructor($OrgUnitId, $this->userId);
 	}
 
@@ -41,7 +43,7 @@ class ValenceUser {
 		$this->valence->unenrollUser($this->userId, $orgUnitId);
 	}
 
-	public function getEnrollment(int $orgUnitId): array {
+	public function getEnrollment(int $orgUnitId): ?EnrollmentData {
 		return $this->valence->getEnrollment($orgUnitId, $this->userId);
 	}
 

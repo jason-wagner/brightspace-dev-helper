@@ -2,6 +2,13 @@
 
 namespace ValenceHelper;
 
+use ValenceHelper\Block\CourseOffering;
+use ValenceHelper\Block\EnrollmentData;
+use ValenceHelper\Block\GroupCategoryData;
+use ValenceHelper\Block\GroupData;
+use ValenceHelper\Block\SectionData;
+use ValenceHelper\Block\SectionPropertyData;
+
 class ValenceCourse {
 	protected $valence;
 	public $orgUnitId;
@@ -11,11 +18,11 @@ class ValenceCourse {
 		$this->orgUnitId = $orgUnitId;
 	}
 
-	public function get(): array {
+	public function get(): ?CourseOffering {
 		return $this->valence->getCourseOffering($this->orgUnitId);
 	}
 
-	public function enrollUser(int $UserId, int $RoleId): array {
+	public function enrollUser(int $UserId, int $RoleId): ?EnrollmentData {
 		return $this->valence->enrollUser($this->orgUnitId, $UserId, $RoleId);
 	}
 
@@ -23,15 +30,15 @@ class ValenceCourse {
 		$this->valence->unenrollUser($UserId, $this->orgUnitId);
 	}
 
-	public function getEnrollment(int $userId): array {
+	public function getEnrollment(int $userId): ?EnrollmentData {
 		return $this->valence->getEnrollment($this->orgUnitId, $userId);
 	}
 
-	public function enrollStudent(int $UserId): array {
+	public function enrollStudent(int $UserId): ?EnrollmentData {
 		return $this->valence->enrollStudent($this->orgUnitId, $UserId);
 	}
 
-	public function enrollInstructor(int $UserId): array {
+	public function enrollInstructor(int $UserId): ?EnrollmentData {
 		return $this->valence->enrollInstructor($this->orgUnitId, $UserId);
 	}
 
@@ -39,19 +46,19 @@ class ValenceCourse {
 		return $this->valence->getCourseSections($this->orgUnitId);
 	}
 
-	public function getSection(int $sectionid): array {
+	public function getSection(int $sectionid): ?SectionData {
 		return $this->valence->getCourseSection($this->orgUnitId, $sectionid);
 	}
 
-	public function createSection(string $Name, string $Code, string $DescriptionText): array {
+	public function createSection(string $Name, string $Code, string $DescriptionText): ?SectionData {
 		return $this->valence->createCourseSection($this->orgUnitId, $Name, $Code, $DescriptionText);
 	}
 
-	public function updateSection(int $sectionId, string $Name, string $Code, string $DescriptionText): array {
-		return $this->valence->updateCourseSection($this->orgUnitId, $sectionId, $Name, $Code, $DescriptionText);
+	public function updateSection(int $sectionId, string $Name, string $Code, string $DescriptionText): ?SectionData {
+		 return $this->valence->updateCourseSection($this->orgUnitId, $sectionId, $Name, $Code, $DescriptionText);
 	}
 
-	public function initializeSections(int $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): array {
+	public function initializeSections(int $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): ?SectionData {
 		return $this->valence->initializeCourseSections($this->orgUnitId, $EnrollmentStyle, $EnrollmentQuantity, $AuthEnroll, $RandomizeEnrollments);
 	}
 
@@ -63,11 +70,11 @@ class ValenceCourse {
 		return $this->valence->enrollUserInCourseSection($this->orgUnitId, $sectionId, $UserId);
 	}
 
-	public function getSectionSettings(): array {
+	public function getSectionSettings(): ?SectionPropertyData {
 		return $this->valence->getCourseSectionSettings($this->orgUnitId);
 	}
 
-	public function updateSectionSettings(int $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): array {
+	public function updateSectionSettings(int $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): ?SectionPropertyData {
 		return $this->valence->updateCourseSectionSettings($this->orgUnitId, $EnrollmentStyle, $EnrollmentQuantity, $AuthEnroll, $RandomizeEnrollments);
 	}
 
@@ -75,11 +82,11 @@ class ValenceCourse {
 		return $this->valence->getCourseGroupCategories($this->orgUnitId);
 	}
 
-	public function getGroupCategory(int $groupCategoryId): array {
+	public function getGroupCategory(int $groupCategoryId): ?GroupCategoryData {
 		return $this->valence->getCourseGroupCategory($this->orgUnitId, $groupCategoryId);
 	}
 
-	public function createGroupCategory(string $Name, string $DescriptionText, int $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): array {
+	public function createGroupCategory(string $Name, string $DescriptionText, int $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData {
 		return $this->valence->createCourseGroupCategory($this->orgUnitId, $Name, $DescriptionText, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
 	}
 
@@ -87,7 +94,7 @@ class ValenceCourse {
 		$this->valence->deleteCourseGroupCategory($this->orgUnitId, $groupCategoryId);
 	}
 
-	public function updateGroupCategory(int $groupCategoryId, string $Name, string $DescriptionText, int $EnrollmentType, ?int $EnrollmentQuantity, bool $AutoEnrollment, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): array {
+	public function updateGroupCategory(int $groupCategoryId, string $Name, string $DescriptionText, int $EnrollmentType, ?int $EnrollmentQuantity, bool $AutoEnrollment, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData {
 		return $this->valence->updateCourseGroupCategory($this->orgUnitId, $groupCategoryId, $Name, $DescriptionText, $EnrollmentType, $EnrollmentQuantity, $AutoEnrollment, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
 	}
 
@@ -95,15 +102,15 @@ class ValenceCourse {
 		return $this->valence->getCourseGroups($this->orgUnitId, $groupCategoryId);
 	}
 
-	public function getGroup(int $groupCategoryId, int $groupId): array {
+	public function getGroup(int $groupCategoryId, int $groupId): ?GroupData {
 		return $this->valence->getCourseGroup($this->orgUnitId, $groupCategoryId, $groupId);
 	}
 
-	public function createGroup(int $groupCategoryId, string $Name, string $Code, string $DescriptionText): array {
+	public function createGroup(int $groupCategoryId, string $Name, string $Code, string $DescriptionText): ?GroupData {
 		return $this->valence->createCourseGroup($this->orgUnitId, $groupCategoryId, $Name, $Code, $DescriptionText);
 	}
 
-	public function updateGroup(int $groupCategoryId, int $groupId, string $Name, string $Code, string $DescriptionText): array {
+	public function updateGroup(int $groupCategoryId, int $groupId, string $Name, string $Code, string $DescriptionText): ?GroupData {
 		return $this->valence->updateCourseGroup($this->orgUnitId, $groupCategoryId, $groupId, $Name, $Code, $DescriptionText);
 	}
 

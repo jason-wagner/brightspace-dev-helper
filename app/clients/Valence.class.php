@@ -9,10 +9,17 @@ use GuzzleHttp\Exception\ServerException;
 use D2LAppContextFactory;
 use D2LHostSpec;
 
+use ValenceHelper\Block\CourseOffering;
+use ValenceHelper\Block\EnrollmentData;
+use ValenceHelper\Block\GroupCategoryData;
+use ValenceHelper\Block\GroupData;
 use ValenceHelper\Block\LegalPreferredNames;
 use ValenceHelper\Block\OrgUnitType;
 use ValenceHelper\Block\ProductVersions;
 use ValenceHelper\Block\Role;
+use ValenceHelper\Block\SectionData;
+use ValenceHelper\Block\SectionPropertyData;
+use ValenceHelper\Block\UserData;
 use ValenceHelper\Block\WhoAmIUser;
 
 class Valence {
@@ -232,48 +239,52 @@ class Valence {
 		return $this->getOrgUnitIdFromCode($departmentCode, $this->orgtypeIds['Department']);
 	}
 
-	public function enrollUser(int $OrgUnitId, int $UserId, int $RoleId): array {
+	public function enrollUser(int $OrgUnitId, int $UserId, int $RoleId): ?EnrollmentData {
 		$data = compact('OrgUnitId', 'UserId', 'RoleId');
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/", "POST", $data);
+		return $response ? new EnrollmentData($response) : null;
 	}
 
 	public function unenrollUser(int $userId, int $orgUnitId): void {
 		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/users/$userId/orgUnits/$orgUnitId", "DELETE");
 	}
 
-	public function getEnrollment(int $orgUnitId, int $userId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/orgUnits/$orgUnitId/users/$userId");
+	public function getEnrollment(int $orgUnitId, int $userId): ?EnrollmentData {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/orgUnits/$orgUnitId/users/$userId");
+		return $response ? new EnrollmentData($response) : null;
 	}
 
-	public function enrollStudent(int $OrgUnitId, int $UserId): array {
+	public function enrollStudent(int $OrgUnitId, int $UserId): ?EnrollmentData {
 		if(!count($this->roleIds))
 			$this->setInternalIds();
 
 		return $this->enrollUser($OrgUnitId, $UserId, $this->roleIds['Student']);
 	}
 
-	public function enrollInstructor(int $OrgUnitId, int $UserId): array {
+	public function enrollInstructor(int $OrgUnitId, int $UserId): ?EnrollmentData {
 		if(!count($this->roleIds))
 			$this->setInternalIds();
 
 		return $this->enrollUser($OrgUnitId, $UserId, $this->roleIds['Instructor']);
 	}
 
-	public function getCourseOffering(int $orgUnitId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId");
+	public function getCourseOffering(int $orgUnitId): ?CourseOffering {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId");
+		return $response ? new CourseOffering($response) : null;
 	}
 
 	public function createCourseOffering(string $Name, string $Code, string $Path, int $CourseTemplateId, int $SemesterId, ?string $StartDate, ?string $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, ?string $DescriptionText, bool $CanSelfRegister) {
 		$data = compact('Name', 'Code', 'Path', 'CourseTemplateId', 'SemesterId', 'StartDate', 'EndDate', 'LocaleId', 'ForceLocale', 'ShowAddressBook', 'CanSelfRegister');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
 		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/", "POST", $data);
-		return $this->returnObjectOnCreate ? $this->course($response['Identifier']) : $response;
+		return $this->returnObjectOnCreate ? $this->course($response['Identifier']) : new CourseOffering($response);
 	}
 
-	public function updateCourseOffering(int $orgUnitId, string $Name, string $Code, ?string $StartDate, ?string $EndDate, bool $IsActive, string $DescriptionText): array {
+	public function updateCourseOffering(int $orgUnitId, string $Name, string $Code, ?string $StartDate, ?string $EndDate, bool $IsActive, string $DescriptionText): ?CourseOffering {
 		$data = compact('Name', 'Code', 'StartDate', 'EndDate', 'IsActive');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "PUT", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "PUT", $data);
+		return $response ? new CourseOffering($response) : null;
 	}
 
 	public function deleteCourseOffering(int $orgUnitId): void {
@@ -281,28 +292,33 @@ class Valence {
 	}
 
 	public function getCourseSections(int $orgUnitId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/");
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/");
+		return $this->buildarray($response, SectionData::class);
 	}
 
-	public function getCourseSection(int $orgUnitId, int $sectionId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/$sectionId");
+	public function getCourseSection(int $orgUnitId, int $sectionId): ?SectionData {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/$sectionId");
+		return $response ? new SectionData($response) : null;
 	}
 
-	public function createCourseSection(int $orgUnitId, string $Name, string $Code, string $DescriptionText): array {
+	public function createCourseSection(int $orgUnitId, string $Name, string $Code, string $DescriptionText): ?SectionData {
 		$data = compact('Name', 'Code');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId)/sections/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId)/sections/", "POST", $data);
+		return $response ? new SectionData($response) : null;
 	}
 
-	public function updateCourseSection(int $orgUnitId, int $sectionId, string $Name, string $Code, string $DescriptionText): array {
+	public function updateCourseSection(int $orgUnitId, int $sectionId, string $Name, string $Code, string $DescriptionText): ?SectionData {
 		$data = compact('Name', 'Code');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/$sectionId", "PUT", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/$sectionId", "PUT", $data);
+		return $response ? new SectionData($response) : null;
 	}
 
-	public function initializeCourseSections(int $orgUnitId, int $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): array {
+	public function initializeCourseSections(int $orgUnitId, int $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): ?SectionData {
 		$data = compact('EnrollmentStyle', 'EnrollmentQuantity', 'AuthEnroll', 'RandomizeEnrollments');
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/", "PUT", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/", "PUT", $data);
+		return $response ? new SectionData($response) : null;
 	}
 
 	public function deleteCourseSection(int $orgUnitId, int $sectionId): void {
@@ -314,57 +330,67 @@ class Valence {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/$sectionId/enrollments/", "POST", $data);
 	}
 
-	public function getCourseSectionSettings(int $orgUnitId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/settings");
+	public function getCourseSectionSettings(int $orgUnitId): ?SectionPropertyData {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/settings");
+		return $response ? new SectionPropertyData($response) : null;
 	}
 
-	public function updateCourseSectionSettings(int $orgUnitId, int $EnrollmentStyle, int $EnrollmentQuantity, int $AuthEnroll, int $RandomizeEnrollments): array {
+	public function updateCourseSectionSettings(int $orgUnitId, int $EnrollmentStyle, int $EnrollmentQuantity, int $AuthEnroll, int $RandomizeEnrollments): ?SectionPropertyData {
 		$data = compact('EnrollmentStyle', 'EnrollmentQuantity', 'AuthEnroll', 'RandomizeEnrollments');
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/settings", "PUT", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/sections/settings", "PUT", $data);
+		return $response ? new SectionPropertyData($response) : null;
 	}
 
 	public function getCourseGroupCategories(int $orgUnitId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/");
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/");
+		return $this->buildarray($response, GroupCategoryData::class);
 	}
 
-	public function getCourseGroupCategory(int $orgUnitId, int $groupCategoryId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId");
+	public function getCourseGroupCategory(int $orgUnitId, int $groupCategoryId): ?GroupCategoryData {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId");
+		return $response ? new GroupCategoryData($response) : null;
 	}
 
-	public function createCourseGroupCategory(int $orgUnitId, string $Name, string $DescriptionText, int $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): array {
+	public function createCourseGroupCategory(int $orgUnitId, string $Name, string $DescriptionText, int $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData {
 		$data = compact('Name', 'EnrollmentStyle', 'EnrollmentQuantity', 'AutoEnroll', 'RandomizeEnrollments', 'NumberOfGroups', 'MaxUsersPerGroup', 'AllocateAfterExpiry', 'SelfEnrollmentExpiryDate', 'GroupPrefix', 'RestrictedByOrgUnitId');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/", "POST", $data);
+		return $response ? new GroupCategoryData($response) : null;
 	}
 
 	public function deleteCourseGroupCategory(int $orgUnitId, int $groupCategoryId): void {
 		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId", "DELETE");
 	}
 
-	public function updateCourseGroupCategory(int $orgUnitId, int $groupCategoryId, string $Name, string $DescriptionText, int $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): array {
+	public function updateCourseGroupCategory(int $orgUnitId, int $groupCategoryId, string $Name, string $DescriptionText, int $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData {
 		$data = compact('Name', 'EnrollmentStyle', 'EnrollmentQuantity', 'AutoEnroll', 'RandomizeEnrollments', 'NumberOfGroups', 'MaxUsersPerGroup', 'AllocateAfterExpiry', 'SelfEnrollmentExpiryDate', 'GroupPrefix', 'RestrictedByOrgUnitId');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId", "PUT", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId", "PUT", $data);
+		return $response ? new GroupCategoryData($response) : null;
 	}
 
 	public function getCourseGroups(int $orgUnitId, int $groupCategoryId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/");
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/");
+		return $this->buildarray($response, GroupData::class);
 	}
 
-	public function getCourseGroup(int $orgUnitId, int $groupCategoryId, int $groupId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId");
+	public function getCourseGroup(int $orgUnitId, int $groupCategoryId, int $groupId): ?GroupData {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId");
+		return $response ? new GroupData($response) : null;
 	}
 
-	public function createCourseGroup(int $orgUnitId, int $groupCategoryId, string $Name, string $Code, string $DescriptionText): array {
+	public function createCourseGroup(int $orgUnitId, int $groupCategoryId, string $Name, string $Code, string $DescriptionText): ?GroupData {
 		$data = compact('Name', 'Code');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/", "POST", $data);
+		return $response ? new GroupData($response) : null;
 	}
 
-	public function updateCourseGroup(int $orgUnitId, int $groupCategoryId, int $groupId, string $Name, string $Code, string $DescriptionText): array {
+	public function updateCourseGroup(int $orgUnitId, int $groupCategoryId, int $groupId, string $Name, string $Code, string $DescriptionText): ?GroupData {
 		$data = compact('Name', 'Code');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId", "PUT", $data);
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId", "PUT", $data);
+		return $response ? new GroupData($response) : null;
 	}
 
 	public function enrollUserInGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): array {
@@ -380,8 +406,9 @@ class Valence {
 		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId", "DELETE");
 	}
 
-	public function getUser(int $userId): array {
-		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/$userId");
+	public function getUser(int $userId): ?UserData {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/users/$userId");
+		return $response ? new UserData($response) : null;
 	}
 
 	public function getUserNames(int $userId): ?LegalPreferredNames {
