@@ -112,6 +112,40 @@ class Valence {
 		}
 	}
 
+	public function apisendfile(string $route, string $method, string $filepath, string $field, string $name, string $type) {
+		$uri = $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), $method);
+
+		try {
+			$formdata = [
+				['name' => $field, 'filename' => $name, 'contents' => fopen($filepath, 'r')]
+			];
+
+			$response = $this->httpclient->request($method, $uri, ['multipart' => $formdata]);
+
+			$this->responseCode = $response->getStatusCode();
+
+			if($this->logMode == 2)
+				$this->logrequest($route, $method, ['placeholder']);
+
+			return true;
+		} catch(ClientException | ServerException $exception) {
+			$response = $exception->getResponse();
+
+			$this->responseCode = $response->getStatusCode();
+			$this->responseError = $response->getBody()->getContents();
+
+			if($this->logMode == 2)
+				$this->logrequest($route, $method, ['placeholder']);
+
+			if($this->exitOnError) {
+				fwrite(STDERR, "Error: $this->responseCode $this->responseError (exiting...)\n");
+				exit(1);
+			}
+
+			return false;
+		}
+	}
+
 	private function logrequest(string $route, string $method, ?array $data = null): void {
 		$logEntry = date("Y-m-d H:i:s") . " $method $route " . json_encode($data ?? []) . " $this->responseCode\n";
 		fwrite($this->logFileHandler, $logEntry);
@@ -324,6 +358,10 @@ class Valence {
 
 	public function getCourseImage(int $orgUnitId, string $filepath): bool {
 		return $this->apirequestfile("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId/image", $filepath);
+	}
+
+	public function uploadCourseImage(int $orgUnitId, string $filepath, string $name): bool {
+		return $this->apisendfile("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId/image", "PUT", $filepath, "Image", $name, "image/jpeg");
 	}
 
 	public function getCourseSections(int $orgUnitId): array {

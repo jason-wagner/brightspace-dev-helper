@@ -26,6 +26,10 @@ class ValenceCourse {
 		return $this->valence->getCourseImage($this->orgUnitId, $filepath);
 	}
 
+	public function uploadCourseImage(string $filepath, string $name): bool {
+		return $this->valence->uploadCourseImage($this->orgUnitId, $filepath, $name);
+	}
+
 	public function enrollUser(int $UserId, int $RoleId): ?EnrollmentData {
 		return $this->valence->enrollUser($this->orgUnitId, $UserId, $RoleId);
 	}
