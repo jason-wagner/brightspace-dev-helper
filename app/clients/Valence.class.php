@@ -81,6 +81,37 @@ class Valence {
 		}
 	}
 
+	public function apirequestfile(string $route, string $filepath) {
+		$uri = $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), 'GET');
+
+		try {
+			$filehandler = fopen($filepath, 'w');
+			$response = $this->httpclient->request('GET', $uri, ['sink' => $filehandler]);
+
+			$this->responseCode = $response->getStatusCode();
+
+			if($this->logMode == 2)
+				$this->logrequest($route, 'GET');
+
+			return true;
+		} catch(ClientException | ServerException $exception) {
+			$response = $exception->getResponse();
+
+			$this->responseCode = $response->getStatusCode();
+			$this->responseError = $response->getBody()->getContents();
+
+			if($this->logMode == 2)
+				$this->logrequest($route, $method);
+
+			if($this->exitOnError) {
+				fwrite(STDERR, "Error: $this->responseCode $this->responseError (exiting...)\n");
+				exit(1);
+			}
+
+			return false;
+		}
+	}
+
 	private function logrequest(string $route, string $method, ?array $data = null): void {
 		$logEntry = date("Y-m-d H:i:s") . " $method $route " . json_encode($data ?? []) . " $this->responseCode\n";
 		fwrite($this->logFileHandler, $logEntry);
@@ -289,6 +320,10 @@ class Valence {
 
 	public function deleteCourseOffering(int $orgUnitId): void {
 		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId", "DELETE");
+	}
+
+	public function getCourseImage(int $orgUnitId, string $filepath): bool {
+		return $this->apirequestfile("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId/image", $filepath);
 	}
 
 	public function getCourseSections(int $orgUnitId): array {
