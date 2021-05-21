@@ -33,7 +33,6 @@ class User {
 		return $this->valence->getEnrollment($orgUnitId, $this->userId);
 	}
 
-
 	public function enrollInCourseSection(int $orgUnitId, int $sectionId): array {
 		return $this->valence->enrollUserInCourseSection($orgUnitId, $sectionId, $this->userId);
 	}
