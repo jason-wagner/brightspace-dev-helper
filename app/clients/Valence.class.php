@@ -34,6 +34,7 @@ class Valence {
 	public const VERSION_LE = '1.52';
 
 	protected $responseCode = null;
+	protected $responseBody = null;
 	protected $responseError = null;
 
 	public $newUserClass = ValenceUser::class;
@@ -57,16 +58,18 @@ class Valence {
 			$response = $this->httpclient->request($method, $uri, ['json' => $data]);
 
 			$this->responseCode = $response->getStatusCode();
-			$responseBody = json_decode($response->getBody(), 1);
+			$this->responseBody = json_decode($response->getBody(), 1);
+			$this->responseError = null;
 
 			if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
 				$this->logrequest($route, $method, $data);
 
-			return $responseBody;
+			return $this->responseBody;
 		} catch(ClientException | ServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
+			$this->responseBody = null;
 			$this->responseError = $response->getBody()->getContents();
 
 			if($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
@@ -179,6 +182,10 @@ class Valence {
 
 	public function responseCode(): ?int {
 		return $this->responseCode;
+	}
+
+	public function responseBody(): ?array {
+		return $this->responseBody;
 	}
 
 	public function responseError(): ?string {
