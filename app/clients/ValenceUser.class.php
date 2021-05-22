@@ -27,6 +27,22 @@ class ValenceUser {
 		return $this->valence->updateUserNames($this->userId, $LegalFirstName, $LegalLastName, $PreferredFirstName, $PreferredLastName);
 	}
 
+	public function getProfile(): ?array {
+		return $this->valence->getUserProfile($this->userId);
+	}
+
+	public function getPicture(string $filepath): bool {
+		return $this->valence->getUserPicture($this->userId, $filepath);
+	}
+
+	public function uploadPicture(string $filepath): bool {
+		return $this->valence->uploadUserPicture($this->userId, $filepath);
+	}
+
+	public function deletePicture(): void {
+		$this->valence->deleteUserPicture($this->userId);
+	}
+
 	public function enrollInCourse(int $OrgUnitId, int $RoleId): ?EnrollmentData {
 		return $this->valence->enrollUser($OrgUnitId, $this->userId, $RoleId);
 	}

@@ -498,4 +498,16 @@ class Valence {
 	public function getUserProfile(int $userId): array {
 		return $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/profile/user/$userId");
 	}
+
+	public function getUserPicture(int $userId, string $filepath): bool {
+		return $this->apirequestfile("/d2l/api/lp/".self::VERSION_LP."/profile/user/$userId/image", $filepath);
+	}
+
+	public function uploadUserPicture(int $userId, string $filepath): bool {
+		return $this->apisendfile("/d2l/api/lp/".self::VERSION_LP."/profile/user/$userId/image", "POST", $filepath, 'profileImage', 'profileImage');
+	}
+
+	public function deleteUserPicture(int $userId): void {
+		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/profile/user/$userId/image", "DELETE");
+	}
 }
