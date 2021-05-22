@@ -112,7 +112,7 @@ class Valence {
 		}
 	}
 
-	public function apisendfile(string $route, string $method, string $filepath, string $field, string $name, string $type) {
+	public function apisendfile(string $route, string $method, string $filepath, string $field, string $name) {
 		$uri = $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), $method);
 
 		try {
@@ -361,7 +361,7 @@ class Valence {
 	}
 
 	public function uploadCourseImage(int $orgUnitId, string $filepath, string $name): bool {
-		return $this->apisendfile("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId/image", "PUT", $filepath, "Image", $name, "image/jpeg");
+		return $this->apisendfile("/d2l/api/lp/".self::VERSION_LP."/courses/$orgUnitId/image", "PUT", $filepath, "Image", $name);
 	}
 
 	public function getCourseSections(int $orgUnitId): array {
