@@ -14,6 +14,7 @@ use ValenceHelper\Block\EnrollmentData;
 use ValenceHelper\Block\GroupCategoryData;
 use ValenceHelper\Block\GroupData;
 use ValenceHelper\Block\LegalPreferredNames;
+use ValenceHelper\Block\Organization;
 use ValenceHelper\Block\OrgUnitType;
 use ValenceHelper\Block\ProductVersions;
 use ValenceHelper\Block\Role;
@@ -43,12 +44,22 @@ class Valence {
 	public $roleIds = [];
 	public $orgtypeIds = [];
 
+	public $rootOrgId = null;
+	public $timezone = null;
+
 	public function __construct() {
 		$authContextFactory = new D2LAppContextFactory();
 		$authContext = $authContextFactory->createSecurityContext($_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY']);
 		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
 		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $_ENV['D2L_VALENCE_USER_ID'], $_ENV['D2L_VALENCE_USER_KEY']);
 		$this->httpclient = new Client(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
+
+		$org = $this->getOrganization();
+
+		if($this->isValidResponseCode()) {
+			$this->rootOrgId = $org->Identifier;
+			$this->timezone = $org->TimeZone;
+		}
 	}
 
 	public function apirequest(string $route, string $method = 'GET', ?array $data = null): ?array {
@@ -217,6 +228,11 @@ class Valence {
 		return $this->isValidResponseCode() ? new WhoAmIUser($response) : null;
 	}
 
+	public function getOrganization(): ?Organization {
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/organization/info");
+		return $this->isValidResponseCode() ? new Organization($response) : null;
+	}
+
 	public function version(string $productCode): ?ProductVersions {
 		$response = $this->apirequest("/d2l/api/$productCode/versions/");
 
@@ -234,7 +250,7 @@ class Valence {
 	}
 
 	public function getRoles(): array {
-		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/{$_ENV['D2L_VALENCE_ROOT_ORGID']}/roles/");
+		$response = $this->apirequest("/d2l/api/lp/".self::VERSION_LP."/{$this->rootOrgId}/roles/");
 		return $this->buildarray($response, Role::class);
 	}
 
