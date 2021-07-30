@@ -133,4 +133,12 @@ class ValenceCourse {
 	public function deleteGroup(int $groupCategoryId, int $groupId): void {
 		$this->valence->deleteCourseGroup($this->orgUnitId, $groupCategoryId, $groupId);
 	}
+
+	public function pinForUser(int $userId): void {
+		$this->valence->pinCourse($this->orgUnitId, $userId);
+	}
+
+	public function unpinForUser(int $userId): void {
+		$this->valence->unpinCourse($this->orgUnitId, $userId);
+	}
 }

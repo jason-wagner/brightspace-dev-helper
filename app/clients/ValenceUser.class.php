@@ -74,4 +74,12 @@ class ValenceUser {
 	public function unenrollFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId): void {
 		$this->valence->unenrollUserFromGroup($orgUnitId, $groupCategoryId, $groupId, $this->userId);
 	}
+
+	public function pinCourse(int $orgUnitId): void {
+		$this->valence->pinCourse($orgUnitId, $this->userId);
+	}
+
+	public function unpinCourse(int $orgUnitId): void {
+		$this->valence->unpinCourse($orgUnitId, $this->userId);
+	}
 }

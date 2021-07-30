@@ -533,4 +533,12 @@ class Valence {
 	public function deleteUserPicture(int $userId): void {
 		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/profile/user/$userId/image", "DELETE");
 	}
+
+	public function pinCourse(int $orgUnitId, int $userId): void {
+		$this->apirequest("/d2l/api/lp/".self::VERSION_LP."/enrollments/orgUnits/$orgUnitId/users/$userId/pin", "POST");
+	}
+
+	public function unpinCourse(int $orgUnitId, int $userId): void {
+		$this->apirequest("/d2l/api/lp".self::VERSION_LP."/enrollments/orgUnits/$orgUnitId/users/$userId/pin", "DELETE");
+	}
 }
