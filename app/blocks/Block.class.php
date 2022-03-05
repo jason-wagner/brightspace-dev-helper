@@ -3,8 +3,9 @@
 namespace ValenceHelper;
 
 class Block {
-	public function __construct(array $response) {
+	public function __construct(array $response, array $skip = []) {
 		foreach($response as $key => $value)
-			$this->$key = $value;
+			if(!in_array($key, $skip))
+				$this->$key = $value;
 	}
 }
