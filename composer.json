@@ -7,6 +7,6 @@
         "ext-json": "*"
 	},
 	"autoload": {
-		"classmap": ["app/", "client-custom/"]
+		"classmap": ["app/", "client-custom/", "valence-sdk"]
 	}
 }
