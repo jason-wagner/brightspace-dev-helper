@@ -4,10 +4,13 @@ namespace ValenceHelper;
 
 use ValenceHelper\Block\CourseOffering;
 use ValenceHelper\Block\EnrollmentData;
+use ValenceHelper\Block\Forum;
 use ValenceHelper\Block\GroupCategoryData;
 use ValenceHelper\Block\GroupData;
+use use ValenceHelper\Block\Post;
 use ValenceHelper\Block\SectionData;
 use ValenceHelper\Block\SectionPropertyData;
+use ValenceHelper\Block\Topic;
 
 class ValenceCourse {
 	protected $valence;
@@ -140,5 +143,29 @@ class ValenceCourse {
 
 	public function unpinForUser(int $userId): void {
 		$this->valence->unpinCourse($this->orgUnitId, $userId);
+	}
+
+	public function getDiscussionForums(): array {
+		return $this->valence->getDiscussionForums($this->orgUnitId);
+	}
+
+	public function getDiscussionForum(int $forumId): ?Forum {
+		return $this->valence->getDiscussionForum($this->orgUnitId, $forumId)
+	}
+
+	public function getDiscussionTopics(int $forumId): array {
+		return $this->valence->getDiscussionTopics($this->orgUnitId, $forumId)
+	}
+
+	public function getDiscussionTopic(int $forumId, int $topicId): ?Topic {
+		return $this->valence->getDiscussionTopic($this->orgUnitId, $forumId, $topicId);
+	}
+
+	public function getDiscussionPosts(int $forumId, int $topicId): array {
+		return $this->valence->getDiscussionPosts($this->orgUnitId, $forumId, $topicId);
+	}
+
+	public function getDiscussionPost(int $forumId, int $topicId, int $postId): ?Post {
+		return $this->valence->getDiscussionPost($this->orgUnitId, $forumId, $topicId, $postId);
 	}
 }

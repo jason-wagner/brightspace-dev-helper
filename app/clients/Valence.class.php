@@ -11,15 +11,18 @@ use D2LHostSpec;
 
 use ValenceHelper\Block\CourseOffering;
 use ValenceHelper\Block\EnrollmentData;
+use ValenceHelper\Block\Forum;
 use ValenceHelper\Block\GroupCategoryData;
 use ValenceHelper\Block\GroupData;
 use ValenceHelper\Block\LegalPreferredNames;
 use ValenceHelper\Block\Organization;
 use ValenceHelper\Block\OrgUnitType;
+use ValenceHelper\Block\Post;
 use ValenceHelper\Block\ProductVersions;
 use ValenceHelper\Block\Role;
 use ValenceHelper\Block\SectionData;
 use ValenceHelper\Block\SectionPropertyData;
+use ValenceHelper\Block\Topic;
 use ValenceHelper\Block\UserData;
 use ValenceHelper\Block\WhoAmIUser;
 
@@ -31,8 +34,8 @@ class Valence {
 	private $logFileHandler = null;
 	private $exitOnError = true;
 
-	public const VERSION_LP = '1.30';
-	public const VERSION_LE = '1.52';
+	public const VERSION_LP = '1.35';
+	public const VERSION_LE = '1.61';
 
 	protected $responseCode = null;
 	protected $responseBody = null;
@@ -540,5 +543,35 @@ class Valence {
 
 	public function unpinCourse(int $orgUnitId, int $userId): void {
 		$this->apirequest("/d2l/api/lp".self::VERSION_LP."/enrollments/orgUnits/$orgUnitId/users/$userId/pin", "DELETE");
+	}
+
+	public function getDiscussionForums(int $orgUnitId): array {
+		$response = $this->apirequest("/d2l/api/le/".self::VERSION_LE."/$orgUnitId/discussions/forums/", "GET");
+		return $this->buildarray($response, Forum::class);
+	}
+
+	public function getDiscussionForum(int $orgUnitId, int $forumId): ?Forum {
+		$response = $this->apirequest("/d2l/api/le/".self::VERSION_LE."/$orgUnitId/discussions/forums/$forumId", "GET");
+		return $this->isValidResponseCode() ? new Forum($response) : null;
+	}
+
+	public function getDiscussionTopics(int $orgUnitId, int $forumId): array {
+		$response = $this->apirequest("/d2l/api/le/".self::VERSION_LE."/$orgUnitId/discussions/forums/$forumId/topics/", "GET");
+		return $this->buildarray($response, Topic::class);
+	}
+
+	public function getDiscussionTopic(int $orgUnitId, int $forumId, int $topicId): ?Topic {
+		$response = $this->apirequest("/d2l/api/le/".self::VERSION_LE."/$orgUnitId/discussions/forums/$forumId/topics/$topicId", "GET");
+		return $this->isValidResponseCode() ? new Topic($response) : null;
+	}
+
+	public function getDiscussionPosts(int $orgUnitId, int $forumId, int $topicId): array {
+		$response = $this->apirequest("/d2l/api/le/".self::VERSION_LE."/$orgUnitId/discussions/forums/$forumId/topics/$topicId/posts/", "GET");
+		return $this->buildarray($response, Post::class);
+	}
+
+	public function getDiscussionPost(int $orgUntiId, int $forumId, int $topicId, int $postId): ?Post {
+		$response = $this->apirequest("/d2l/api/le/".self::VERSION_LE."/$orgUntiId/discussions/forums/$forumId/topics/$topicId/posts/$postId", "GET");
+		return $this->isValidResponseCode() ? new Post($response) : null;
 	}
 }
