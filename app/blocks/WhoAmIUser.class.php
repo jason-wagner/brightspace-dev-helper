@@ -4,7 +4,8 @@ namespace ValenceHelper\Block;
 
 use ValenceHelper\Block;
 
-class WhoAmIUser extends Block {
+class WhoAmIUser extends Block
+{
 	public $Identifier;
 	public $FirstName;
 	public $LastName;

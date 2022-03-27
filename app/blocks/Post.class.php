@@ -4,7 +4,8 @@ namespace ValenceHelper\Block;
 
 use ValenceHelper\Block;
 
-class Post extends Block {
+class Post extends Block
+{
 	public $ForumId;
 	public $PostId;
 	public $TopicId;
@@ -25,7 +26,8 @@ class Post extends Block {
 	public $WordCount;
 	public $AttachmentCount;
 
-	public function __construct(array $response) {
+	public function __construct(array $response)
+	{
 		parent::__construct($response, ['Message']);
 		$this->Message = new RichText($response['Message']);
 	}

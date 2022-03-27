@@ -4,7 +4,8 @@ namespace ValenceHelper\Block;
 
 use ValenceHelper\Block;
 
-class Role extends Block {
+class Role extends Block
+{
 	public $Identifier;
 	public $DisplayName;
 	public $Code;

@@ -4,7 +4,8 @@ namespace ValenceHelper\Block;
 
 use ValenceHelper\Block;
 
-class Topic extends Block {
+class Topic extends Block
+{
 	public $ForumId;
 	public $TopicId;
 	public $Name;
@@ -33,7 +34,8 @@ class Topic extends Block {
 	public $StartDateAvailabilityType;
 	public $EndDateAvailabilityType;
 
-	public function __construct(array $response) {
+	public function __construct(array $response)
+	{
 		parent::__construct($response, ['Description']);
 		$this->Description = new RichText($response['Description']);
 	}
