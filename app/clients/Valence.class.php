@@ -6,8 +6,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
-use D2LAppContextFactory;
-use D2LHostSpec;
+use ValenceSDK\D2LAppContextFactory;
+use ValenceSDK\D2LHostSpec;
 
 use ValenceHelper\Block\CourseOffering;
 use ValenceHelper\Block\EnrollmentData;

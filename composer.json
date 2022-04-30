@@ -4,7 +4,8 @@
         "guzzlehttp/guzzle": "^7.2",
         "vlucas/phpdotenv": "^5.3",
         "nesbot/carbon": "^2.48",
-        "ext-json": "*"
+        "ext-json": "*",
+        "jason-wagner/valence-sdk": "^1.0"
 	},
 	"autoload": {
 		"classmap": ["app/", "client-custom/", "valence-sdk"]
