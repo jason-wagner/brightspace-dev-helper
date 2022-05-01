@@ -184,16 +184,6 @@ class Valence
 		fwrite($this->logFileHandler, $logEntry);
 	}
 
-	private function buildarray(array $response, $class): array
-	{
-		$return = [];
-
-		foreach ($response as $item)
-			$return[] = new $class($item);
-
-		return $return;
-	}
-
 	public function setLogging(int $logMode, ?string $logFile = null): void
 	{
 		$this->logMode = $logMode;
