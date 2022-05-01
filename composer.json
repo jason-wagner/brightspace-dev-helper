@@ -8,6 +8,6 @@
         "jason-wagner/valence-sdk": "^1.0"
 	},
 	"autoload": {
-		"classmap": ["app/", "client-custom/", "valence-sdk"]
+		"classmap": ["app/", "client-custom/"]
 	}
 }
