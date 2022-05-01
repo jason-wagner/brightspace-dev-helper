@@ -2,6 +2,8 @@
 
 namespace BrightspaceDevHelper\Valence\Client;
 
+use BrightspaceDevHelper\DataHub\Model\User;
+
 use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\OrgUnitTypeArray;
@@ -60,6 +62,8 @@ class Valence
 
 	public $rootOrgId = null;
 	public $timezone = null;
+
+	private $datahubFirst = [];
 
 	public function __construct()
 	{
@@ -184,6 +188,16 @@ class Valence
 		fwrite($this->logFileHandler, $logEntry);
 	}
 
+	public function setDatahubSearch(string $report, int $mode)
+	{
+		$this->datahubFirst[$report] = $mode;
+	}
+
+	private function getDatahubSearch(string $report)
+	{
+		return $this->datahubFirst[$report] ?? 0;
+	}
+
 	public function setLogging(int $logMode, ?string $logFile = null): void
 	{
 		$this->logMode = $logMode;
@@ -304,6 +318,13 @@ class Valence
 
 	public function getUserIdFromUsername(string $username): ?int
 	{
+		if ($this->getDatahubSearch('Users') > 0) {
+			$user = User::whereUserName($username);
+
+			if ($user)
+				return $user->UserId;
+		}
+
 		try {
 			$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/?username=$username");
 			return $response['UserId'] ?? null;
@@ -314,6 +335,14 @@ class Valence
 
 	public function getUserIdFromOrgDefinedId(string $orgDefinedId): ?int
 	{
+		if ($this->getDatahubSearch('Users') > 0) {
+			$user = User::whereOrgDefinedId($orgDefinedId);
+
+			if ($user)
+				return $user->UserId;
+		}
+
+
 		try {
 			$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/?orgDefinedId=$orgDefinedId");
 			return $response['UserId'] ?? null;
