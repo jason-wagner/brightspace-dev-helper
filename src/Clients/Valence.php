@@ -92,7 +92,7 @@ class Valence
 				$this->logrequest($route, $method, $data);
 
 			return $this->responseBody;
-		} catch (ClientException | ServerException $exception) {
+		} catch (ClientException|ServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
@@ -125,7 +125,7 @@ class Valence
 				$this->logrequest($route, 'GET');
 
 			return true;
-		} catch (ClientException | ServerException $exception) {
+		} catch (ClientException|ServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
@@ -160,7 +160,7 @@ class Valence
 				$this->logrequest($route, $method, ['placeholder']);
 
 			return true;
-		} catch (ClientException | ServerException $exception) {
+		} catch (ClientException|ServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
