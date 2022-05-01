@@ -5,7 +5,9 @@
         "vlucas/phpdotenv": "^5.3",
         "nesbot/carbon": "^2.48",
         "ext-json": "*",
-        "jason-wagner/valence-sdk": "^1.0"
+        "jason-wagner/valence-sdk": "^1.0",
+        "illuminate/database": "^8.83",
+        "league/csv": "^9.8"
 	},
 	"autoload": {
 		"classmap": ["app/", "client-custom/"]
