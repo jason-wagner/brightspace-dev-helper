@@ -2,6 +2,10 @@
 
 namespace BrightspaceDevHelper\Valence\Client;
 
+use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
+use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
+use BrightspaceDevHelper\Valence\BlockArray\OrgUnitTypeArray;
+use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -25,6 +29,12 @@ use BrightspaceDevHelper\Valence\Block\SectionPropertyData;
 use BrightspaceDevHelper\Valence\Block\Topic;
 use BrightspaceDevHelper\Valence\Block\UserData;
 use BrightspaceDevHelper\Valence\Block\WhoAmIUser;
+
+use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
+use BrightspaceDevHelper\Valence\BlockArray\PostArray;
+use BrightspaceDevHelper\Valence\BlockArray\ProductVersionArray;
+use BrightspaceDevHelper\Valence\BlockArray\RoleArray;
+use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
 
 class Valence
 {
@@ -262,10 +272,10 @@ class Valence
 		return $this->isValidResponseCode() ? new ProductVersions($response) : null;
 	}
 
-	public function versions(): array
+	public function versions(): ProductVersionArray
 	{
 		$response = $this->apirequest("/d2l/api/versions/");
-		return $this->buildarray($response, ProductVersions::class);
+		return new ProductVersionArray($response);
 	}
 
 	public function getRole($roleId): ?Role
@@ -274,10 +284,10 @@ class Valence
 		return $this->isValidResponseCode() ? new Role($response) : null;
 	}
 
-	public function getRoles(): array
+	public function getRoles(): RoleArray
 	{
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/{$this->rootOrgId}/roles/");
-		return $this->buildarray($response, Role::class);
+		return new RoleArray($response);
 	}
 
 	public function getOrgUnitType($orgUnitTypeId): ?OrgUnitType
@@ -286,10 +296,10 @@ class Valence
 		return $this->isValidResponseCode() ? new OrgUnitType($response) : null;
 	}
 
-	public function getOrgUnitTypes(): array
+	public function getOrgUnitTypes(): OrgUnitTypeArray
 	{
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/outypes/");
-		return $this->buildarray($response, OrgUnitType::class);
+		return new OrgUnitTypeArray($response);
 	}
 
 	public function user(int $userid): ValenceUser
@@ -435,10 +445,10 @@ class Valence
 		return $this->apisendfile("/d2l/api/lp/" . self::VERSION_LP . "/courses/$orgUnitId/image", "PUT", $filepath, "Image", $name);
 	}
 
-	public function getCourseSections(int $orgUnitId): array
+	public function getCourseSections(int $orgUnitId): SectionDataArray
 	{
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/sections/");
-		return $this->buildarray($response, SectionData::class);
+		return new SectionDataArray($response);
 	}
 
 	public function getCourseSection(int $orgUnitId, int $sectionId): ?SectionData
@@ -494,10 +504,10 @@ class Valence
 		return $response ? new SectionPropertyData($response) : null;
 	}
 
-	public function getCourseGroupCategories(int $orgUnitId): array
+	public function getCourseGroupCategories(int $orgUnitId): GroupCategoryDataArray
 	{
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/");
-		return $this->buildarray($response, GroupCategoryData::class);
+		return new GroupCategoryDataArray($response);
 	}
 
 	public function getCourseGroupCategory(int $orgUnitId, int $groupCategoryId): ?GroupCategoryData
@@ -527,10 +537,10 @@ class Valence
 		return $response ? new GroupCategoryData($response) : null;
 	}
 
-	public function getCourseGroups(int $orgUnitId, int $groupCategoryId): array
+	public function getCourseGroups(int $orgUnitId, int $groupCategoryId): GroupDataArray
 	{
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId/groups/");
-		return $this->buildarray($response, GroupData::class);
+		return new GroupDataArray($response);
 	}
 
 	public function getCourseGroup(int $orgUnitId, int $groupCategoryId, int $groupId): ?GroupData
@@ -620,10 +630,10 @@ class Valence
 		$this->apirequest("/d2l/api/lp" . self::VERSION_LP . "/enrollments/orgUnits/$orgUnitId/users/$userId/pin", "DELETE");
 	}
 
-	public function getDiscussionForums(int $orgUnitId): array
+	public function getDiscussionForums(int $orgUnitId): ForumArray
 	{
 		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/", "GET");
-		return $this->buildarray($response, Forum::class);
+		return new ForumArray($response);
 	}
 
 	public function getDiscussionForum(int $orgUnitId, int $forumId): ?Forum
@@ -632,10 +642,10 @@ class Valence
 		return $this->isValidResponseCode() ? new Forum($response) : null;
 	}
 
-	public function getDiscussionTopics(int $orgUnitId, int $forumId): array
+	public function getDiscussionTopics(int $orgUnitId, int $forumId): TopicArray
 	{
 		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/", "GET");
-		return $this->buildarray($response, Topic::class);
+		return new TopicArray($response);
 	}
 
 	public function getDiscussionTopic(int $orgUnitId, int $forumId, int $topicId): ?Topic
@@ -644,10 +654,10 @@ class Valence
 		return $this->isValidResponseCode() ? new Topic($response) : null;
 	}
 
-	public function getDiscussionPosts(int $orgUnitId, int $forumId, int $topicId): array
+	public function getDiscussionPosts(int $orgUnitId, int $forumId, int $topicId): PostArray
 	{
 		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId/posts/", "GET");
-		return $this->buildarray($response, Post::class);
+		return new PostArray($response);
 	}
 
 	public function getDiscussionPost(int $orgUntiId, int $forumId, int $topicId, int $postId): ?Post

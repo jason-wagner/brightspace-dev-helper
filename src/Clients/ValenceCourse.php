@@ -7,10 +7,17 @@ use BrightspaceDevHelper\Valence\Block\EnrollmentData;
 use BrightspaceDevHelper\Valence\Block\Forum;
 use BrightspaceDevHelper\Valence\Block\GroupCategoryData;
 use BrightspaceDevHelper\Valence\Block\GroupData;
-use use BrightspaceDevHelper\Valence\Block\Post;
+use BrightspaceDevHelper\Valence\Block\Post;
 use BrightspaceDevHelper\Valence\Block\SectionData;
 use BrightspaceDevHelper\Valence\Block\SectionPropertyData;
 use BrightspaceDevHelper\Valence\Block\Topic;
+
+use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
+use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
+use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
+use BrightspaceDevHelper\Valence\BlockArray\PostArray;
+use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
+use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
 
 class ValenceCourse
 {
@@ -63,7 +70,7 @@ class ValenceCourse
 		return $this->valence->enrollInstructor($this->orgUnitId, $UserId);
 	}
 
-	public function getSections(): array
+	public function getSections(): SectionDataArray
 	{
 		return $this->valence->getCourseSections($this->orgUnitId);
 	}
@@ -108,7 +115,7 @@ class ValenceCourse
 		return $this->valence->updateCourseSectionSettings($this->orgUnitId, $EnrollmentStyle, $EnrollmentQuantity, $AuthEnroll, $RandomizeEnrollments);
 	}
 
-	public function getGroupCategories(): array
+	public function getGroupCategories(): GroupCategoryDataArray
 	{
 		return $this->valence->getCourseGroupCategories($this->orgUnitId);
 	}
@@ -133,7 +140,7 @@ class ValenceCourse
 		return $this->valence->updateCourseGroupCategory($this->orgUnitId, $groupCategoryId, $Name, $DescriptionText, $EnrollmentType, $EnrollmentQuantity, $AutoEnrollment, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
 	}
 
-	public function getGroups(int $groupCategoryId): array
+	public function getGroups(int $groupCategoryId): GroupDataArray
 	{
 		return $this->valence->getCourseGroups($this->orgUnitId, $groupCategoryId);
 	}
@@ -178,7 +185,7 @@ class ValenceCourse
 		$this->valence->unpinCourse($this->orgUnitId, $userId);
 	}
 
-	public function getDiscussionForums(): array
+	public function getDiscussionForums(): ForumArray
 	{
 		return $this->valence->getDiscussionForums($this->orgUnitId);
 	}
@@ -188,7 +195,7 @@ class ValenceCourse
 		return $this->valence->getDiscussionForum($this->orgUnitId, $forumId)
 	}
 
-	public function getDiscussionTopics(int $forumId): array
+	public function getDiscussionTopics(int $forumId): TopicArray
 	{
 		return $this->valence->getDiscussionTopics($this->orgUnitId, $forumId)
 	}
@@ -198,7 +205,7 @@ class ValenceCourse
 		return $this->valence->getDiscussionTopic($this->orgUnitId, $forumId, $topicId);
 	}
 
-	public function getDiscussionPosts(int $forumId, int $topicId): array
+	public function getDiscussionPosts(int $forumId, int $topicId): PostArray
 	{
 		return $this->valence->getDiscussionPosts($this->orgUnitId, $forumId, $topicId);
 	}

@@ -24,6 +24,7 @@
 		"psr-4": {
 			"BrightspaceDevHelper\\Valence\\Client\\": "src/Clients",
 			"BrightspaceDevHelper\\Valence\\Block\\": "src/Blocks",
+			"BrightspaceDevHelper\\Valence\\BlockArray\\": "src/BlockArrays",
 			"BrightspaceDevHelper\\Valence\\Structure\\": "src/Structures",
 			"BrightspaceDevHelper\\DataHub\\Model\\": "src/Models",
 			"BrightspaceDevHelper\\Valence\\SDK\\": "src/ValenceSDK"
