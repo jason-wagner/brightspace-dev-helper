@@ -1,15 +1,31 @@
 {
-    "require": {
+	"name": "jason-wagner/brightspace-dev-helper",
+	"type": "library",
+	"description": "This package allows for easier usage of D2L's Data Hub and Valence tools for their Brightspace LMS.",
+	"license": "Apache-2.0",
+	"authors": [
+		{
+			"name": "Jason Wagner",
+			"email": "jason@jasonwagner.dev",
+			"homepage": "https://jasonwagner.dev"
+		}
+	],
+	"require": {
 		"php": ">=7.3",
-        "guzzlehttp/guzzle": "^7.2",
-        "vlucas/phpdotenv": "^5.3",
-        "nesbot/carbon": "^2.48",
-        "ext-json": "*",
-        "jason-wagner/valence-sdk": "^1.0",
-        "illuminate/database": "^8.83",
-        "league/csv": "^9.8"
+		"guzzlehttp/guzzle": "^7.2",
+		"vlucas/phpdotenv": "^5.3",
+		"nesbot/carbon": "^2.48",
+		"ext-json": "*",
+		"jason-wagner/valence-sdk": "^1.0",
+		"illuminate/database": "^8.83",
+		"league/csv": "^9.8"
 	},
 	"autoload": {
-		"classmap": ["app/", "client-custom/"]
+		"classmap": ["client-custom/"],
+		"psr-4": {
+			"BrightspaceDevHelper\\Valence\\Client\\": "src/Clients",
+			"BrightspaceDevHelper\\Valence\\Block\\": "src/Blocks",
+			"BrightspaceDevHelper\\DataHub\\Model\\": "src/Models"
+		}
 	}
 }
