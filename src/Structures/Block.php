@@ -1,6 +1,6 @@
 <?php
 
-namespace BrightspaceDevHelper\Valence;
+namespace BrightspaceDevHelper\Valence\Structure;
 
 class Block
 {

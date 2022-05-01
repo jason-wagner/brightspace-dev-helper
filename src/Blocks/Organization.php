@@ -2,7 +2,7 @@
 
 namespace BrightspaceDevHelper\Valence\Block;
 
-use \BrightspaceDevHelper\Valence\Block;
+use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Organization extends Block
 {
