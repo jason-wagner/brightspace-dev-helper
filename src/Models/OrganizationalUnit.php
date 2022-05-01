@@ -12,7 +12,7 @@ class OrganizationalUnit extends Model
 	public $incrementing = false;
 	public $timestamps = false;
 
-	public function whereCode($code)
+	public static function whereCode($code)
 	{
 		return OrganizationalUnit::where('Code', $code)->where('Type', 'Course Offering')->first();
 	}
