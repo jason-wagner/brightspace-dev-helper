@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GradeObject extends Model {
+class GradeObject extends Model
+{
 	protected $guarded = [];
 	protected $table = 'GradeObjects';
 	protected $primaryKey = 'GradeObjectId';

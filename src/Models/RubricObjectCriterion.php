@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RubricObjectCriterion extends Model {
+class RubricObjectCriterion extends Model
+{
 	protected $guarded = [];
 	protected $table = 'RubricObjectCriteria';
 	protected $primaryKey = ['RubricId', 'CriterionId'];

@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrganizationalUnitAncestor extends Model {
+class OrganizationalUnitAncestor extends Model
+{
 	protected $guarded = [];
 	protected $table = 'OrganizationalUnitAncestors';
 	protected $primaryKey = ['OrgUnitId', 'AncestorOrgUnitId'];

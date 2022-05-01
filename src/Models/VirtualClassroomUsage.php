@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VirtualClassroomUsage extends Model {
+class VirtualClassroomUsage extends Model
+{
 	protected $guarded = [];
 	protected $table = 'VirtualClassroomUsage';
 	protected $primaryKey = 'MeetingId';

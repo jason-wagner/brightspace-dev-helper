@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrganizationalUnitRecentAccess extends Model {
+class OrganizationalUnitRecentAccess extends Model
+{
 	protected $guarded = [];
 	protected $table = 'OrganizationalUnitRecentAccess';
 	protected $primaryKey = ['OrgUnitId', 'UserId'];

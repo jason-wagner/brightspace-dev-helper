@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CompetencyObject extends Model {
+class CompetencyObject extends Model
+{
 	protected $guarded = [];
 	protected $table = 'CompetencyObjects';
 	protected $primaryKey = 'ObjectId';

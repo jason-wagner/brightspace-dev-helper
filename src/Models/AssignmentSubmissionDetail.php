@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AssignmentSubmissionDetail extends Model {
+class AssignmentSubmissionDetail extends Model
+{
 	protected $guarded = [];
 	protected $table = 'AssignmentSubmissionDetails';
 	protected $primaryKey = 'SubmissionId';

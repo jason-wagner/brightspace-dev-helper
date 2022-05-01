@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AttendanceScheme extends Model {
+class AttendanceScheme extends Model
+{
 	protected $guarded = [];
 	protected $table = 'AttendanceSchemes';
 	protected $primaryKey = ['SchemeId', 'SchemeSymbolId'];

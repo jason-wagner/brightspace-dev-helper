@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PreRequisiteConditionsMet extends Model {
+class PreRequisiteConditionsMet extends Model
+{
 	protected $guarded = [];
 	protected $table = 'PreRequisiteConditionsMet';
 	protected $primaryKey = ['PreRequisiteId', 'UserId'];

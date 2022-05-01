@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ActivityFeedCommentLog extends Model {
+class ActivityFeedCommentLog extends Model
+{
 	protected $guarded = [];
 	protected $table = 'ActivityFeedCommentLog';
 	protected $primaryKey = 'LogId';

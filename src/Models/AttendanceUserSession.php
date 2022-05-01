@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AttendanceUserSession extends Model {
+class AttendanceUserSession extends Model
+{
 	protected $guarded = [];
 	protected $table = 'AttendanceUserSessions';
 	protected $primaryKey = ['UserId', 'AttendanceSessionId'];

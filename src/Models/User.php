@@ -4,34 +4,41 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model {
+class User extends Model
+{
 	protected $guarded = [];
 	protected $table = 'Users';
 	protected $primaryKey = 'UserId';
 	public $incrementing = false;
 	public $timestamps = false;
 
-	public function whereUserName($username) {
+	public function whereUserName($username)
+	{
 		return User::where('UserName', $username)->first();
 	}
 
-	public function whereOrgDefinedId($orgdefinedid) {
+	public function whereOrgDefinedId($orgdefinedid)
+	{
 		return User::where('OrgDefinedId', $orgdefinedid)->first();
 	}
 
-	public function courses() {
-	 	return $this->belongsToMany(OrganizationalUnit::class, 'UserEnrollments', 'UserId', 'OrgUnitId')->where('Type', 'Course Offering');
+	public function courses()
+	{
+		return $this->belongsToMany(OrganizationalUnit::class, 'UserEnrollments', 'UserId', 'OrgUnitId')->where('Type', 'Course Offering');
 	}
 
-	public function discussionposts() {
+	public function discussionposts()
+	{
 		return $this->hasMany(DiscussionPost::class, 'UserId', 'UserId');
 	}
 
-	public function assignmentsubmissions() {
+	public function assignmentsubmissions()
+	{
 		return $this->hasMany(AssignmentSubmission::class, 'SubmitterId', 'UserId');
 	}
 
-	public function quizattempts() {
+	public function quizattempts()
+	{
 		return $this->hasMany(QuizAttempt::class, 'UserId', 'UserId');
 	}
 }

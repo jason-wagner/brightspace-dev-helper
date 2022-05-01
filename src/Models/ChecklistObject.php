@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ChecklistObject extends Model {
+class ChecklistObject extends Model
+{
 	protected $guarded = [];
 	protected $table = 'ChecklistObjects';
 	protected $primaryKey = 'ChecklistId';

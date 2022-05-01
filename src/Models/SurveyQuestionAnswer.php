@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SurveyQuestionAnswer extends Model {
+class SurveyQuestionAnswer extends Model
+{
 	protected $guarded = [];
 	protected $table = 'SurveyQuestionAnswers';
 	protected $primaryKey = ['AnswerId', 'QuestionId', 'QuestionVersionId', 'SurveyObjectId'];

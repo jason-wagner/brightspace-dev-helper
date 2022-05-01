@@ -4,7 +4,8 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ActivityFeedPostObject extends Model {
+class ActivityFeedPostObject extends Model
+{
 	protected $guarded = [];
 	protected $table = 'ActivityFeedPostObjects';
 	protected $primaryKey = 'PostId';
