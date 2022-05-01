@@ -6,8 +6,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
-use ValenceSDK\D2LAppContextFactory;
-use ValenceSDK\D2LHostSpec;
+use BrightspaceDevHelper\Valence\SDK\D2LAppContextFactory;
+use BrightspaceDevHelper\Valence\SDK\D2LHostSpec;
 
 use BrightspaceDevHelper\Valence\Block\CourseOffering;
 use BrightspaceDevHelper\Valence\Block\EnrollmentData;
