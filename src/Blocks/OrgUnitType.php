@@ -15,9 +15,7 @@ class OrgUnitType extends Block
 
 	public function __construct(array $response)
 	{
-		foreach (['Id', 'Code', 'Name', 'Description', 'SortOrder'] as $key)
-			$this->$key = $response[$key];
-
+		parent::__construct($response, ['Permissions']);
 		$this->Permissions = new Permissions($response['Permissions']);
 	}
 }

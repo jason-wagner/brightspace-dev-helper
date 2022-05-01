@@ -20,9 +20,7 @@ class UserData extends Block
 
 	public function __construct(array $response)
 	{
-		foreach (['OrgId', 'UserId', 'FirstName', 'MiddleName', 'LastName', 'UserName', 'ExternalEmail', 'OrgDefinedId', 'UniqueIdentifier', 'LastAccessedDate'] as $key)
-			$this->$key = $response[$key];
-
+		parent::__construct($response, ['Activation']);
 		$this->Activation = new UserActivationData($response['Activation']);
 	}
 

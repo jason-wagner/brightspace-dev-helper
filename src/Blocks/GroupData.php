@@ -13,9 +13,7 @@ class GroupData extends Block
 
 	public function __construct(array $response)
 	{
-		foreach (['GroupId', 'Name', 'Enrollments'] as $key)
-			$this->$key = $response[$key];
-
+		parent::__construct($response, ['Description']);
 		$this->Description = new RichText($response['Description']);
 	}
 }

@@ -21,8 +21,7 @@ class CourseOffering extends Block
 
 	public function __construct(array $response)
 	{
-		foreach (['Identifier', 'Name', 'Code', 'IsActive', 'Path', 'StartDate', 'EndDate', 'CanSelfRegister'] as $key)
-			$this->$key = $response[$key];
+		parent::__construct($response, ['CourseTemplate', 'Semester', 'Department', 'Description']);
 
 		foreach (['CourseTemplate', 'Semester', 'Department'] as $key)
 			$this->$key = $response[$key] ? new BasicOrgUnit($response[$key]) : null;

@@ -14,9 +14,7 @@ class SectionData extends Block
 
 	public function __construct(array $response)
 	{
-		foreach (['SectionId', 'Name', 'Code', 'Enrollments'] as $key)
-			$this->$key = $response[$key];
-
+		parent::__construct($response, ['Description']);
 		$this->Description = new RichText($response['Description']);
 	}
 }

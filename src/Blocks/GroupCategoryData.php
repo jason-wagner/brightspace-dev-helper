@@ -20,9 +20,7 @@ class GroupCategoryData extends Block
 
 	public function __construct(array $response)
 	{
-		foreach (['Name', 'EnrollmentStyle', 'AutoEnroll', 'RandomizeEnrollments', 'NumberOfGroups', 'MaxUsersPerGroup', 'AllocateAfterExpiry', 'SelfEnrollmentExpiryDate', 'GroupPrefix', 'RestrictedByOrgUnitId'] as $key)
-			$this->$key = $response[$key];
-
+		parent::__construct($response, ['Description']);
 		$this->Description = new RichText($response['Description']);
 	}
 }
