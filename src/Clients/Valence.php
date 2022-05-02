@@ -291,7 +291,7 @@ class Valence
 
 	public function getRoles(): RoleArray
 	{
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/{$this->rootOrgId}/roles/");
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$this->rootOrgId/roles/");
 		return new RoleArray($response);
 	}
 
