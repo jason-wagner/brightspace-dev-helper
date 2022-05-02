@@ -2,15 +2,16 @@
 
 namespace BrightspaceDevHelper\Valence\Client;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+
 use BrightspaceDevHelper\DataHub\Model\User;
 
 use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\OrgUnitTypeArray;
 use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 
 use BrightspaceDevHelper\Valence\SDK\D2LAppContextFactory;
 use BrightspaceDevHelper\Valence\SDK\D2LHostSpec;
