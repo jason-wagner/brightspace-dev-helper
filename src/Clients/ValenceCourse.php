@@ -192,12 +192,12 @@ class ValenceCourse
 
 	public function getDiscussionForum(int $forumId): ?Forum
 	{
-		return $this->valence->getDiscussionForum($this->orgUnitId, $forumId)
+		return $this->valence->getDiscussionForum($this->orgUnitId, $forumId);
 	}
 
 	public function getDiscussionTopics(int $forumId): TopicArray
 	{
-		return $this->valence->getDiscussionTopics($this->orgUnitId, $forumId)
+		return $this->valence->getDiscussionTopics($this->orgUnitId, $forumId);
 	}
 
 	public function getDiscussionTopic(int $forumId, int $topicId): ?Topic
