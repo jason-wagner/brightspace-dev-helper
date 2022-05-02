@@ -8,7 +8,7 @@ class QuizQuestionAnswerOption extends Model
 {
 	protected $guarded = [];
 	protected $table = 'QuizQuestionAnswerOptions';
-	protected $primaryKey = ['AnswerId', 'QuestionId', 'QuestionVersionId', 'AnswerOptionId'];
+	protected $primaryKey = ['AnswerId', 'QuestionId', 'QuestionVersionId', 'QuizObjectId', 'AnswerOptionId'];
 	public $incrementing = false;
 	public $timestamps = false;
 }

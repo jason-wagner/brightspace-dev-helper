@@ -4,11 +4,11 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DiscussionPostsReadStatus extends Model
+class OutcomeAlignmentToToolObject extends Model
 {
 	protected $guarded = [];
-	protected $table = 'DiscussionPostsReadStatus';
-	protected $primaryKey = ['UserId', 'PostId'];
+	protected $table = 'OutcomeAlignmentToToolObjects';
+	protected $primaryKey = ['ObjectType', 'ObjectId', 'OutcomeId', 'RegistryId'];
 	public $incrementing = false;
 	public $timestamps = false;
 }
