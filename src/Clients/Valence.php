@@ -253,12 +253,12 @@ class Valence
 	{
 		$roles = $this->getRoles();
 
-		while($role = $roles->next())
+		while ($role = $roles->next())
 			$this->roleIds[$role->DisplayName] = $role->Identifier;
 
 		$orgtypes = $this->getOrgUnitTypes();
 
-		while($orgtype = $orgtypes->next())
+		while ($orgtype = $orgtypes->next())
 			$this->orgtypeIds[$orgtype->Code] = $orgtype->Id;
 	}
 
@@ -346,7 +346,7 @@ class Valence
 			if ($user)
 				return $user->UserId;
 		}
-		
+
 		try {
 			$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/?orgDefinedId=$orgDefinedId");
 			return $response['UserId'] ?? null;
