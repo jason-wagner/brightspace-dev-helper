@@ -251,10 +251,14 @@ class Valence
 
 	public function setInternalIds(): void
 	{
-		foreach ($this->getRoles() as $role)
+		$roles = $this->getRoles();
+
+		while($role = $roles->next())
 			$this->roleIds[$role->DisplayName] = $role->Identifier;
 
-		foreach ($this->getOrgUnitTypes() as $orgtype)
+		$orgtypes = $this->getOrgUnitTypes();
+
+		while($orgtype = $orgtypes->next())
 			$this->orgtypeIds[$orgtype->Code] = $orgtype->Id;
 	}
 
