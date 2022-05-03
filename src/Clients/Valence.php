@@ -346,8 +346,7 @@ class Valence
 			if ($user)
 				return $user->UserId;
 		}
-
-
+		
 		try {
 			$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/?orgDefinedId=$orgDefinedId");
 			return $response['UserId'] ?? null;
