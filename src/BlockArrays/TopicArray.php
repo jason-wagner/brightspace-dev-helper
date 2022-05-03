@@ -17,6 +17,6 @@ class TopicArray extends BlockArray
 
 	public function next(): ?Topic
 	{
-		return $this->data[$this->pointer++] ?? null;
+		return parent::next();
 	}
 }

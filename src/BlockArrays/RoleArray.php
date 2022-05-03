@@ -17,6 +17,6 @@ class RoleArray extends BlockArray
 
 	public function next(): ?Role
 	{
-		return $this->data[$this->pointer++] ?? null;
+		return parent::next();
 	}
 }

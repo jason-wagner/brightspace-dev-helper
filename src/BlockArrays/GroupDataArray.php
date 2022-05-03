@@ -17,6 +17,6 @@ class GroupDataArray extends BlockArray
 
 	public function next(): ?GroupData
 	{
-		return $this->data[$this->pointer++] ?? null;
+		return parent::next();
 	}
 }

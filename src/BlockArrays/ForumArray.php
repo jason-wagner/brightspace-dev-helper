@@ -17,6 +17,6 @@ class ForumArray extends BlockArray
 
 	public function next(): ?Forum
 	{
-		return $this->data[$this->pointer++] ?? null;
+		return parent::next();
 	}
 }

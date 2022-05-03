@@ -17,6 +17,6 @@ class PostArray extends BlockArray
 
 	public function next(): ?Post
 	{
-		return $this->data[$this->pointer++] ?? null;
+		return parent::next();
 	}
 }

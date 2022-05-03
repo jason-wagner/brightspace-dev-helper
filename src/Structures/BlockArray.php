@@ -11,4 +11,9 @@ class BlockArray
 	{
 		return $this->data;
 	}
+
+	public function next()
+	{
+		return $this->data[$this->pointer++] ?? null;
+	}
 }

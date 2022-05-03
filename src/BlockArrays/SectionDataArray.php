@@ -17,6 +17,6 @@ class SectionDataArray extends BlockArray
 
 	public function next(): ?SectionData
 	{
-		return $this->data[$this->pointer++] ?? null;
+		return parent::next();
 	}
 }

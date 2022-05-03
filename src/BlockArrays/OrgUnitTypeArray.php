@@ -17,6 +17,6 @@ class OrgUnitTypeArray extends BlockArray
 
 	public function next(): ?OrgUnitType
 	{
-		return $this->data[$this->pointer++] ?? null;
+		return parent::next();
 	}
 }

@@ -17,6 +17,6 @@ class ProductVersionArray extends BlockArray
 
 	public function next(): ?ProductVersions
 	{
-		return $this->data[$this->pointer++] ?? null;
+		return parent::next();
 	}
 }
