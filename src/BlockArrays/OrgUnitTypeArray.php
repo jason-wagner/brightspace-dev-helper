@@ -7,13 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class OrgUnitTypeArray extends BlockArray
 {
-	public function __construct(array $response)
-	{
-		$this->data = [];
-
-		foreach ($response as $block)
-			$this->data[] = new OrgUnitType($block);
-	}
+	public $blockClass = OrgUnitType::class;
 
 	public function next(): ?OrgUnitType
 	{

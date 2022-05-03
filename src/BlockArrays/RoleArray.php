@@ -7,13 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class RoleArray extends BlockArray
 {
-	public function __construct(array $response)
-	{
-		$this->data = [];
-
-		foreach ($response as $block)
-			$this->data[] = new Role($block);
-	}
+	public $blockClass = Role::class;
 
 	public function next(): ?Role
 	{

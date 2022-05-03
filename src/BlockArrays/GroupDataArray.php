@@ -7,13 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class GroupDataArray extends BlockArray
 {
-	public function __construct(array $response)
-	{
-		$this->data = [];
-
-		foreach ($response as $block)
-			$this->data[] = new GroupData($block);
-	}
+	public $blockClass = GroupData::class;
 
 	public function next(): ?GroupData
 	{

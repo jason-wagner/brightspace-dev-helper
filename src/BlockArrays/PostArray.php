@@ -7,13 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class PostArray extends BlockArray
 {
-	public function __construct(array $response)
-	{
-		$this->data = [];
-
-		foreach ($response as $block)
-			$this->data[] = new Post($block);
-	}
+	public $blockClass = Post::class;
 
 	public function next(): ?Post
 	{

@@ -7,13 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class SectionDataArray extends BlockArray
 {
-	public function __construct(array $response)
-	{
-		$this->data = [];
-
-		foreach ($response as $block)
-			$this->data[] = new SectionData($block);
-	}
+	public $blockClass = SectionData::class;
 
 	public function next(): ?SectionData
 	{

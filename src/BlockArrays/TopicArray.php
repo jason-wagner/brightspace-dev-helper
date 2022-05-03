@@ -7,13 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class TopicArray extends BlockArray
 {
-	public function __construct(array $response)
-	{
-		$this->data = [];
-
-		foreach ($response as $block)
-			$this->data[] = new Topic($block);
-	}
+	public $blockClass = Topic::class;
 
 	public function next(): ?Topic
 	{
