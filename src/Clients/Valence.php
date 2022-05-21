@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
+use BrightspaceDevHelper\DataHub\Model\OrganizationalUnit;
 use BrightspaceDevHelper\DataHub\Model\User;
 
 use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
@@ -357,6 +358,13 @@ class Valence
 
 	public function getOrgUnitIdFromCode(string $orgUnitCode, int $orgUnitType): ?int
 	{
+		if ($this->getDatahubSearch('OrganizationalUnits') > 0) {
+			$orgunit = OrganizationalUnit::whereCodeAndType($orgUnitCode, $orgUnitType);
+
+			if ($orgunit)
+				return $orgunit->OrgUnitId;
+		}
+
 		try {
 			$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/orgstructure/?orgUnitType=$orgUnitType&exactOrgUnitCode=$orgUnitCode");
 			return $response['Items'][0]['Identifier'] ?? null;

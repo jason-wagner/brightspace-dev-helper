@@ -17,6 +17,11 @@ class OrganizationalUnit extends Model
 		return OrganizationalUnit::where('Code', $code)->where('Type', 'Course Offering')->first();
 	}
 
+	public static function whereCodeAndType($code, $type)
+	{
+		return OrganizationalUnit::where('Code', $code)->where('OrgUnitTypeId', $type)->first();
+	}
+
 	public function assignments()
 	{
 		return $this->hasMany(AssignmentSummary::class, 'OrgUnitId', 'OrgUnitId');
