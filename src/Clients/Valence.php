@@ -6,16 +6,11 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
-use BrightspaceDevHelper\DataHub\Model\OrganizationalUnit;
-use BrightspaceDevHelper\DataHub\Model\User;
-
-use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
-use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
-use BrightspaceDevHelper\Valence\BlockArray\OrgUnitTypeArray;
-use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
-
 use BrightspaceDevHelper\Valence\SDK\D2LAppContextFactory;
 use BrightspaceDevHelper\Valence\SDK\D2LHostSpec;
+
+use BrightspaceDevHelper\DataHub\Model\OrganizationalUnit;
+use BrightspaceDevHelper\DataHub\Model\User;
 
 use BrightspaceDevHelper\Valence\Block\CourseOffering;
 use BrightspaceDevHelper\Valence\Block\EnrollmentData;
@@ -36,9 +31,13 @@ use BrightspaceDevHelper\Valence\Block\WhoAmIUser;
 
 use BrightspaceDevHelper\Valence\BlockArray\BrightspaceDataSetReportInfoArray;
 use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
+use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
+use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
+use BrightspaceDevHelper\Valence\BlockArray\OrgUnitTypeArray;
 use BrightspaceDevHelper\Valence\BlockArray\PostArray;
 use BrightspaceDevHelper\Valence\BlockArray\ProductVersionArray;
 use BrightspaceDevHelper\Valence\BlockArray\RoleArray;
+use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
 
 class Valence
