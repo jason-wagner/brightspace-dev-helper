@@ -2,10 +2,13 @@
 
 namespace BrightspaceDevHelper\Valence\Structure;
 
+use BrightspaceDevHelper\Valence\Client\Valence;
+
 class BlockArray
 {
 	public $data = [];
 	public $pointer = 0;
+	public $nextPageRoute = null;
 	public $blockClass;
 
 	public function __construct(array $response)
@@ -28,6 +31,16 @@ class BlockArray
 
 	public function next()
 	{
-		return $this->data[$this->pointer++] ?? null;
+		if(array_key_exists($this->pointer, $this->data))
+			return $this->data[$this->pointer++];
+
+		if($this->nextPageRoute) {
+			$response = (new Valence())->apirequest($this->nextPageRoute);
+			$this->build($response);
+			$this->pointer = 0;
+			return $this->next();
+		}
+
+		return null;
 	}
 }

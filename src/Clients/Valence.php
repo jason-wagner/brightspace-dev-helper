@@ -34,6 +34,7 @@ use BrightspaceDevHelper\Valence\Block\Topic;
 use BrightspaceDevHelper\Valence\Block\UserData;
 use BrightspaceDevHelper\Valence\Block\WhoAmIUser;
 
+use BrightspaceDevHelper\Valence\BlockArray\BrightspaceDataSetReportInfoArray;
 use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
 use BrightspaceDevHelper\Valence\BlockArray\PostArray;
 use BrightspaceDevHelper\Valence\BlockArray\ProductVersionArray;
@@ -310,6 +311,12 @@ class Valence
 	{
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/outypes/");
 		return new OrgUnitTypeArray($response);
+	}
+
+	public function getBrightSpaceDataSets(): BrightspaceDataSetReportInfoArray
+	{
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/dataExport/bds");
+		return new BrightspaceDataSetReportInfoArray($response);
 	}
 
 	public function user(int $userid): ValenceUser
