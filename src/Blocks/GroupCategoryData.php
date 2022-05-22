@@ -24,6 +24,6 @@ class GroupCategoryData extends Block
 	{
 		parent::__construct($response, ['Description', 'EnrollmentStyle']);
 		$this->Description = new RichText($response['Description']);
-		$this->EnrollmentStyle = GRPENROLL::tryFrom($response['EnrollmentStyle'])
+		$this->EnrollmentStyle = GRPENROLL::tryFrom($response['EnrollmentStyle']);
 	}
 }
