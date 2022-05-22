@@ -11,7 +11,8 @@ class BrightspaceDataSetReportInfoArray extends BlockArray
 
 	public function build(array $response): void
 	{
-		$this->nextPageRoute = substr($response['NextPageUrl'], strpos($response['NextPageUrl'], '/d2l/api/'));
+		$this->nextPageRoute = $response['NextPageUrl'] ? substr($response['NextPageUrl'], strpos($response['NextPageUrl'], '/d2l/api/')) : null;
+
 		parent::build($response['BrightspaceDataSets']);
 	}
 
