@@ -37,6 +37,7 @@ use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\OrgUnitTypeArray;
+use BrightspaceDevHelper\Valence\BlockArray\OrgUnitUserArray;
 use BrightspaceDevHelper\Valence\BlockArray\PostArray;
 use BrightspaceDevHelper\Valence\BlockArray\ProductVersionArray;
 use BrightspaceDevHelper\Valence\BlockArray\RoleArray;
@@ -424,6 +425,12 @@ class Valence
 	public function unenrollUser(int $userId, int $orgUnitId): void
 	{
 		$this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/enrollments/users/$userId/orgUnits/$orgUnitId", "DELETE");
+	}
+
+	public function getEnrollments(int $orgUnitId): ?OrgUnitUserArray
+	{
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/enrollments/orgUnits/$orgUnitId/users/?isActive=1", "GET");
+		return $response ? new OrgUnitUserArray($response, $orgUnitId) : null;
 	}
 
 	public function getEnrollment(int $orgUnitId, int $userId): ?EnrollmentData

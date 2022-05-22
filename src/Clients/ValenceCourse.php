@@ -15,6 +15,7 @@ use BrightspaceDevHelper\Valence\Block\Topic;
 use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
+use BrightspaceDevHelper\Valence\BlockArray\OrgUnitUserArray;
 use BrightspaceDevHelper\Valence\BlockArray\PostArray;
 use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
@@ -53,6 +54,11 @@ class ValenceCourse
 	public function unenrollUser(int $UserId): void
 	{
 		$this->valence->unenrollUser($UserId, $this->orgUnitId);
+	}
+
+	public function getEnrollments(): ?OrgUnitUserArray
+	{
+		return $this->valence->getEnrollments($this->orgUnitId);
 	}
 
 	public function getEnrollment(int $userId): ?EnrollmentData
