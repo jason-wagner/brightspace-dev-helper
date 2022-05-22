@@ -6,8 +6,8 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class EnrollmentData extends Block
 {
-	public $OrgUnitId;
-	public $UserId;
-	public $RoleId;
-	public $IsCascading;
+	public int $OrgUnitId;
+	public int $UserId;
+	public int $RoleId;
+	public bool $IsCascading;
 }

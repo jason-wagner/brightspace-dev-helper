@@ -6,6 +6,6 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Permissions extends Block
 {
-	public $CanDelete;
-	public $CanEdit;
+	public bool $CanDelete;
+	public bool $CanEdit;
 }

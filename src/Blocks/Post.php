@@ -6,25 +6,25 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Post extends Block
 {
-	public $ForumId;
-	public $PostId;
-	public $TopicId;
-	public $PostingUserId;
-	public $PostingUserDisplayName;
-	public $ThreadId;
-	public $ParentPostId;
-	public $Message;
-	public $Subject;
-	public $DatePosted;
-	public $IsAnonymous;
-	public $RequiresApproval;
-	public $IsDeleted;
-	public $LastEditedDate;
-	public $LastEditedBy;
-	public $CanRate;
+	public int $ForumId;
+	public int $PostId;
+	public int $TopicId;
+	public ?int $PostingUserId;
+	public int $PostingUserDisplayName;
+	public int $ThreadId;
+	public ?int $ParentPostId;
+	public RichText $Message;
+	public string $Subject;
+	public string $DatePosted;
+	public bool $IsAnonymous;
+	public bool $RequiresApproval;
+	public bool $IsDeleted;
+	public ?string $LastEditedDate;
+	public ?int $LastEditedBy;
+	public bool $CanRate;
 	public $ReplyPostIds;
-	public $WordCount;
-	public $AttachmentCount;
+	public array $WordCount;
+	public int $AttachmentCount;
 
 	public function __construct(array $response)
 	{

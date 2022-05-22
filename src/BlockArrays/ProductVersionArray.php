@@ -7,7 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class ProductVersionArray extends BlockArray
 {
-	public $blockClass = ProductVersions::class;
+	public string $blockClass = ProductVersions::class;
 
 	public function next(): ?ProductVersions
 	{

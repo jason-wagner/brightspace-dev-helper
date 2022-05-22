@@ -6,7 +6,7 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Organization extends Block
 {
-	public $Identifier;
-	public $Name;
-	public $TimeZone;
+	public string $Identifier;
+	public string $Name;
+	public string $TimeZone;
 }

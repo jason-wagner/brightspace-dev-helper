@@ -6,7 +6,7 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class ProductVersions extends Block
 {
-	public $ProductCode;
-	public $LatestVersion;
-	public $SupportedVersions;
+	public string $ProductCode;
+	public string $LatestVersion;
+	public array $SupportedVersions;
 }

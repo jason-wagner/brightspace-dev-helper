@@ -2,6 +2,7 @@
 
 namespace BrightspaceDevHelper\Valence\Client;
 
+use BrightspaceDevHelper\Valence\SDK\D2LUserContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -46,30 +47,31 @@ use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
 
 class Valence
 {
-	private $httpclient, $handler;
+	private Client $httpclient;
+	private D2LUserContext $handler;
 
-	private $returnObjectOnCreate = false;
-	private $logMode = 0;
+	private bool $returnObjectOnCreate = false;
+	private int $logMode = 0;
 	private $logFileHandler = null;
-	private $exitOnError = true;
+	private bool $exitOnError = true;
 
 	public const VERSION_LP = '1.35';
 	public const VERSION_LE = '1.61';
 
-	protected $responseCode = null;
-	protected $responseBody = null;
-	protected $responseError = null;
+	protected ?int $responseCode = null;
+	protected ?array $responseBody = null;
+	protected ?string $responseError = null;
 
-	public $newUserClass = ValenceUser::class;
-	public $newCourseClass = ValenceCourse::class;
+	public string $newUserClass = ValenceUser::class;
+	public string $newCourseClass = ValenceCourse::class;
 
-	public $roleIds = [];
-	public $orgtypeIds = [];
+	public array $roleIds = [];
+	public array $orgtypeIds = [];
 
-	public $rootOrgId = null;
-	public $timezone = null;
+	public ?int $rootOrgId = null;
+	public ?string $timezone = null;
 
-	private $datahubFirst = [];
+	private array $datahubFirst = [];
 
 	public function __construct()
 	{

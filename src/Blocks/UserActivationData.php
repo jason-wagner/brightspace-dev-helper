@@ -6,5 +6,5 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class UserActivationData extends Block
 {
-	public $IsActive;
+	public bool $IsActive;
 }

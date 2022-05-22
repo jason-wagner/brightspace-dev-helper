@@ -7,17 +7,17 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class BrightspaceDatasetReportInfo extends Block
 {
-	public $PluginId;
-	public $Name;
-	public $Description;
-	public $FulLDataSet;
-	public $CreatedDate;
-	public $DownloadLink;
-	public $DownloadSize;
-	public $Version;
-	public $PreviousDataSets;
-	public $QueuedForProcessingDate;
-	public $CurrentlyAvailable;
+	public string $PluginId;
+	public string $Name;
+	public string $Description;
+	public bool $FulLDataSet;
+	public ?string $CreatedDate;
+	public ?string $DownloadLink;
+	public ?int $DownloadSize;
+	public ?string $Version;
+	public ?BrightspaceDataSetReportInfoPreviousArray $PreviousDataSets;
+	public ?string $QueuedForProcessingDate;
+	public bool $CurrentlyAvailable;
 
 	public function __construct(array $response)
 	{

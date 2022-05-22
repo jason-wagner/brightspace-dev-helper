@@ -7,17 +7,18 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class GroupCategoryData extends Block
 {
-	public $Name;
-	public $Description;
-	public $EnrollmentStyle;
-	public $AutoEnroll;
-	public $RandomizeEnrollments;
-	public $NumberOfGroups;
-	public $MaxUsersPerGroup;
-	public $AllocateAfterExpiry;
-	public $SelfEnrollmentExpiryDate;
-	public $GroupPrefix;
-	public $RestrictedByOrgUnitId;
+	public int $GroupCategoryId;
+	public string $Name;
+	public RichText $Description;
+	public GRPENROLL $EnrollmentStyle;
+	public ?int $EnrollmentQuantity;
+	public ?int $MaxUsersPerGroup;
+	public bool $AutoEnroll;
+	public bool $RandomizeEnrollments;
+	public array $Groups;
+	public bool $AllocateAfterExpiry;
+	public ?string $SelfEnrollmentExpiryDate;
+	public ?int $RestrictedByOrgUnitId;
 
 	public function __construct(array $response)
 	{

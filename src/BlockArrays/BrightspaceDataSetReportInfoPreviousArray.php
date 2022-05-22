@@ -7,7 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class BrightspaceDataSetReportInfoPreviousArray extends BlockArray
 {
-	public $blockClass = BrightspaceDatasetReportInfo::class;
+	public string $blockClass = BrightspaceDatasetReportInfo::class;
 
 	public function build(?array $response): void
 	{

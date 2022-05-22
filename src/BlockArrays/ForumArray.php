@@ -7,7 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class ForumArray extends BlockArray
 {
-	public $blockClass = Forum::class;
+	public string $blockClass = Forum::class;
 
 	public function next(): ?Forum
 	{

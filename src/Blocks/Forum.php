@@ -7,21 +7,21 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Forum extends Block
 {
-	public $ForumId;
-	public $StartDate;
-	public $EndDate;
-	public $PostStartDate;
-	public $PostEndDate;
-	public $Name;
-	public $Description;
-	public $ShowDescriptionInTopics;
-	public $AllowAnonymous;
-	public $IsLocked;
-	public $IsHidden;
-	public $RequiresApproval;
-	public $DisplayInCalendar;
-	public $StartDateAvailabilityType;
-	public $EndDateAvailabilityType;
+	public int $ForumId;
+	public ?string $StartDate;
+	public ?string $EndDate;
+	public ?string $PostStartDate;
+	public ?string $PostEndDate;
+	public string $Name;
+	public RichText $Description;
+	public ?bool $ShowDescriptionInTopics;
+	public bool $AllowAnonymous;
+	public bool $IsLocked;
+	public bool $IsHidden;
+	public bool $RequiresApproval;
+	public bool $DisplayInCalendar;
+	public ?AVAILABILITY $StartDateAvailabilityType;
+	public ?AVAILABILITY $EndDateAvailabilityType;
 
 	public function __construct(array $response)
 	{

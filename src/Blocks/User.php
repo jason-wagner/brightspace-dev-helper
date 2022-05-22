@@ -6,10 +6,10 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class User extends Block
 {
-	public $Identifier;
-	public $DisplayName;
-	public $EmailAddress;
-	public $OrgDefinedId;
-	public $ProfileBadgeUrl;
-	public $ProfileIdentifier;
+	public ?string $Identifier;
+	public ?string $DisplayName;
+	public ?string $EmailAddress;
+	public ?string $OrgDefinedId;
+	public ?string $ProfileBadgeUrl;
+	public ?string $ProfileIdentifier;
 }

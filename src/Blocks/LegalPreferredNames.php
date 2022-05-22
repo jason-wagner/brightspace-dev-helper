@@ -6,8 +6,9 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class LegalPreferredNames extends Block
 {
-	public $LegalFirstName;
-	public $LegalLastName;
-	public $PreferredFirstName;
-	public $PreferredLastName;
+	public string $LegalFirstName;
+	public string $LegalLastName;
+	public ?string $PreferredFirstName;
+	public ?string $PreferredLastName;
+	public ?string $SortLastName;
 }

@@ -6,10 +6,10 @@ use BrightspaceDevHelper\Valence\Client\Valence;
 
 class BlockArray
 {
-	public $data = [];
-	public $pointer = 0;
-	public $nextPageRoute = null;
-	public $blockClass;
+	public array $data = [];
+	public int $pointer = 0;
+	public ?string $nextPageRoute = null;
+	public string $blockClass;
 
 	public function __construct(array $response)
 	{

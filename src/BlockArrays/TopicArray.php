@@ -7,7 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class TopicArray extends BlockArray
 {
-	public $blockClass = Topic::class;
+	public string $blockClass = Topic::class;
 
 	public function next(): ?Topic
 	{

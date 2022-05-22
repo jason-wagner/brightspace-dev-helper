@@ -6,7 +6,7 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class BasicOrgUnit extends Block
 {
-	public $Identifier;
-	public $Name;
-	public $Code;
+	public string $Identifier;
+	public string $Name;
+	public string $Code;
 }

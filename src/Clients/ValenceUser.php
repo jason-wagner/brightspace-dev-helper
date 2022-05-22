@@ -8,8 +8,8 @@ use BrightspaceDevHelper\Valence\Block\UserData;
 
 class ValenceUser
 {
-	protected $valence;
-	public $userId;
+	protected Valence $valence;
+	public int $userId;
 
 	public function __construct(Valence $valence, int $userId)
 	{

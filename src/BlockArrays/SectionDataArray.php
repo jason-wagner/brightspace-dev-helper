@@ -7,7 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class SectionDataArray extends BlockArray
 {
-	public $blockClass = SectionData::class;
+	public string $blockClass = SectionData::class;
 
 	public function next(): ?SectionData
 	{

@@ -6,7 +6,7 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class RoleInfo extends Block
 {
-	public $Id;
-	public $Code;
-	public $Name;
+	public int $Id;
+	public ?string $Code;
+	public string $Name;
 }

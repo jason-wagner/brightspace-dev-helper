@@ -6,10 +6,11 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class GroupData extends Block
 {
-	public $GroupId;
-	public $Name;
-	public $Description;
-	public $Enrollments;
+	public int $GroupId;
+	public string $Name;
+	public string $Code;
+	public RichText $Description;
+	public array $Enrollments;
 
 	public function __construct(array $response)
 	{

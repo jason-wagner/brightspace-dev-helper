@@ -6,9 +6,10 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class WhoAmIUser extends Block
 {
-	public $Identifier;
-	public $FirstName;
-	public $LastName;
-	public $UniqueName;
-	public $ProfileIdentifier;
+	public string $Identifier;
+	public string $FirstName;
+	public string $LastName;
+	public string $UniqueName;
+	public string $ProfileIdentifier;
+	public string $Pronouns;
 }

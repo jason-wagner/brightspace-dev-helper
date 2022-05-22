@@ -7,12 +7,12 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class SectionPropertyData extends Block
 {
-	public $Name;
-	public $Description;
-	public $EnrollmentStyle;
-	public $EnrollmentQuantity;
-	public $AutoEnroll;
-	public $RandomizeEnrollments;
+	public string $Name;
+	public RichText $Description;
+	public SECTENROLL $EnrollmentStyle;
+	public int $EnrollmentQuantity;
+	public int $AutoEnroll;
+	public bool $RandomizeEnrollments;
 
 	public function __construct(array $response)
 	{

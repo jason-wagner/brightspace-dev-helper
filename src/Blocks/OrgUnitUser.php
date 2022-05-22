@@ -6,8 +6,8 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class OrgUnitUser extends Block
 {
-	public $User;
-	public $Role;
+	public User $User;
+	public RoleInfo $Role;
 
 	public function __construct(array $response)
 	{

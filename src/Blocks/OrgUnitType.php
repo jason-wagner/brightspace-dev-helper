@@ -6,12 +6,12 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class OrgUnitType extends Block
 {
-	public $Id;
-	public $Code;
-	public $Name;
-	public $Description;
-	public $SortOrder;
-	public $Permissions;
+	public int $Id;
+	public string $Code;
+	public string $Name;
+	public string $Description;
+	public int $SortOrder;
+	public Permissions $Permissions;
 
 	public function __construct(array $response)
 	{

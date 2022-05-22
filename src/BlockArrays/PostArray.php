@@ -7,7 +7,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class PostArray extends BlockArray
 {
-	public $blockClass = Post::class;
+	public string $blockClass = Post::class;
 
 	public function next(): ?Post
 	{

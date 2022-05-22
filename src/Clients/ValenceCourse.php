@@ -22,8 +22,8 @@ use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
 
 class ValenceCourse
 {
-	protected $valence;
-	public $orgUnitId;
+	protected Valence $valence;
+	public int $orgUnitId;
 
 	public function __construct(Valence $valence, int $orgUnitId)
 	{

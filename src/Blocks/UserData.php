@@ -6,17 +6,18 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class UserData extends Block
 {
-	public $OrgId;
-	public $UserId;
-	public $FirstName;
-	public $MiddleName;
-	public $LastName;
-	public $UserName;
-	public $ExternalEmail;
-	public $OrgDefinedId;
-	public $UniqueIdentifier;
-	public $Activation;
-	public $LastAccessedDate;
+	public int $OrgId;
+	public int $UserId;
+	public string $FirstName;
+	public ?string $MiddleName;
+	public string $LastName;
+	public string $UserName;
+	public ?string $ExternalEmail;
+	public ?string $OrgDefinedId;
+	public string $UniqueIdentifier;
+	public UserActivationData $Activation;
+	public ?string $LastAccessedDate;
+	public string $Pronouns;
 
 	public function __construct(array $response)
 	{

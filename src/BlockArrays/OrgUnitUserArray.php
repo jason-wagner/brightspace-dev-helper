@@ -8,7 +8,7 @@ use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class OrgUnitUserArray extends BlockArray
 {
-	public $blockClass = OrgUnitUser::class;
+	public string $blockClass = OrgUnitUser::class;
 	public int $orgUnitId;
 
 	public function __construct(array $response, int $orgUnitId)

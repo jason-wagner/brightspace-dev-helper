@@ -6,6 +6,6 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class RichText extends Block
 {
-	public $Text;
-	public $Html;
+	public string $Text;
+	public ?string $Html;
 }

@@ -9,33 +9,33 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Topic extends Block
 {
-	public $ForumId;
-	public $TopicId;
-	public $Name;
-	public $Description;
-	public $StartDate;
-	public $EndDate;
-	public $UnlockStartDate;
-	public $UnlockEndDate;
-	public $IsLocked;
-	public $AllowAnonymousPosts;
-	public $RequiresApproval;
-	public $UnapprovedPostCount;
-	public $PinnedPostCount;
-	public $ScoringType;
-	public $IsAutoScore;
-	public $ScoreOutOf;
-	public $IncludeNonScoredValues;
-	public $ScoredCount;
-	public $RatingsSum;
-	public $RatingsCount;
-	public $IsHidden;
-	public $MustPostToParticipate;
-	public $RatingType;
-	public $ActivityId;
-	public $GroupTypeId;
-	public $StartDateAvailabilityType;
-	public $EndDateAvailabilityType;
+	public int $ForumId;
+	public int $TopicId;
+	public string $Name;
+	public RichText $Description;
+	public ?string $StartDate;
+	public ?string $EndDate;
+	public ?string $UnlockStartDate;
+	public ?string $UnlockEndDate;
+	public bool $IsLocked;
+	public bool $AllowAnonymousPosts;
+	public bool $RequiresApproval;
+	public int $UnapprovedPostCount;
+	public int $PinnedPostCount;
+	public SCORING $ScoringType;
+	public bool $IsAutoScore;
+	public ?int $ScoreOutOf;
+	public bool $IncludeNonScoredValues;
+	public int $ScoredCount;
+	public int $RatingsSum;
+	public int $RatingsCount;
+	public bool $IsHidden;
+	public bool $MustPostToParticipate;
+	public RATING $RatingType;
+	public ?int $ActivityId;
+	public ?int $GroupTypeId;
+	public ?AVAILABILITY $StartDateAvailabilityType;
+	public ?AVAILABILITY $EndDateAvailabilityType;
 
 	public function __construct(array $response)
 	{

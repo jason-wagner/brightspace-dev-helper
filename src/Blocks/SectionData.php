@@ -6,11 +6,11 @@ use BrightspaceDevHelper\Valence\Structure\Block;
 
 class SectionData extends Block
 {
-	public $SectionId;
-	public $Name;
-	public $Code;
-	public $Description;
-	public $Enrollments;
+	public int $SectionId;
+	public string $Name;
+	public string $Code;
+	public RichText $Description;
+	public array $Enrollments;
 
 	public function __construct(array $response)
 	{
