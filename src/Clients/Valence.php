@@ -12,6 +12,9 @@ use BrightspaceDevHelper\Valence\SDK\D2LHostSpec;
 use BrightspaceDevHelper\DataHub\Model\OrganizationalUnit;
 use BrightspaceDevHelper\DataHub\Model\User;
 
+use BrightspaceDevHelper\Valence\Attributes\GRPENROLL;
+use BrightspaceDevHelper\Valence\Attributes\SECTENROLL;
+
 use BrightspaceDevHelper\Valence\Block\CourseOffering;
 use BrightspaceDevHelper\Valence\Block\EnrollmentData;
 use BrightspaceDevHelper\Valence\Block\Forum;
@@ -510,9 +513,10 @@ class Valence
 		return $response ? new SectionData($response) : null;
 	}
 
-	public function initializeCourseSections(int $orgUnitId, int $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): ?SectionData
+	public function initializeCourseSections(int $orgUnitId, SECTENROLL $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): ?SectionData
 	{
-		$data = compact('EnrollmentStyle', 'EnrollmentQuantity', 'AuthEnroll', 'RandomizeEnrollments');
+		$data = compact('EnrollmentQuantity', 'AuthEnroll', 'RandomizeEnrollments');
+		$data['EnrollmentStyle'] = $EnrollmentStyle->value;
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/sections/", "PUT", $data);
 		return $response ? new SectionData($response) : null;
 	}
@@ -534,9 +538,10 @@ class Valence
 		return $response ? new SectionPropertyData($response) : null;
 	}
 
-	public function updateCourseSectionSettings(int $orgUnitId, int $EnrollmentStyle, int $EnrollmentQuantity, int $AuthEnroll, int $RandomizeEnrollments): ?SectionPropertyData
+	public function updateCourseSectionSettings(int $orgUnitId, SECTENROLL $EnrollmentStyle, int $EnrollmentQuantity, int $AuthEnroll, int $RandomizeEnrollments): ?SectionPropertyData
 	{
-		$data = compact('EnrollmentStyle', 'EnrollmentQuantity', 'AuthEnroll', 'RandomizeEnrollments');
+		$data = compact('EnrollmentQuantity', 'AuthEnroll', 'RandomizeEnrollments');
+		$data['EnrollmentStyle'] = $EnrollmentStyle->value;
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/sections/settings", "PUT", $data);
 		return $response ? new SectionPropertyData($response) : null;
 	}
@@ -553,9 +558,10 @@ class Valence
 		return $response ? new GroupCategoryData($response) : null;
 	}
 
-	public function createCourseGroupCategory(int $orgUnitId, string $Name, string $DescriptionText, int $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData
+	public function createCourseGroupCategory(int $orgUnitId, string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData
 	{
-		$data = compact('Name', 'EnrollmentStyle', 'EnrollmentQuantity', 'AutoEnroll', 'RandomizeEnrollments', 'NumberOfGroups', 'MaxUsersPerGroup', 'AllocateAfterExpiry', 'SelfEnrollmentExpiryDate', 'GroupPrefix', 'RestrictedByOrgUnitId');
+		$data = compact('Name', 'EnrollmentQuantity', 'AutoEnroll', 'RandomizeEnrollments', 'NumberOfGroups', 'MaxUsersPerGroup', 'AllocateAfterExpiry', 'SelfEnrollmentExpiryDate', 'GroupPrefix', 'RestrictedByOrgUnitId');
+		$data['EnrollmentStyle'] = $EnrollmentStyle->value;
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/", "POST", $data);
 		return $response ? new GroupCategoryData($response) : null;
@@ -566,9 +572,10 @@ class Valence
 		$this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId", "DELETE");
 	}
 
-	public function updateCourseGroupCategory(int $orgUnitId, int $groupCategoryId, string $Name, string $DescriptionText, int $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData
+	public function updateCourseGroupCategory(int $orgUnitId, int $groupCategoryId, string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData
 	{
-		$data = compact('Name', 'EnrollmentStyle', 'EnrollmentQuantity', 'AutoEnroll', 'RandomizeEnrollments', 'NumberOfGroups', 'MaxUsersPerGroup', 'AllocateAfterExpiry', 'SelfEnrollmentExpiryDate', 'GroupPrefix', 'RestrictedByOrgUnitId');
+		$data = compact('Name', 'EnrollmentQuantity', 'AutoEnroll', 'RandomizeEnrollments', 'NumberOfGroups', 'MaxUsersPerGroup', 'AllocateAfterExpiry', 'SelfEnrollmentExpiryDate', 'GroupPrefix', 'RestrictedByOrgUnitId');
+		$data['EnrollmentStyle'] = $EnrollmentStyle->value;
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId", "PUT", $data);
 		return $response ? new GroupCategoryData($response) : null;

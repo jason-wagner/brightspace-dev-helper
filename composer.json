@@ -11,7 +11,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.3",
+		"php": ">=8.1",
 		"guzzlehttp/guzzle": "^7.2",
 		"vlucas/phpdotenv": "^5.3",
 		"nesbot/carbon": "^2.48",
@@ -27,7 +27,8 @@
 			"BrightspaceDevHelper\\Valence\\BlockArray\\": "src/BlockArrays",
 			"BrightspaceDevHelper\\Valence\\Structure\\": "src/Structures",
 			"BrightspaceDevHelper\\DataHub\\Model\\": "src/Models",
-			"BrightspaceDevHelper\\Valence\\SDK\\": "src/ValenceSDK"
+			"BrightspaceDevHelper\\Valence\\SDK\\": "src/ValenceSDK",
+			"BrightspaceDevHelper\\Valence\\Attributes\\": "src/Attributes"
 		}
 	}
 }

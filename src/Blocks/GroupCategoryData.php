@@ -2,6 +2,7 @@
 
 namespace BrightspaceDevHelper\Valence\Block;
 
+use BrightspaceDevHelper\Valence\Attributes\GRPENROLL;
 use BrightspaceDevHelper\Valence\Structure\Block;
 
 class GroupCategoryData extends Block
@@ -20,7 +21,8 @@ class GroupCategoryData extends Block
 
 	public function __construct(array $response)
 	{
-		parent::__construct($response, ['Description']);
+		parent::__construct($response, ['Description', 'EnrollmentStyle']);
 		$this->Description = new RichText($response['Description']);
+		$this->EnrollmentStyle = GRPENROLL::tryFrom($response['EnrollmentStyle'])
 	}
 }

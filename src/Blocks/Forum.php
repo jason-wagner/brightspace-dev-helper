@@ -2,6 +2,7 @@
 
 namespace BrightspaceDevHelper\Valence\Block;
 
+use BrightspaceDevHelper\Valence\Attributes\AVAILABILITY;
 use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Forum extends Block
@@ -24,7 +25,9 @@ class Forum extends Block
 
 	public function __construct(array $response)
 	{
-		parent::__construct($response, ['Description']);
+		parent::__construct($response, ['Description', 'StartDateAvailabilityType', 'EndDateAvailabilityType']);
 		$this->Description = new RichText($response['Description']);
+		$this->StartDateAvailabilityType = AVAILABILITY::tryFrom($response['StartDateAvailabilityType']);
+		$this->EndDateAvailabilityType = AVAILABILITY::tryFrom($response['EndDateAvailabilityType']);
 	}
 }

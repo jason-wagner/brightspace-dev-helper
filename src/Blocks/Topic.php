@@ -2,6 +2,9 @@
 
 namespace BrightspaceDevHelper\Valence\Block;
 
+use BrightspaceDevHelper\Valence\Attributes\AVAILABILITY;
+use BrightspaceDevHelper\Valence\Attributes\RATING;
+use BrightspaceDevHelper\Valence\Attributes\SCORING;
 use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Topic extends Block
@@ -36,7 +39,11 @@ class Topic extends Block
 
 	public function __construct(array $response)
 	{
-		parent::__construct($response, ['Description']);
+		parent::__construct($response, ['Description', 'ScoringType', 'RatingType', 'StartDateAvailabilityType', 'EndDateAvailabilityType']);
 		$this->Description = new RichText($response['Description']);
+		$this->ScoringType = SCORING::tryFrom($response['ScoringType']);
+		$this->RatingType = RATING::tryFrom($response['RatingType']);
+		$this->StartDateAvailabilityType = AVAILABILITY::tryFrom($response['StartDateAvailabilityType']);
+		$this->EndDateAvailabilityType = AVAILABILITY::tryFrom($response['EndDateAvailabilityType']);
 	}
 }

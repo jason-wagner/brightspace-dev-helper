@@ -2,6 +2,7 @@
 
 namespace BrightspaceDevHelper\Valence\Block;
 
+use BrightspaceDevHelper\Valence\Attributes\SECTENROLL;
 use BrightspaceDevHelper\Valence\Structure\Block;
 
 class SectionPropertyData extends Block
@@ -15,7 +16,8 @@ class SectionPropertyData extends Block
 
 	public function __construct(array $response)
 	{
-		parent::__construct($response, ['Description']);
+		parent::__construct($response, ['Description', 'EnrollmentStyle']);
 		$this->Description = new RichText($response['Description']);
+		$this->EnrollmentStyle = SECTENROLL::tryFrom($response['EnrollmentStyle']);
 	}
 }
