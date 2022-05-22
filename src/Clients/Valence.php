@@ -296,7 +296,7 @@ class Valence
 
 	public function getRoles(): RoleArray
 	{
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$this->rootOrgId/roles/");
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/roles/");
 		return new RoleArray($response);
 	}
 
@@ -338,7 +338,7 @@ class Valence
 		}
 
 		try {
-			$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/?username=$username");
+			$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/?userName=$username");
 			return $response['UserId'] ?? null;
 		} catch (Exception $e) {
 			return null;
