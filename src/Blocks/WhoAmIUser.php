@@ -11,5 +11,5 @@ class WhoAmIUser extends Block
 	public string $LastName;
 	public string $UniqueName;
 	public string $ProfileIdentifier;
-	public string $Pronouns;
+	public ?string $Pronouns;
 }
