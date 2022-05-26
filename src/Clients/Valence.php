@@ -2,13 +2,13 @@
 
 namespace BrightspaceDevHelper\Valence\Client;
 
-use BrightspaceDevHelper\Valence\SDK\D2LUserContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
 use BrightspaceDevHelper\Valence\SDK\D2LAppContextFactory;
 use BrightspaceDevHelper\Valence\SDK\D2LHostSpec;
+use BrightspaceDevHelper\Valence\SDK\D2LUserContext;
 
 use BrightspaceDevHelper\DataHub\Model\OrganizationalUnit;
 use BrightspaceDevHelper\DataHub\Model\User;
