@@ -45,6 +45,8 @@ use BrightspaceDevHelper\Valence\BlockArray\RoleArray;
 use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
 
+use BrightspaceDevHelper\Valence\Object\UserIdKeyPair;
+
 class Valence
 {
 	private Client $httpclient;
@@ -73,12 +75,12 @@ class Valence
 
 	private array $datahubFirst = [];
 
-	public function __construct()
+	public function __construct(?string $UserId = null, ?string $UserKey = null)
 	{
 		$authContextFactory = new D2LAppContextFactory();
 		$authContext = $authContextFactory->createSecurityContext($_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY']);
 		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
-		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $_ENV['D2L_VALENCE_USER_ID'], $_ENV['D2L_VALENCE_USER_KEY']);
+		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $UserId ?? $_ENV['D2L_VALENCE_USER_ID'], $UserKey ?? $_ENV['D2L_VALENCE_USER_KEY']);
 		$this->httpclient = new Client(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
 
 		$org = $this->getOrganization();
@@ -87,6 +89,23 @@ class Valence
 			$this->rootOrgId = $org->Identifier;
 			$this->timezone = $org->TimeZone;
 		}
+	}
+
+	public static function getAuthUrl(string $appUrl): string
+	{
+		$authContextFactory = new D2LAppContextFactory();
+		$authContext = $authContextFactory->createSecurityContext($_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY']);
+		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
+		$url = $authContext->createUrlForAuthenticationFRomHostSpec($hostSpec, $appUrl);
+		return $url;
+	}
+
+	public static function getUserCredentials(): ?UserIdKeyPair
+	{
+		if(!array_key_exists('x_a', $_GET) || !array_key_exists('x_b', $_GET))
+			return null;
+
+		return new UserIdKeyPair($_GET['x_a'], $_GET['x_b']);
 	}
 
 	public function apirequest(string $route, string $method = 'GET', ?array $data = null): ?array
