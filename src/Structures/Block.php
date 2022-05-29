@@ -10,4 +10,14 @@ class Block
 			if (!in_array($key, $skip))
 				$this->$key = $value;
 	}
+
+	public function toArray()
+	{
+		$a = [];
+
+		foreach($this as $k => $v)
+			$a[$k] = is_object($v) ? $v->toArray() : $v;
+
+		return $a;
+	}
 }
