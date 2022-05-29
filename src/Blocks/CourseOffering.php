@@ -13,9 +13,9 @@ class CourseOffering extends Block
 	public string $Path;
 	public ?string $StartDate;
 	public ?string $EndDate;
-	public ?RichText $CourseTemplate;
-	public ?RichText $Semester;
-	public ?RichText $Department;
+	public ?BasicOrgUnit $CourseTemplate;
+	public ?BasicOrgUnit $Semester;
+	public ?BasicOrgUnit $Department;
 	public RichText$Description;
 	public bool $CanSelfRegister;
 
