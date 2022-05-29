@@ -8,5 +8,5 @@ class Role extends Block
 {
 	public string $Identifier;
 	public string $DisplayName;
-	public string $Code;
+	public ?string $Code;
 }
