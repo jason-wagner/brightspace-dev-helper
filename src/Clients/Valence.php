@@ -343,12 +343,12 @@ class Valence
 		return new BrightspaceDataSetReportInfoArray($response);
 	}
 
-	public function user(int $userid): ValenceUser
+	public function newUserObject(int $userid): ValenceUser
 	{
 		return new $this->newUserClass($this, $userid);
 	}
 
-	public function course(int $orgid): ValenceCourse
+	public function newCourseObject(int $orgid): ValenceCourse
 	{
 		return new $this->newCourseClass($this, $orgid);
 	}
@@ -487,7 +487,7 @@ class Valence
 		$data = compact('Name', 'Code', 'Path', 'CourseTemplateId', 'SemesterId', 'StartDate', 'EndDate', 'LocaleId', 'ForceLocale', 'ShowAddressBook', 'CanSelfRegister');
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/", "POST", $data);
-		return $this->returnObjectOnCreate ? $this->course($response['Identifier']) : new CourseOffering($response);
+		return $this->returnObjectOnCreate ? $this->newCourseObject($response['Identifier']) : new CourseOffering($response);
 	}
 
 	public function updateCourseOffering(int $orgUnitId, string $Name, string $Code, ?string $StartDate, ?string $EndDate, bool $IsActive, string $DescriptionText): ?CourseOffering
