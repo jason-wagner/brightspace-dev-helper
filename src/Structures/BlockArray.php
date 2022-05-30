@@ -25,16 +25,16 @@ class BlockArray
 	{
 		$this->data = [];
 
-		foreach($response as $item)
+		foreach ($response as $item)
 			$this->data[] = new $this->blockClass($item);
 	}
 
 	public function next()
 	{
-		if(array_key_exists($this->pointer, $this->data))
+		if (array_key_exists($this->pointer, $this->data))
 			return $this->data[$this->pointer++];
 
-		if($this->nextPageRoute) {
+		if ($this->nextPageRoute) {
 			$response = (new Valence())->apirequest($this->nextPageRoute);
 			$this->build($response);
 			$this->pointer = 0;

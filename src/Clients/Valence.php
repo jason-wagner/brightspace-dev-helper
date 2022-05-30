@@ -102,7 +102,7 @@ class Valence
 
 	public static function getUserCredentials(): ?UserIdKeyPair
 	{
-		if(!array_key_exists('x_a', $_GET) || !array_key_exists('x_b', $_GET))
+		if (!array_key_exists('x_a', $_GET) || !array_key_exists('x_b', $_GET))
 			return null;
 
 		return new UserIdKeyPair($_GET['x_a'], $_GET['x_b']);
