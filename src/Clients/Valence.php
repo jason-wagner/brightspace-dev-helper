@@ -2,20 +2,10 @@
 
 namespace BrightspaceDevHelper\Valence\Client;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
-
-use BrightspaceDevHelper\Valence\SDK\D2LAppContextFactory;
-use BrightspaceDevHelper\Valence\SDK\D2LHostSpec;
-use BrightspaceDevHelper\Valence\SDK\D2LUserContext;
-
 use BrightspaceDevHelper\DataHub\Model\OrganizationalUnit;
 use BrightspaceDevHelper\DataHub\Model\User;
-
 use BrightspaceDevHelper\Valence\Attributes\GRPENROLL;
 use BrightspaceDevHelper\Valence\Attributes\SECTENROLL;
-
 use BrightspaceDevHelper\Valence\Block\CourseOffering;
 use BrightspaceDevHelper\Valence\Block\EnrollmentData;
 use BrightspaceDevHelper\Valence\Block\Forum;
@@ -32,7 +22,6 @@ use BrightspaceDevHelper\Valence\Block\SectionPropertyData;
 use BrightspaceDevHelper\Valence\Block\Topic;
 use BrightspaceDevHelper\Valence\Block\UserData;
 use BrightspaceDevHelper\Valence\Block\WhoAmIUser;
-
 use BrightspaceDevHelper\Valence\BlockArray\BrightspaceDataSetReportInfoArray;
 use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
@@ -44,8 +33,13 @@ use BrightspaceDevHelper\Valence\BlockArray\ProductVersionArray;
 use BrightspaceDevHelper\Valence\BlockArray\RoleArray;
 use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
-
 use BrightspaceDevHelper\Valence\Object\UserIdKeyPair;
+use BrightspaceDevHelper\Valence\SDK\D2LAppContextFactory;
+use BrightspaceDevHelper\Valence\SDK\D2LHostSpec;
+use BrightspaceDevHelper\Valence\SDK\D2LUserContext;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 
 class Valence
 {
