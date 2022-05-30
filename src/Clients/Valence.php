@@ -8,13 +8,12 @@ use BrightspaceDevHelper\Valence\Block\{CourseOffering, EnrollmentData, Forum, G
 use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray, ForumArray, GroupCategoryDataArray, GroupDataArray, OrgUnitTypeArray, OrgUnitUserArray, PostArray, ProductVersionArray, RoleArray, SectionDataArray, TopicArray};
 use BrightspaceDevHelper\Valence\Object\UserIdKeyPair;
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Client as Guzzle;
+use GuzzleHttp\Exception\{ClientException as GuzzleClientException, ServerException as GuzzleServerException};
 
 class Valence
 {
-	private Client $httpclient;
+	private Guzzle $httpclient;
 	private D2LUserContext $handler;
 
 	private bool $returnObjectOnCreate = false;
@@ -46,7 +45,7 @@ class Valence
 		$authContext = $authContextFactory->createSecurityContext($_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY']);
 		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
 		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $UserId ?? $_ENV['D2L_VALENCE_USER_ID'], $UserKey ?? $_ENV['D2L_VALENCE_USER_KEY']);
-		$this->httpclient = new Client(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
+		$this->httpclient = new Guzzle(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
 
 		$org = $this->getOrganization();
 
@@ -88,7 +87,7 @@ class Valence
 				$this->logrequest($route, $method, $data);
 
 			return $this->responseBody;
-		} catch (ClientException|ServerException $exception) {
+		} catch (GuzzleClientException|GuzzleServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
@@ -121,7 +120,7 @@ class Valence
 				$this->logrequest($route, 'GET');
 
 			return true;
-		} catch (ClientException|ServerException $exception) {
+		} catch (GuzzleClientException|GuzzleServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
@@ -156,7 +155,7 @@ class Valence
 				$this->logrequest($route, $method, ['placeholder']);
 
 			return true;
-		} catch (ClientException|ServerException $exception) {
+		} catch (GuzzleClientException|GuzzleServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
