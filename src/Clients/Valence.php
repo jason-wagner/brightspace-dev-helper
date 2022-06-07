@@ -6,8 +6,11 @@ use BrightspaceDevHelper\DataHub\Model\{OrganizationalUnit, User};
 use BrightspaceDevHelper\Valence\Attributes\{GRPENROLL, SECTENROLL};
 use BrightspaceDevHelper\Valence\Block\{CourseOffering, EnrollmentData, Forum, GroupCategoryData, GroupData, LegalPreferredNames, Organization, OrgUnitType, Post, ProductVersions, Role, SectionData, SectionPropertyData, Topic, UserData, WhoAmIUser};
 use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray, ForumArray, GroupCategoryDataArray, GroupDataArray, OrgUnitTypeArray, OrgUnitUserArray, PostArray, ProductVersionArray, RoleArray, SectionDataArray, TopicArray};
+use BrightspaceDevHelper\Valence\CreateBlock\{CreateCourseOffering, RichTextInput};
 use BrightspaceDevHelper\Valence\Object\UserIdKeyPair;
+use BrightspaceDevHelper\Valence\PatchBlock\CourseOfferingInfoPatch;
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
+use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\{ClientException as GuzzleClientException, ServerException as GuzzleServerException};
 
@@ -446,20 +449,34 @@ class Valence
 		return $response ? new CourseOffering($response) : null;
 	}
 
-	public function createCourseOffering(string $Name, string $Code, string $Path, int $CourseTemplateId, int $SemesterId, ?string $StartDate, ?string $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, ?string $DescriptionText, bool $CanSelfRegister)
+	public function createCourseOffering(CreateCourseOffering $input): ValenceCourse|CourseOffering
 	{
-		$data = compact('Name', 'Code', 'Path', 'CourseTemplateId', 'SemesterId', 'StartDate', 'EndDate', 'LocaleId', 'ForceLocale', 'ShowAddressBook', 'CanSelfRegister');
-		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
+		$data = $input->toArray();
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/", "POST", $data);
 		return $this->returnObjectOnCreate ? $this->newCourseObject($response['Identifier']) : new CourseOffering($response);
 	}
 
-	public function updateCourseOffering(int $orgUnitId, string $Name, string $Code, ?string $StartDate, ?string $EndDate, bool $IsActive, string $DescriptionText): ?CourseOffering
+	public function newCreateCourseOfferingObject(string $Name, string $Code, ?string $Path, int $CourseTemplateId, ?int $SemesterId, ?string $StartDate, ?string $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, RichTextInput $Description, ?bool $CanSelfRegister): CreateCourseOffering
 	{
-		$data = compact('Name', 'Code', 'StartDate', 'EndDate', 'IsActive');
-		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
+		return new CreateCourseOffering($this, $Name, $Code, $Path, $CourseTemplateId, $SemesterId, $StartDate, $EndDate, $LocaleId, $ForceLocale, $ShowAddressBook, $Description, $CanSelfRegister);
+	}
+
+	public function updateCourseOffering(int $orgUnitId, CourseOfferingInfo $input): void
+	{
+		$data = $input->toArray();
+		unset($data['orgUnitId']);
+
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/$orgUnitId", "PUT", $data);
-		return $response ? new CourseOffering($response) : null;
+	}
+
+	public function newCourseOfferingInfoObject(int $orgUnitId, string $Name, string $Code, bool $IsActive, ?string $StartDate, ?string $EndDate, RichTextInput $Description, bool $CanSelfRegister): CourseOfferingInfo
+	{
+		return new CourseOfferingInfo($this, $orgUnitId, $Name, $Code, $IsActive, $StartDate, $EndDate, $Description, $CanSelfRegister);
+	}
+
+	public function newCourseOfferingInfoPatchObject(int $orgUnitId): CourseOfferingInfoPatch
+	{
+		return new CourseOfferingInfoPatch($this, $orgUnitId);
 	}
 
 	public function deleteCourseOffering(int $orgUnitId): void

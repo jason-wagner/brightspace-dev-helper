@@ -24,12 +24,15 @@
 		"psr-4": {
 			"BrightspaceDevHelper\\Valence\\Client\\": "src/Clients",
 			"BrightspaceDevHelper\\Valence\\Block\\": "src/Blocks",
+			"BrightspaceDevHelper\\Valence\\CreateBlock\\": "src/CreateBlocks",
+			"BrightspaceDevHelper\\Valence\\UpdateBlock\\": "src/UpdateBlocks",
+			"BrightspaceDevHelper\\Valence\\PatchBlock\\": "src/PatchBlocks",
 			"BrightspaceDevHelper\\Valence\\BlockArray\\": "src/BlockArrays",
 			"BrightspaceDevHelper\\Valence\\Structure\\": "src/Structures",
 			"BrightspaceDevHelper\\DataHub\\Model\\": "src/Models",
 			"BrightspaceDevHelper\\Valence\\SDK\\": "src/ValenceSDK",
 			"BrightspaceDevHelper\\Valence\\Attributes\\": "src/Attributes",
-			"BrightspaceDevHelper\\Valence\\Object": "src/Objects"
+			"BrightspaceDevHelper\\Valence\\Object\\": "src/Objects"
 		}
 	}
 }
