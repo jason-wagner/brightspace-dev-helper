@@ -25,7 +25,11 @@ class Forum extends Block
 
 	public function __construct(array $response)
 	{
-		parent::__construct($response, ['Description', 'StartDateAvailabilityType', 'EndDateAvailabilityType']);
+		parent::__construct($response, ['StartDate', 'EndDate', 'PostStartDate', 'PostEndDate', 'Description', 'StartDateAvailabilityType', 'EndDateAvailabilityType']);
+
+		foreach (['StartDate', 'EndDate', 'PostStartDate', 'PostEndDate'] as $key)
+			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key], $valence)->getTimestamp() : null;
+
 		$this->Description = new RichText($response['Description']);
 		$this->StartDateAvailabilityType = AVAILABILITY::tryFrom($response['StartDateAvailabilityType']);
 		$this->EndDateAvailabilityType = AVAILABILITY::tryFrom($response['EndDateAvailabilityType']);

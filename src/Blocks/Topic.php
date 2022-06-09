@@ -39,8 +39,13 @@ class Topic extends Block
 
 	public function __construct(array $response)
 	{
-		parent::__construct($response, ['Description', 'ScoringType', 'RatingType', 'StartDateAvailabilityType', 'EndDateAvailabilityType']);
+		parent::__construct($response, ['Description', 'ScoringType', 'RatingType', 'StartDate', 'EndDate', 'UnlockStartDate', 'UnlockEndDate', 'StartDateAvailabilityType', 'EndDateAvailabilityType']);
+
 		$this->Description = new RichText($response['Description']);
+
+		foreach (['StartDate', 'EndDate', 'UnlockStartDate', 'UnlockEndDate'] as $key)
+			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key], $valence)->getTimestamp() : null;
+
 		$this->ScoringType = SCORING::tryFrom($response['ScoringType']);
 		$this->RatingType = RATING::tryFrom($response['RatingType']);
 		$this->StartDateAvailabilityType = AVAILABILITY::tryFrom($response['StartDateAvailabilityType']);

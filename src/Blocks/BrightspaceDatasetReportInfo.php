@@ -21,7 +21,11 @@ class BrightspaceDatasetReportInfo extends Block
 
 	public function __construct(array $response)
 	{
-		parent::__construct($response, ['PreviousDataSets']);
+		parent::__construct($response, ['PreviousDataSets', 'CreatedDate', 'QueuedForProcessingDate']);
+
+		foreach (['CreatedDate', 'QueuedForProcessingDate'] as $key)
+			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key], $valence)->getTimestamp() : null;
+
 		$this->PreviousDataSets = is_array($response['PreviousDataSets']) ? new BrightspaceDataSetReportInfoPreviousArray($response['PreviousDataSets']) : null;
 	}
 }

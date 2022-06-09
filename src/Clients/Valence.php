@@ -7,7 +7,7 @@ use BrightspaceDevHelper\Valence\Attributes\{GRPENROLL, SECTENROLL};
 use BrightspaceDevHelper\Valence\Block\{CourseOffering, EnrollmentData, Forum, GroupCategoryData, GroupData, LegalPreferredNames, Organization, OrgUnitType, Post, ProductVersions, Role, SectionData, SectionPropertyData, Topic, UserData, WhoAmIUser};
 use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray, ForumArray, GroupCategoryDataArray, GroupDataArray, OrgUnitTypeArray, OrgUnitUserArray, PostArray, ProductVersionArray, RoleArray, SectionDataArray, TopicArray};
 use BrightspaceDevHelper\Valence\CreateBlock\{CreateCourseOffering, RichTextInput};
-use BrightspaceDevHelper\Valence\Object\UserIdKeyPair;
+use BrightspaceDevHelper\Valence\Object\{DateTime, UserIdKeyPair};
 use BrightspaceDevHelper\Valence\PatchBlock\CourseOfferingInfoPatch;
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
 use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
@@ -23,6 +23,7 @@ class Valence
 	private int $logMode = 0;
 	private $logFileHandler = null;
 	private bool $exitOnError = true;
+	public bool $convertTimezone = true;
 
 	public const VERSION_LP = '1.35';
 	public const VERSION_LE = '1.61';
@@ -190,6 +191,41 @@ class Valence
 	private function getDatahubSearch(string $report)
 	{
 		return $this->datahubFirst[$report] ?? 0;
+	}
+
+	public function getTimezone(): string
+	{
+		return $this->timezone;
+	}
+
+	public function getTimezoneConvert(): bool
+	{
+		return $this->convertTimezone;
+	}
+
+	public function disableTimezoneConversion(): void
+	{
+		$this->convertTimezone = false;
+	}
+
+	public function enableTimezoneConversion(): void
+	{
+		$this->convertTimezone = true;
+	}
+
+	public function createDateTimeFromIso8601($datetime): DateTime
+	{
+		return DateTime::createFromIso8601($datetime, $this);
+	}
+
+	public function createDateTimeFromTimestamp($datetime): DateTime
+	{
+		return DateTime::createFromTimestamp($datetime, $this);
+	}
+
+	public function createFromComponents(int $year, int $month, int $day, int $hour, int $minute, int $second): DateTime
+	{
+		return DateTime::createFromComponents($year, $month, $day, $hour, $minute, $second, $this);
 	}
 
 	public function setLogging(int $logMode, ?string $logFile = null): void
@@ -446,27 +482,24 @@ class Valence
 	public function getCourseOffering(int $orgUnitId): ?CourseOffering
 	{
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/$orgUnitId");
-		return $response ? new CourseOffering($response) : null;
+		return $response ? new CourseOffering($response, $this) : null;
 	}
 
 	public function createCourseOffering(CreateCourseOffering $input): ValenceCourse|CourseOffering
 	{
 		$data = $input->toArray();
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/", "POST", $data);
-		return $this->returnObjectOnCreate ? $this->newCourseObject($response['Identifier']) : new CourseOffering($response);
+		return $this->returnObjectOnCreate ? $this->newCourseObject($response['Identifier']) : new CourseOffering($response, $this);
 	}
 
-	public function newCreateCourseOfferingObject(string $Name, string $Code, ?string $Path, int $CourseTemplateId, ?int $SemesterId, ?string $StartDate, ?string $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, RichTextInput $Description, ?bool $CanSelfRegister): CreateCourseOffering
+	public function newCreateCourseOfferingObject(string $Name, string $Code, ?string $Path, int $CourseTemplateId, ?int $SemesterId, DateTime|string|null $StartDate, DateTime|string|null $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, RichTextInput $Description, ?bool $CanSelfRegister): CreateCourseOffering
 	{
 		return new CreateCourseOffering($this, $Name, $Code, $Path, $CourseTemplateId, $SemesterId, $StartDate, $EndDate, $LocaleId, $ForceLocale, $ShowAddressBook, $Description, $CanSelfRegister);
 	}
 
 	public function updateCourseOffering(int $orgUnitId, CourseOfferingInfo $input): void
 	{
-		$data = $input->toArray();
-		unset($data['orgUnitId']);
-
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/$orgUnitId", "PUT", $data);
+		$this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/$orgUnitId", "PUT", $input->toArray());
 	}
 
 	public function newCourseOfferingInfoObject(int $orgUnitId, string $Name, string $Code, bool $IsActive, ?string $StartDate, ?string $EndDate, RichTextInput $Description, bool $CanSelfRegister): CourseOfferingInfo

@@ -4,6 +4,7 @@ namespace BrightspaceDevHelper\Valence\PatchBlock;
 
 use BrightspaceDevHelper\Valence\Client\Valence;
 use BrightspaceDevHelper\Valence\CreateBlock\RichTextInput;
+use BrightspaceDevHelper\Valence\Object\DateTime;
 use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
 
 class CourseOfferingInfoPatch extends CourseOfferingInfo
@@ -21,19 +22,8 @@ class CourseOfferingInfoPatch extends CourseOfferingInfo
 			if (in_array($k, ['valence', 'nonprops']) || in_array($k, $this->nonprops))
 				continue;
 
-			if ($k == 'Description')
-				$this->$k = $data->$k->toInput();
-			else
-				$this->$k = $data->$k;
+			$this->$k = $k == 'Description' ? $data->$k->toInput() : $data->$k;
 		}
-
-		$this->Name = $data->Name;
-		$this->Code = $data->Code;
-		$this->IsActive = $data->IsActive;
-		$this->StartDate = $data->StartDate;
-		$this->EndDate = $data->EndDate;
-		$this->Description = $data->Description->toInput();
-		$this->CanSelfRegister = $data->CanSelfRegister;
 	}
 
 	public function setName(string $Name): void
@@ -51,14 +41,14 @@ class CourseOfferingInfoPatch extends CourseOfferingInfo
 		$this->IsActive = $IsActive;
 	}
 
-	public function setStartDate(?string $StartDate): void
+	public function setStartDate(DateTime|string|null $StartDate): void
 	{
-		$this->StartDate = $StartDate;
+		$this->StartDate = $StartDate instanceof DateTime ? $StartDate->getIso8601() : $StartDate;
 	}
 
-	public function setEndDate(?string $EndDate): void
+	public function setEndDate(DateTime|string|null $EndDate): void
 	{
-		$this->EndDate = $EndDate;
+		$this->EndDate = $EndDate instanceof DateTime ? $EndDate->getIso8601() : $EndDate;
 	}
 
 	public function setDescription(RichTextInput $Description): void

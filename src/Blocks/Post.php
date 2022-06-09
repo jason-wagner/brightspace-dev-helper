@@ -28,7 +28,11 @@ class Post extends Block
 
 	public function __construct(array $response)
 	{
-		parent::__construct($response, ['Message']);
+		parent::__construct($response, ['Message', 'DatePosted', 'LastEditDate']);
+
+		foreach (['DatePosted', 'LastEditDate'] as $key)
+			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key], $valence)->getTimestamp() : null;
+
 		$this->Message = new RichText($response['Message']);
 	}
 }
