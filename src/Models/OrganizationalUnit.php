@@ -14,12 +14,12 @@ class OrganizationalUnit extends Model
 
 	public static function whereCode($code)
 	{
-		return OrganizationalUnit::where('Code', $code)->where('Type', 'Course Offering')->first();
+		return OrganizationalUnit::where('Code', $code)->where('Type', 'Course Offering');
 	}
 
 	public static function whereCodeAndType($code, $type)
 	{
-		return OrganizationalUnit::where('Code', $code)->where('OrgUnitTypeId', $type)->first();
+		return OrganizationalUnit::where('Code', $code)->where('OrgUnitTypeId', $type);
 	}
 
 	public function assignments()

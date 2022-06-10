@@ -394,7 +394,7 @@ class Valence
 	public function getOrgUnitIdFromCode(string $orgUnitCode, int $orgUnitType): ?int
 	{
 		if ($this->getDatahubSearch('OrganizationalUnits') > 0) {
-			$orgunit = OrganizationalUnit::whereCodeAndType($orgUnitCode, $orgUnitType);
+			$orgunit = OrganizationalUnit::whereCodeAndType($orgUnitCode, $orgUnitType)->first();
 
 			if ($orgunit)
 				return $orgunit->OrgUnitId;
