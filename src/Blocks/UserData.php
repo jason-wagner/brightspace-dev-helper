@@ -23,9 +23,10 @@ class UserData extends Block
 	public ?string $LastAccessedDate;
 	public string|NotInDatahub|null $Pronouns;
 
-	public function __construct(array $response)
+	public function __construct(array $response, Valence $valence)
 	{
-		parent::__construct($response, ['Activation']);
+		parent::__construct($response, ['Activation', 'LastAccessedDate']);
+		$this->LastAccessedDate = $response['LastAccessedDate'] != '' ? DateTime::createFromIso8601($response['LastAccessedDate'], $valence)->getTimestamp() : null;
 		$this->Activation = new UserActivationData($response['Activation']);
 	}
 
@@ -46,6 +47,6 @@ class UserData extends Block
 			'Pronouns' => new NotInDatahub()
 		];
 
-		return new UserData($a);
+		return new UserData($a, $valence);
 	}
 }

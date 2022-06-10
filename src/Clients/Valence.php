@@ -710,7 +710,7 @@ class Valence
 		}
 
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/$userId");
-		return $response ? new UserData($response) : null;
+		return $response ? new UserData($response, $this) : null;
 	}
 
 	public function getUserNames(int $userId): ?LegalPreferredNames
