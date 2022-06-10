@@ -14,12 +14,12 @@ class User extends Model
 
 	public static function whereUserName($username)
 	{
-		return User::where('UserName', $username)->first();
+		return User::where('UserName', $username);
 	}
 
 	public static function whereOrgDefinedId($orgdefinedid)
 	{
-		return User::where('OrgDefinedId', $orgdefinedid)->first();
+		return User::where('OrgDefinedId', $orgdefinedid);
 	}
 
 	public function courses()

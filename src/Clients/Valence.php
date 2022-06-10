@@ -384,7 +384,7 @@ class Valence
 	public function getUserIdFromUsername(string $username): ?int
 	{
 		if ($this->getDatahubSearch('Users') > 0) {
-			$user = User::whereUserName($username);
+			$user = User::whereUserName($username)->first();
 
 			if ($user)
 				return $user->UserId;
@@ -401,7 +401,7 @@ class Valence
 	public function getUserIdFromOrgDefinedId(string $orgDefinedId): ?int
 	{
 		if ($this->getDatahubSearch('Users') > 0) {
-			$user = User::whereOrgDefinedId($orgDefinedId);
+			$user = User::whereOrgDefinedId($orgDefinedId)->first();
 
 			if ($user)
 				return $user->UserId;
