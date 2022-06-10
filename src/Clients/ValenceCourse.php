@@ -5,8 +5,10 @@ namespace BrightspaceDevHelper\Valence\Client;
 use BrightspaceDevHelper\Valence\Attributes\GRPENROLL;
 use BrightspaceDevHelper\Valence\Attributes\SECTENROLL;
 use BrightspaceDevHelper\Valence\Block\CourseOffering;
+use BrightspaceDevHelper\Valence\Block\CreateCopyJobResponse;
 use BrightspaceDevHelper\Valence\Block\EnrollmentData;
 use BrightspaceDevHelper\Valence\Block\Forum;
+use BrightspaceDevHelper\Valence\Block\GetCopyJobResponse;
 use BrightspaceDevHelper\Valence\Block\GroupCategoryData;
 use BrightspaceDevHelper\Valence\Block\GroupData;
 use BrightspaceDevHelper\Valence\Block\Post;
@@ -21,6 +23,7 @@ use BrightspaceDevHelper\Valence\BlockArray\OrgUnitUserArray;
 use BrightspaceDevHelper\Valence\BlockArray\PostArray;
 use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
+use BrightspaceDevHelper\Valence\CreateBlock\CreateCopyJobRequest;
 
 class ValenceCourse
 {
@@ -221,5 +224,15 @@ class ValenceCourse
 	public function getDiscussionPost(int $forumId, int $topicId, int $postId): ?Post
 	{
 		return $this->valence->getDiscussionPost($this->orgUnitId, $forumId, $topicId, $postId);
+	}
+
+	public function createCopyRequest(CreateCopyJobRequest $input): ?CreateCopyJobResponse
+	{
+		return $this->valence->createCourseCopyRequest($this->orgUnitId, $input);
+	}
+
+	public function getCopyJobStatus(string $jobToken): ?GetCopyJobResponse
+	{
+		return $this->valence->getCourseCopyJobStatus($this->orgUnitId, $jobToken);
 	}
 }

@@ -2,11 +2,12 @@
 
 namespace BrightspaceDevHelper\Valence\Client;
 
+use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
 use BrightspaceDevHelper\DataHub\Model\{OrganizationalUnit, User};
 use BrightspaceDevHelper\Valence\Attributes\{GRPENROLL, SECTENROLL};
-use BrightspaceDevHelper\Valence\Block\{CourseOffering, EnrollmentData, Forum, GroupCategoryData, GroupData, LegalPreferredNames, Organization, OrgUnitType, Post, ProductVersions, Role, SectionData, SectionPropertyData, Topic, UserData, WhoAmIUser};
+use BrightspaceDevHelper\Valence\Block\{CourseOffering, CreateCopyJobResponse, EnrollmentData, Forum, GetCopyJobResponse, GroupCategoryData, GroupData, LegalPreferredNames, Organization, OrgUnitType, Post, ProductVersions, Role, SectionData, SectionPropertyData, Topic, UserData, WhoAmIUser};
 use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray, ForumArray, GroupCategoryDataArray, GroupDataArray, OrgUnitTypeArray, OrgUnitUserArray, PostArray, ProductVersionArray, RoleArray, SectionDataArray, TopicArray};
-use BrightspaceDevHelper\Valence\CreateBlock\{CreateCourseOffering, RichTextInput};
+use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest, CreateCourseOffering, RichTextInput};
 use BrightspaceDevHelper\Valence\Object\{DateTime, UserIdKeyPair};
 use BrightspaceDevHelper\Valence\PatchBlock\CourseOfferingInfoPatch;
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
@@ -42,6 +43,7 @@ class Valence
 	public ?string $timezone = null;
 
 	private array $datahubFirst = [];
+	private array $datahubCourses = [];
 
 	public function __construct(?string $UserId = null, ?string $UserKey = null)
 	{
@@ -746,9 +748,43 @@ class Valence
 		return new PostArray($response);
 	}
 
-	public function getDiscussionPost(int $orgUntiId, int $forumId, int $topicId, int $postId): ?Post
+	public function getDiscussionPost(int $orgUnitId, int $forumId, int $topicId, int $postId): ?Post
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUntiId/discussions/forums/$forumId/topics/$topicId/posts/$postId", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId/posts/$postId", "GET");
 		return $this->isValidResponseCode() ? new Post($response) : null;
+	}
+
+	public function createCourseCopyRequest(int $orgUnitId, CreateCopyJobRequest $input): ?CreateCopyJobResponse
+	{
+		$data = $input->toArray();
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/import/$orgUnitId/copy/", "POST", $data);
+		return $this->isValidResponseCode() ? new CreateCopyJobResponse($response) : null;
+	}
+
+	public function getCourseCopyJobStatus(int $orgUnitId, string $jobToken): ?GetCopyJobResponse
+	{
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/import/$orgUnitId/copy/$jobToken", "GET");
+		return $this->isValidResponseCode() ? new GetCopyJobResponse($response) : null;
+	}
+
+	public function newCreateCopyJobRequest(int $SourceOrgUnitId, COPYCOMPONENT|array|null $Components, ?string $CallbackUrl, ?int $DaysToOffsetDates, ?float $HoursToOffsetDates, ?bool $OffsetByStartDate): CreateCopyJobRequest
+	{
+		return new CreateCopyJobRequest($this, $SourceOrgUnitId, $Components, $CallbackUrl, $DaysToOffsetDates, $HoursToOffsetDates, $OffsetByStartDate);
+	}
+
+	public function createCourseCopyRequestAndWait(int $orgUnitId, CreateCopyJobRequest $input): bool
+	{
+		$jobToken = $this->createCourseCopyRequest($orgUnitId, $input)->JobToken;
+
+		while(true) {
+			$status = $this->getCourseCopyJobStatus($orgUnitId, $jobToken)->Status->getResult();
+
+			if(!is_null($status))
+				break;
+
+			sleep(15);
+		}
+
+		return $status;
 	}
 }
