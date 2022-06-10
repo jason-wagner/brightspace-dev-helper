@@ -43,7 +43,6 @@ class Valence
 	public ?string $timezone = null;
 
 	private array $datahubFirst = [];
-	private array $datahubCourses = [];
 
 	public function __construct(?string $UserId = null, ?string $UserKey = null)
 	{
