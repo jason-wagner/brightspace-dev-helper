@@ -43,6 +43,8 @@ class Valence
 	public ?string $timezone = null;
 
 	private array $datahubFirst = [];
+	private array $datahubCoursesCurrent = [];
+	private int $datahubDayThreshold = 30;
 
 	public function __construct(?string $UserId = null, ?string $UserKey = null)
 	{
@@ -189,9 +191,31 @@ class Valence
 		$this->datahubFirst[$report] = $mode;
 	}
 
-	private function getDatahubSearch(string $report)
+	private function getDatahubSearch(string $report): int
 	{
 		return $this->datahubFirst[$report] ?? 0;
+	}
+	public function setDatahubDayThreshold(int $days): void
+	{
+		$this->datahubDayThreshold = $days;
+	}
+
+	private function checkOrgUnitDatahub(int $orgUnitId): bool
+	{
+		$mode = $this->getDatahubSearch('OrganizationalUnits') ?? 0;
+
+		if($mode == 0)
+			return false;
+
+		if($mode == 1)
+			return true;
+
+		if(array_key_exists($orgUnitId, $this->datahubCoursesCurrent))
+			return $this->datahubCoursesCurrent[$orgUnitId];
+
+		$isCurrent = OrganizationalUnit::isCurrent($orgUnitId, $this->datahubDayThreshold);
+		$this->datahubCoursesCurrent[$orgUnitId] = $isCurrent;
+		return $isCurrent;
 	}
 
 	public function getTimezone(): string
@@ -482,6 +506,13 @@ class Valence
 
 	public function getCourseOffering(int $orgUnitId): ?CourseOffering
 	{
+		if($this->checkOrgUnitDatahub($orgUnitId)) {
+			$record = OrganizationalUnit::whereOrgUnitId($orgUnitId)->first();
+
+			if($record)
+				return CourseOffering::fromDatahub($record, $this);
+		}
+
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/$orgUnitId");
 		return $response ? new CourseOffering($response, $this) : null;
 	}
