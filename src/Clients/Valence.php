@@ -701,6 +701,14 @@ class Valence
 
 	public function getUser(int $userId): ?UserData
 	{
+		if ($this->getDatahubSearch('Users')) {
+			echo "Foo";
+			$record = User::whereUserId($userId)->first();
+
+			if ($record)
+				return UserData::fromDatahub($record, $this);
+		}
+
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/$userId");
 		return $response ? new UserData($response) : null;
 	}

@@ -12,6 +12,11 @@ class User extends Model
 	public $incrementing = false;
 	public $timestamps = false;
 
+	public static function whereUserId($userId)
+	{
+		return User::where('UserId', $userId);
+	}
+
 	public static function whereUserName($username)
 	{
 		return User::where('UserName', $username);
