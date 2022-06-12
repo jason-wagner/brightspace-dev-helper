@@ -31,9 +31,9 @@ class CourseOffering extends Block
 			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key], $valence)->getTimestamp() : null;
 
 		foreach (['CourseTemplate', 'Semester', 'Department'] as $key)
-			if(is_array($response[$key]))
+			if (is_array($response[$key]))
 				$this->$key = new BasicOrgUnit($response[$key]);
-			else if(($response[$key] ?? '') instanceof BasicOrgUnit)
+			else if (($response[$key] ?? '') instanceof BasicOrgUnit)
 				$this->$key = $response[$key];
 			else
 				$this->$key = null;
@@ -41,7 +41,8 @@ class CourseOffering extends Block
 		$this->Description = is_array($response['Description']) ? new RichText($response['Description']) : $response['Description'];
 	}
 
-	public static function fromDatahub(OrganizationalUnit $record, Valence $valence): CourseOffering {
+	public static function fromDatahub(OrganizationalUnit $record, Valence $valence): CourseOffering
+	{
 		$a = [
 			'Identifier' => $record->OrgUnitId,
 			'Name' => $record->Name,

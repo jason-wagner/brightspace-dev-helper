@@ -26,10 +26,10 @@ class CreateCourseOffering extends CreateBlock
 	{
 		$this->valence = $valence;
 
-		if($this->StartDate instanceof DateTime)
+		if ($this->StartDate instanceof DateTime)
 			$this->StartDate = $this->StartDate->getIso8601();
 
-		if($this->EndDate instanceof DateTime)
+		if ($this->EndDate instanceof DateTime)
 			$this->EndDate = $this->EndDate->getIso8601();
 	}
 

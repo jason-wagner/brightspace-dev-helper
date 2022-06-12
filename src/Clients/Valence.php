@@ -194,6 +194,7 @@ class Valence
 	{
 		return $this->datahubFirst[$report] ?? 0;
 	}
+
 	public function setDatahubDayThreshold(int $days): void
 	{
 		$this->datahubDayThreshold = $days;
@@ -203,13 +204,13 @@ class Valence
 	{
 		$mode = $this->getDatahubSearch('OrganizationalUnits') ?? 0;
 
-		if($mode == 0)
+		if ($mode == 0)
 			return false;
 
-		if($mode == 1)
+		if ($mode == 1)
 			return true;
 
-		if(array_key_exists($orgUnitId, $this->datahubCoursesCurrent))
+		if (array_key_exists($orgUnitId, $this->datahubCoursesCurrent))
 			return $this->datahubCoursesCurrent[$orgUnitId];
 
 		$isCurrent = OrganizationalUnit::isCurrent($orgUnitId, $this->datahubDayThreshold);
@@ -505,10 +506,10 @@ class Valence
 
 	public function getCourseOffering(int $orgUnitId): ?CourseOffering
 	{
-		if($this->checkOrgUnitDatahub($orgUnitId)) {
+		if ($this->checkOrgUnitDatahub($orgUnitId)) {
 			$record = OrganizationalUnit::whereOrgUnitId($orgUnitId)->first();
 
-			if($record)
+			if ($record)
 				return CourseOffering::fromDatahub($record, $this);
 		}
 
@@ -813,10 +814,10 @@ class Valence
 	{
 		$jobToken = $this->createCourseCopyRequest($orgUnitId, $input)->JobToken;
 
-		while(true) {
+		while (true) {
 			$status = $this->getCourseCopyJobStatus($orgUnitId, $jobToken)->Status->getResult();
 
-			if(!is_null($status))
+			if (!is_null($status))
 				break;
 
 			sleep(15);

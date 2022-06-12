@@ -40,158 +40,195 @@ class COPYCOMPONENT
 	public bool $ToolNames = true;
 	public bool $Widgets = true;
 
-	public function __construct(bool $defaultValue) {
-		foreach($this as $k => $v)
+	public function __construct(bool $defaultValue)
+	{
+		foreach ($this as $k => $v)
 			$this->$k = $defaultValue;
 	}
 
-	public function toArray(): array {
+	public function toArray(): array
+	{
 		$a = [];
 
-		foreach($this as $k => $v)
-			if($v)
+		foreach ($this as $k => $v)
+			if ($v)
 				$a[] = $k;
 
 		return $a;
 	}
 
-	public function setAttendanceRegisters(bool $value): void {
+	public function setAttendanceRegisters(bool $value): void
+	{
 		$this->AttendanceRegisters = $value;
 	}
 
-	public function setAwards(bool $value): void {
+	public function setAwards(bool $value): void
+	{
 		$this->Awards = $value;
 	}
 
-	public function setChecklists(bool $value): void {
+	public function setChecklists(bool $value): void
+	{
 		$this->Checklists = $value;
 	}
 
-	public function setCompetencies(bool $value): void {
+	public function setCompetencies(bool $value): void
+	{
 		$this->Competencies = $value;
 	}
 
-	public function setContent(bool $value): void {
+	public function setContent(bool $value): void
+	{
 		$this->Content = $value;
 	}
 
-	public function setCourseAppearance(bool $value): void {
+	public function setCourseAppearance(bool $value): void
+	{
 		$this->CourseAppearance = $value;
 	}
 
-	public function setCourseFiles(bool $value): void {
+	public function setCourseFiles(bool $value): void
+	{
 		$this->CourseFiles = $value;
 	}
 
-	public function setDiscussions(bool $value): void {
+	public function setDiscussions(bool $value): void
+	{
 		$this->Discussions = $value;
 	}
 
-	public function setDisplaySettings(bool $value): void {
+	public function setDisplaySettings(bool $value): void
+	{
 		$this->DisplaySettings = $value;
 	}
 
-	public function setDropbox(bool $value): void {
+	public function setDropbox(bool $value): void
+	{
 		$this->Dropbox = $value;
 	}
 
-	public function setFaq(bool $value): void {
+	public function setFaq(bool $value): void
+	{
 		$this->Faq = $value;
 	}
 
-	public function setForms(bool $value): void {
+	public function setForms(bool $value): void
+	{
 		$this->Forms = $value;
 	}
 
-	public function setGameBasedLearning(bool $value): void {
+	public function setGameBasedLearning(bool $value): void
+	{
 		$this->GameBasedLearning = $value;
 	}
 
-	public function setGlossary(bool $value): void {
+	public function setGlossary(bool $value): void
+	{
 		$this->Glossary = $value;
 	}
 
-	public function setGrades(bool $value): void {
+	public function setGrades(bool $value): void
+	{
 		$this->Grades = $value;
 	}
 
-	public function setGradesSettings(bool $value): void {
+	public function setGradesSettings(bool $value): void
+	{
 		$this->GradesSettings = $value;
 	}
 
-	public function setGroups(bool $value): void {
+	public function setGroups(bool $value): void
+	{
 		$this->Groups = $value;
 	}
 
-	public function setHomepages(bool $value): void {
+	public function setHomepages(bool $value): void
+	{
 		$this->Homepages = $value;
 	}
 
-	public function setIntelligentAgents(bool $value): void {
+	public function setIntelligentAgents(bool $value): void
+	{
 		$this->IntelligentAgents = $value;
 	}
 
-	public function setLearningOutcomes(bool $value): void {
+	public function setLearningOutcomes(bool $value): void
+	{
 		$this->LearningOutcomes = $value;
 	}
 
-	public function setLinks(bool $value): void {
+	public function setLinks(bool $value): void
+	{
 		$this->Links = $value;
 	}
 
-	public function setLtiLink(bool $value): void {
+	public function setLtiLink(bool $value): void
+	{
 		$this->LtiLink = $value;
 	}
 
-	public function setLtiTP(bool $value): void {
+	public function setLtiTP(bool $value): void
+	{
 		$this->LtiTP = $value;
 	}
 
-	public function setNavbars(bool $value): void {
+	public function setNavbars(bool $value): void
+	{
 		$this->Navbars = $value;
 	}
 
-	public function setNews(bool $value): void {
+	public function setNews(bool $value): void
+	{
 		$this->News = $value;
 	}
 
-	public function setQuestionLibrary(bool $value): void {
+	public function setQuestionLibrary(bool $value): void
+	{
 		$this->QuestionLibrary = $value;
 	}
 
-	public function setQuizzes(bool $value): void {
+	public function setQuizzes(bool $value): void
+	{
 		$this->Quizzes = $value;
 	}
 
-	public function setReleaseConditions(bool $value): void {
+	public function setReleaseConditions(bool $value): void
+	{
 		$this->ReleaseConditions = $value;
 	}
 
-	public function setRubrics(bool $value): void {
+	public function setRubrics(bool $value): void
+	{
 		$this->Rubrics = $value;
 	}
 
-	public function setS3Model(bool $value): void {
+	public function setS3Model(bool $value): void
+	{
 		$this->S3Model = $value;
 	}
 
-	public function setSchedule(bool $value): void {
+	public function setSchedule(bool $value): void
+	{
 		$this->Schedule = $value;
 	}
 
-	public function setSelfAssessments(bool $value): void {
+	public function setSelfAssessments(bool $value): void
+	{
 		$this->SelfAssessments = $value;
 	}
 
-	public function setSurveys(bool $value): void {
+	public function setSurveys(bool $value): void
+	{
 		$this->Surveys = $value;
 	}
 
-	public function setToolNames(bool $value): void {
+	public function setToolNames(bool $value): void
+	{
 		$this->ToolNames = $value;
 	}
 
-	public function setWidgets(bool $value): void {
+	public function setWidgets(bool $value): void
+	{
 		$this->Widgets = $value;
 	}
 }

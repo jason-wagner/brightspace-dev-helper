@@ -12,7 +12,7 @@ enum COPYJOBSTATUS: string
 
 	public function getResult(): ?bool
 	{
-		return match($this) {
+		return match ($this) {
 			COPYJOBSTATUS::COMPLETE => true,
 			COPYJOBSTATUS::FAILED, COPYJOBSTATUS::CANCELLED => false,
 			COPYJOBSTATUS::PENDING, COPYJOBSTATUS::PROCESSING => null

@@ -20,7 +20,7 @@ class CreateCopyJobRequest extends CreateBlock
 	{
 		$this->valence = $valence;
 
-		if(!is_array($this->Components))
+		if (!is_array($this->Components))
 			$this->Components = $this->Components->toArray();
 	}
 
