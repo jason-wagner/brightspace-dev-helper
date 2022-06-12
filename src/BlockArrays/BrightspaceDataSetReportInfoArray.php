@@ -16,8 +16,8 @@ class BrightspaceDataSetReportInfoArray extends BlockArray
 		parent::build($response['BrightspaceDataSets']);
 	}
 
-	public function next(): ?BrightspaceDataSetReportInfo
+	public function current(): ?BrightspaceDataSetReportInfo
 	{
-		return parent::next();
+		return parent::current();
 	}
 }

@@ -9,8 +9,8 @@ class ProductVersionArray extends BlockArray
 {
 	public string $blockClass = ProductVersions::class;
 
-	public function next(): ?ProductVersions
+	public function current(): ?ProductVersions
 	{
-		return parent::next();
+		return parent::current();
 	}
 }

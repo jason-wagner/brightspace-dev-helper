@@ -10,8 +10,8 @@ class GroupDataArray extends BlockArray
 {
 	public string $blockClass = GroupData::class;
 
-	public function next(): ?GroupData
+	public function current(): ?GroupData
 	{
-		return parent::next();
+		return parent::current();
 	}
 }

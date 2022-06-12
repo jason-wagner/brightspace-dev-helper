@@ -9,8 +9,8 @@ class TopicArray extends BlockArray
 {
 	public string $blockClass = Topic::class;
 
-	public function next(): ?Topic
+	public function current(): ?Topic
 	{
-		return parent::next();
+		return parent::current();
 	}
 }

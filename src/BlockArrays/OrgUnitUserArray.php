@@ -23,8 +23,8 @@ class OrgUnitUserArray extends BlockArray
 		parent::build($response['Items']);
 	}
 
-	public function next(): ?OrgUnitUser
+	public function current(): ?OrgUnitUser
 	{
-		return parent::next();
+		return parent::current();
 	}
 }

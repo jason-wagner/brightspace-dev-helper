@@ -9,8 +9,8 @@ class ForumArray extends BlockArray
 {
 	public string $blockClass = Forum::class;
 
-	public function next(): ?Forum
+	public function current(): ?Forum
 	{
-		return parent::next();
+		return parent::current();
 	}
 }

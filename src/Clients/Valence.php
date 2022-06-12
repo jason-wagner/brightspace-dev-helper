@@ -307,12 +307,12 @@ class Valence
 	{
 		$roles = $this->getRoles();
 
-		while ($role = $roles->next())
+		foreach ($roles as $role)
 			$this->roleIds[$role->DisplayName] = $role->Identifier;
 
 		$orgtypes = $this->getOrgUnitTypes();
 
-		while ($orgtype = $orgtypes->next())
+		foreach ($orgtypes as $orgtype)
 			$this->orgtypeIds[$orgtype->Code] = $orgtype->Id;
 	}
 

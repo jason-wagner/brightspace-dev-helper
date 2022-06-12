@@ -9,8 +9,8 @@ class SectionDataArray extends BlockArray
 {
 	public string $blockClass = SectionData::class;
 
-	public function next(): ?SectionData
+	public function current(): ?SectionData
 	{
-		return parent::next();
+		return parent::current();
 	}
 }

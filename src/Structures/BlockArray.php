@@ -3,8 +3,9 @@
 namespace BrightspaceDevHelper\Valence\Structure;
 
 use BrightspaceDevHelper\Valence\Client\Valence;
+use Iterator;
 
-class BlockArray
+class BlockArray implements Iterator
 {
 	public array $data = [];
 	public int $pointer = 0;
@@ -23,24 +24,43 @@ class BlockArray
 
 	public function build(array $response): void
 	{
-		$this->data = [];
-
-		foreach ($response as $item)
-			$this->data[] = new $this->blockClass($item);
+		$this->data = $response;
+		$this->pointer = 0;
 	}
 
-	public function next()
+	public function rewind(): void
 	{
-		if (array_key_exists($this->pointer, $this->data))
-			return $this->data[$this->pointer++];
+		$this->pointer = 0;
+	}
 
-		if ($this->nextPageRoute) {
+	public function current(): mixed
+	{
+		return new $this->blockClass($this->data[$this->pointer]);
+	}
+
+	public function key(): mixed
+	{
+		return $this->pointer;
+	}
+
+	public function next(): void
+	{
+		$this->pointer++;
+	}
+
+	public function valid(): bool
+	{
+		$isSet = isset($this->data[$this->pointer]);
+
+		if($isSet)
+			return true;
+
+		if($this->nextPageRoute) {
 			$response = (new Valence())->apirequest($this->nextPageRoute);
 			$this->build($response);
-			$this->pointer = 0;
-			return $this->next();
+			return $this->valid();
 		}
 
-		return null;
+		return false;
 	}
 }

@@ -9,8 +9,8 @@ class PostArray extends BlockArray
 {
 	public string $blockClass = Post::class;
 
-	public function next(): ?Post
+	public function current(): ?Post
 	{
-		return parent::next();
+		return parent::current();
 	}
 }

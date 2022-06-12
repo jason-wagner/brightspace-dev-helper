@@ -9,8 +9,8 @@ class RoleArray extends BlockArray
 {
 	public string $blockClass = Role::class;
 
-	public function next(): ?Role
+	public function current(): ?Role
 	{
-		return parent::next();
+		return parent::current();
 	}
 }

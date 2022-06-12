@@ -10,8 +10,8 @@ class OrgUnitTypeArray extends BlockArray
 {
 	public string $blockClass = OrgUnitType::class;
 
-	public function next(): ?OrgUnitType
+	public function current(): ?OrgUnitType
 	{
-		return parent::next();
+		return parent::current();
 	}
 }
