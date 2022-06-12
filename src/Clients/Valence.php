@@ -30,7 +30,6 @@ class Valence
 	public const VERSION_LE = '1.61';
 
 	protected ?int $responseCode = null;
-	protected ?array $responseBody = null;
 	protected ?string $responseError = null;
 
 	public string $newUserClass = ValenceUser::class;
@@ -87,18 +86,16 @@ class Valence
 			$response = $this->httpclient->request($method, $uri, ['json' => $data]);
 
 			$this->responseCode = $response->getStatusCode();
-			$this->responseBody = json_decode($response->getBody(), 1);
 			$this->responseError = null;
 
 			if ($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
 				$this->logrequest($route, $method, $data);
 
-			return $this->responseBody;
+			return json_decode($response->getBody(), 1);
 		} catch (GuzzleClientException|GuzzleServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
-			$this->responseBody = null;
 			$this->responseError = $response->getBody()->getContents();
 
 			if ($this->logMode == 2 || ($this->logMode == 1 && in_array($method, ['POST', 'PUT', 'DELETE'])))
@@ -122,6 +119,7 @@ class Valence
 			$response = $this->httpclient->request('GET', $uri, ['sink' => $filehandler]);
 
 			$this->responseCode = $response->getStatusCode();
+			$this->responseError = null;
 
 			if ($this->logMode == 2)
 				$this->logrequest($route, 'GET');
@@ -157,6 +155,7 @@ class Valence
 			$response = $this->httpclient->request($method, $uri, ['multipart' => $formdata]);
 
 			$this->responseCode = $response->getStatusCode();
+			$this->responseError = null;
 
 			if ($this->logMode == 2)
 				$this->logrequest($route, $method, ['placeholder']);
@@ -281,11 +280,6 @@ class Valence
 	public function responseCode(): ?int
 	{
 		return $this->responseCode;
-	}
-
-	public function responseBody(): ?array
-	{
-		return $this->responseBody;
 	}
 
 	public function responseError(): ?string
