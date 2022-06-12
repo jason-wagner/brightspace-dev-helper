@@ -223,6 +223,11 @@ class Valence
 		return $this->timezone;
 	}
 
+	public function setTimezone(string $timezone): void
+	{
+		$this->timezone = $timezone;
+	}
+
 	public function getTimezoneConvert(): bool
 	{
 		return $this->convertTimezone;
