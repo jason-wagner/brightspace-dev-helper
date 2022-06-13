@@ -50,12 +50,10 @@ class BlockArray implements Iterator
 
 	public function valid(): bool
 	{
-		$isSet = isset($this->data[$this->pointer]);
-
-		if($isSet)
+		if (isset($this->data[$this->pointer]))
 			return true;
 
-		if($this->nextPageRoute) {
+		if ($this->nextPageRoute) {
 			$response = (new Valence())->apirequest($this->nextPageRoute);
 			$this->build($response);
 			return $this->valid();
