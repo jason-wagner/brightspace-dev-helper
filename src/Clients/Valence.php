@@ -702,7 +702,6 @@ class Valence
 	public function getUser(int $userId): ?UserData
 	{
 		if ($this->getDatahubSearch('Users')) {
-			echo "Foo";
 			$record = User::whereUserId($userId)->first();
 
 			if ($record)
