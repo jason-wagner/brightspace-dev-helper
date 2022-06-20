@@ -14,6 +14,7 @@ use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUser
 use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\{ClientException as GuzzleClientException, ServerException as GuzzleServerException};
+use Exception;
 
 class Valence
 {
