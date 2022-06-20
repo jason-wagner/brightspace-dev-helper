@@ -185,7 +185,7 @@ class Valence
 		fwrite($this->logFileHandler, $logEntry);
 	}
 
-	public function setDatahubSearch(string $report, int $mode)
+	public function setDatahubSearch(string $report, int $mode): void
 	{
 		$this->datahubFirst[$report] = $mode;
 	}
