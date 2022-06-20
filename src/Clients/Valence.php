@@ -67,8 +67,7 @@ class Valence
 		$authContextFactory = new D2LAppContextFactory();
 		$authContext = $authContextFactory->createSecurityContext($_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY']);
 		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
-		$url = $authContext->createUrlForAuthenticationFRomHostSpec($hostSpec, $appUrl);
-		return $url;
+		return $authContext->createUrlForAuthenticationFRomHostSpec($hostSpec, $appUrl);
 	}
 
 	public static function getUserCredentials(): ?UserIdKeyPair
