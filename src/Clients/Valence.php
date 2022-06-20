@@ -13,7 +13,7 @@ use BrightspaceDevHelper\Valence\PatchBlock\CourseOfferingInfoPatch;
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
 use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
 use GuzzleHttp\Client as Guzzle;
-use GuzzleHttp\Exception\{ClientException as GuzzleClientException, ServerException as GuzzleServerException};
+use GuzzleHttp\Exception\{ClientException as GuzzleClientException, ServerException as GuzzleServerException, GuzzleException};
 use Exception;
 
 class Valence
@@ -125,7 +125,7 @@ class Valence
 				$this->logrequest($route, 'GET');
 
 			return true;
-		} catch (GuzzleClientException|GuzzleServerException $exception) {
+		} catch (GuzzleException|GuzzleClientException|GuzzleServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
@@ -161,7 +161,7 @@ class Valence
 				$this->logrequest($route, $method, ['placeholder']);
 
 			return true;
-		} catch (GuzzleClientException|GuzzleServerException $exception) {
+		} catch (GuzzleException|GuzzleClientException|GuzzleServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
