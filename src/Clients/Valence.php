@@ -8,7 +8,7 @@ use BrightspaceDevHelper\Valence\Attributes\{GRPENROLL, SECTENROLL};
 use BrightspaceDevHelper\Valence\Block\{CourseOffering, CreateCopyJobResponse, EnrollmentData, Forum, GetCopyJobResponse, GroupCategoryData, GroupData, LegalPreferredNames, Organization, OrgUnitType, Post, ProductVersions, Role, SectionData, SectionPropertyData, Topic, UserData, WhoAmIUser};
 use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray, ForumArray, GroupCategoryDataArray, GroupDataArray, OrgUnitTypeArray, OrgUnitUserArray, PostArray, ProductVersionArray, RoleArray, SectionDataArray, TopicArray};
 use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest, CreateCourseOffering, RichTextInput};
-use BrightspaceDevHelper\Valence\Object\{DateTime, UserIdKeyPair};
+use BrightspaceDevHelper\Valence\Object\{CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
 use BrightspaceDevHelper\Valence\PatchBlock\CourseOfferingInfoPatch;
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
 use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
@@ -92,7 +92,7 @@ class Valence
 				$this->logrequest($route, $method, $data);
 
 			return json_decode($response->getBody(), 1);
-		} catch (GuzzleClientException|GuzzleServerException $exception) {
+		} catch (GuzzleException|GuzzleClientException|GuzzleServerException $exception) {
 			$response = $exception->getResponse();
 
 			$this->responseCode = $response->getStatusCode();
@@ -811,17 +811,37 @@ class Valence
 
 	public function createCourseCopyRequestAndWait(int $orgUnitId, CreateCopyJobRequest $input): bool
 	{
-		$jobToken = $this->createCourseCopyRequest($orgUnitId, $input)->JobToken;
+		$copyRequestQueue = new CopyRequestQueue();
+		$copyRequestQueue->add(new CopyRequest($this, $orgUnitId, $input));
+		return $this->createCourseCopyRequestsAndWait($copyRequestQueue);
+	}
+
+	public function createCourseCopyRequestsAndWait(CopyRequestQueue $requests): bool
+	{
+		foreach ($requests as $request)
+			$request->copy();
+
+		$success = true;
 
 		while (true) {
-			$status = $this->getCourseCopyJobStatus($orgUnitId, $jobToken)->Status->getResult();
+			$complete = true;
 
-			if (!is_null($status))
+			foreach ($requests as $request) {
+				$status = $request->status();
+
+				if (is_null($status))
+					$complete = false;
+
+				if ($status === false)
+					$success = false;
+			}
+
+			if ($complete)
 				break;
 
 			sleep(15);
 		}
 
-		return $status;
+		return $success;
 	}
 }
