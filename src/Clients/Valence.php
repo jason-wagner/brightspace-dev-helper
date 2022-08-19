@@ -46,6 +46,8 @@ class Valence
 	private array $datahubCoursesCurrent = [];
 	private int $datahubDayThreshold = 30;
 
+	private int $copyStatusCheckDelay = 15;
+
 	public function __construct(?string $UserId = null, ?string $UserKey = null)
 	{
 		$authContextFactory = new D2LAppContextFactory();
@@ -198,6 +200,11 @@ class Valence
 	public function setDatahubDayThreshold(int $days): void
 	{
 		$this->datahubDayThreshold = $days;
+	}
+
+	public function setCopyStatusDelay(int $seconds): void
+	{
+		$this->copyStatusCheckDelay = $seconds;
 	}
 
 	private function checkOrgUnitDatahub(int $orgUnitId): bool
@@ -839,7 +846,7 @@ class Valence
 			if ($complete)
 				break;
 
-			sleep(15);
+			sleep($this->copyStatusCheckDelay);
 		}
 
 		return $success;
