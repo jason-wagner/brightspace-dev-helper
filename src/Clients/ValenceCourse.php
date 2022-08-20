@@ -229,7 +229,7 @@ class ValenceCourse
 
 	public function getContentToc(): ?TableOfContents
 	{
-		return $this->valence->getContentToc();
+		return $this->valence->getContentToc($this->orgUnitId);
 	}
 
 	public function createCopyRequest(CreateCopyJobRequest $input): ?CreateCopyJobResponse
