@@ -804,6 +804,11 @@ class Valence
 		return $this->isValidResponseCode() ? new TableOfContents($response, $this) : null;
 	}
 
+	public function getContentTopicFile(int $orgUnitId, int $topicId, string $filepath): bool
+	{
+		return $this->apirequestfile("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/content/topics/$topicId/file", $filepath);
+	}
+
 	public function createCourseCopyRequest(int $orgUnitId, CreateCopyJobRequest $input): ?CreateCopyJobResponse
 	{
 		$data = $input->toArray();
