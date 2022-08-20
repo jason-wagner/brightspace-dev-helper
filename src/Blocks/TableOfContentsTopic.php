@@ -30,15 +30,17 @@ class TableOfContentsTopic extends Block
 	public ACTIVITYTYPE $ActivityType;
 	public ?int $GradeItemId;
 	public ?string $LastModifiedDate;
+	public RichText $Description;
 
 	public function __construct(array $response, Valence $valence)
 	{
-		parent::__construct($response, ['StartDateTime, EndDateTime', 'CompletionType', 'ActivityType', 'LastModifiedDate']);
+		parent::__construct($response, ['StartDateTime, EndDateTime', 'CompletionType', 'ActivityType', 'LastModifiedDate', 'Description']);
 
 		foreach (['StartDateTime', 'EndDateTime', 'LastModifiedDate'] as $key)
 			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key])->getTimestamp() : null;
 
 		$this->CompletionType = CONTENT_COMPLETIONTYPE::tryFrom($response['CompletionType']);
 		$this->ActivityType = ACTIVITYTYPE::tryFrom($response['ActivityType']);
+		$this->Description = new RichText($response['Description']);
 	}
 }
