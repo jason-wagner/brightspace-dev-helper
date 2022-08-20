@@ -11,9 +11,11 @@ class BlockArray implements Iterator
 	public int $pointer = 0;
 	public ?string $nextPageRoute = null;
 	public string $blockClass;
+	public ?Valence $valence;
 
-	public function __construct(array $response)
+	public function __construct(array $response, ?Valence $valence = null)
 	{
+		$this->valence = $valence;
 		$this->build($response);
 	}
 
@@ -35,7 +37,7 @@ class BlockArray implements Iterator
 
 	public function current(): mixed
 	{
-		return new $this->blockClass($this->data[$this->pointer]);
+		return $this->valence ? new $this->blockClass($this->data[$this->pointer], $this->valence) : new $this->blockClass($this->data[$this->pointer]);
 	}
 
 	public function key(): mixed

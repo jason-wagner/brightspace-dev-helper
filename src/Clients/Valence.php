@@ -5,7 +5,7 @@ namespace BrightspaceDevHelper\Valence\Client;
 use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
 use BrightspaceDevHelper\DataHub\Model\{OrganizationalUnit, User};
 use BrightspaceDevHelper\Valence\Attributes\{GRPENROLL, SECTENROLL};
-use BrightspaceDevHelper\Valence\Block\{CourseOffering, CreateCopyJobResponse, EnrollmentData, Forum, GetCopyJobResponse, GroupCategoryData, GroupData, LegalPreferredNames, Organization, OrgUnitType, Post, ProductVersions, Role, SectionData, SectionPropertyData, Topic, UserData, WhoAmIUser};
+use BrightspaceDevHelper\Valence\Block\{CourseOffering, CreateCopyJobResponse, EnrollmentData, Forum, GetCopyJobResponse, GroupCategoryData, GroupData, LegalPreferredNames, Organization, OrgUnitType, Post, ProductVersions, Role, SectionData, SectionPropertyData, TableOfContents, Topic, UserData, WhoAmIUser};
 use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray, ForumArray, GroupCategoryDataArray, GroupDataArray, OrgUnitTypeArray, OrgUnitUserArray, PostArray, ProductVersionArray, RoleArray, SectionDataArray, TopicArray};
 use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest, CreateCourseOffering, RichTextInput};
 use BrightspaceDevHelper\Valence\Object\{CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
@@ -796,6 +796,12 @@ class Valence
 	{
 		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId/posts/$postId", "GET");
 		return $this->isValidResponseCode() ? new Post($response) : null;
+	}
+
+	public function getContentToc(int $orgUnitId): ?TableOfContents
+	{
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/content/toc", "GET");
+		return $this->isValidResponseCode() ? new TableOfContents($response, $this) : null;
 	}
 
 	public function createCourseCopyRequest(int $orgUnitId, CreateCopyJobRequest $input): ?CreateCopyJobResponse

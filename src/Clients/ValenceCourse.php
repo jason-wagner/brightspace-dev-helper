@@ -14,6 +14,7 @@ use BrightspaceDevHelper\Valence\Block\GroupData;
 use BrightspaceDevHelper\Valence\Block\Post;
 use BrightspaceDevHelper\Valence\Block\SectionData;
 use BrightspaceDevHelper\Valence\Block\SectionPropertyData;
+use BrightspaceDevHelper\Valence\Block\TableOfContents;
 use BrightspaceDevHelper\Valence\Block\Topic;
 
 use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
@@ -224,6 +225,11 @@ class ValenceCourse
 	public function getDiscussionPost(int $forumId, int $topicId, int $postId): ?Post
 	{
 		return $this->valence->getDiscussionPost($this->orgUnitId, $forumId, $topicId, $postId);
+	}
+
+	public function getContentToc(): ?TableOfContents
+	{
+		return $this->valence->getContentToc();
 	}
 
 	public function createCopyRequest(CreateCopyJobRequest $input): ?CreateCopyJobResponse
