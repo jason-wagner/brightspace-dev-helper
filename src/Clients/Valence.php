@@ -795,7 +795,7 @@ class Valence
 	public function getDiscussionPost(int $orgUnitId, int $forumId, int $topicId, int $postId): ?Post
 	{
 		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId/posts/$postId", "GET");
-		return $this->isValidResponseCode() ? new Post($response) : null;
+		return $this->isValidResponseCode() ? new Post($response, $this) : null;
 	}
 
 	public function getContentToc(int $orgUnitId): ?TableOfContents

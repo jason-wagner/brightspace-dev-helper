@@ -26,7 +26,7 @@ class Post extends Block
 	public array $WordCount;
 	public int $AttachmentCount;
 
-	public function __construct(array $response)
+	public function __construct(array $response, Valence $valence)
 	{
 		parent::__construct($response, ['Message', 'DatePosted', 'LastEditDate']);
 
