@@ -5,6 +5,7 @@ namespace BrightspaceDevHelper\Valence\Block;
 use BrightspaceDevHelper\Valence\Attributes\AVAILABILITY;
 use BrightspaceDevHelper\Valence\Attributes\RATING;
 use BrightspaceDevHelper\Valence\Attributes\SCORING;
+use BrightspaceDevHelper\Valence\Client\Valence;
 use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Topic extends Block
@@ -37,7 +38,7 @@ class Topic extends Block
 	public ?AVAILABILITY $StartDateAvailabilityType;
 	public ?AVAILABILITY $EndDateAvailabilityType;
 
-	public function __construct(array $response)
+	public function __construct(array $response, Valence $valence)
 	{
 		parent::__construct($response, ['Description', 'ScoringType', 'RatingType', 'StartDate', 'EndDate', 'UnlockStartDate', 'UnlockEndDate', 'StartDateAvailabilityType', 'EndDateAvailabilityType']);
 

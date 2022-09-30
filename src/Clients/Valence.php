@@ -771,7 +771,7 @@ class Valence
 	public function getDiscussionForum(int $orgUnitId, int $forumId): ?Forum
 	{
 		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId", "GET");
-		return $this->isValidResponseCode() ? new Forum($response) : null;
+		return $this->isValidResponseCode() ? new Forum($response, $this) : null;
 	}
 
 	public function getDiscussionTopics(int $orgUnitId, int $forumId): TopicArray
@@ -783,7 +783,7 @@ class Valence
 	public function getDiscussionTopic(int $orgUnitId, int $forumId, int $topicId): ?Topic
 	{
 		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId", "GET");
-		return $this->isValidResponseCode() ? new Topic($response) : null;
+		return $this->isValidResponseCode() ? new Topic($response, $this) : null;
 	}
 
 	public function getDiscussionPosts(int $orgUnitId, int $forumId, int $topicId): PostArray

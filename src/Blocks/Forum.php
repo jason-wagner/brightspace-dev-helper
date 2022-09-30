@@ -3,6 +3,7 @@
 namespace BrightspaceDevHelper\Valence\Block;
 
 use BrightspaceDevHelper\Valence\Attributes\AVAILABILITY;
+use BrightspaceDevHelper\Valence\Client\Valence;
 use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Forum extends Block
@@ -23,7 +24,7 @@ class Forum extends Block
 	public ?AVAILABILITY $StartDateAvailabilityType;
 	public ?AVAILABILITY $EndDateAvailabilityType;
 
-	public function __construct(array $response)
+	public function __construct(array $response, Valence $valence)
 	{
 		parent::__construct($response, ['StartDate', 'EndDate', 'PostStartDate', 'PostEndDate', 'Description', 'StartDateAvailabilityType', 'EndDateAvailabilityType']);
 
