@@ -232,9 +232,9 @@ class ValenceCourse
 		return $this->valence->getContentToc($this->orgUnitId);
 	}
 
-	public function getContentTopicFile(int $topicId): bool
+	public function getContentTopicFile(int $topicId, string $filepath): bool
 	{
-		return $this->valence->getContentTopicFile($this->orgUnitId, $topicId);
+		return $this->valence->getContentTopicFile($this->orgUnitId, $topicId, $filepath);
 	}
 
 	public function createCopyRequest(CreateCopyJobRequest $input): ?CreateCopyJobResponse
