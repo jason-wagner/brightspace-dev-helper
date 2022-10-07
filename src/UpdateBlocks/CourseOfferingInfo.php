@@ -30,9 +30,4 @@ class CourseOfferingInfo extends UpdateBlock
 		if ($this->EndDate instanceof DateTime)
 			$this->EndDate = $this->EndDate->getIso8601();
 	}
-
-	public function update(): void
-	{
-		$this->valence->updateCourseOffering($this->orgUnitId, $this);
-	}
 }

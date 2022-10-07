@@ -18,12 +18,14 @@ class CourseOfferingInfoPatch extends CourseOfferingInfo
 
 		$data = $this->valence->getCourseOffering($this->orgUnitId);
 
-		foreach ($this as $k => $v) {
+		foreach (['Name', 'Code', 'IsActive', 'StartDate', 'EndDate', 'CanSelfRegister'] as $k) {
 			if (in_array($k, ['valence', 'nonprops']) || in_array($k, $this->nonprops))
 				continue;
 
-			$this->$k = $k == 'Description' ? $data->$k->toInput() : $data->$k;
+			$this->$k = $data->$k;
 		}
+
+		$this->Description = $data->Description->toInput();
 	}
 
 	public function setName(string $Name): void
@@ -59,5 +61,16 @@ class CourseOfferingInfoPatch extends CourseOfferingInfo
 	public function setCanSelfRegister(bool $CanSelfRegister)
 	{
 		$this->CanSelfRegister = $CanSelfRegister;
+	}
+
+	public function update(): void
+	{
+		if (!is_null($this->StartDate) && strlen($this->StartDate) == 19)
+			$this->StartDate = DateTime::createFromTimestamp($this->StartDate, $this->valence)->getIso8601();
+
+		if (!is_null($this->EndDate) && strlen($this->EndDate) == 19)
+			$this->EndDate = DateTime::createFromTimestamp($this->EndDate, $this->valence)->getIso8601();
+
+		$this->valence->updateCourseOffering($this->orgUnitId, $this);
 	}
 }
