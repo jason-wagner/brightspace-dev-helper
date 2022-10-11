@@ -11,6 +11,7 @@ use BrightspaceDevHelper\Valence\Block\Forum;
 use BrightspaceDevHelper\Valence\Block\GetCopyJobResponse;
 use BrightspaceDevHelper\Valence\Block\GroupCategoryData;
 use BrightspaceDevHelper\Valence\Block\GroupData;
+use BrightspaceDevHelper\Valence\Block\NewsItem;
 use BrightspaceDevHelper\Valence\Block\Post;
 use BrightspaceDevHelper\Valence\Block\SectionData;
 use BrightspaceDevHelper\Valence\Block\SectionPropertyData;
@@ -20,11 +21,13 @@ use BrightspaceDevHelper\Valence\Block\Topic;
 use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
+use BrightspaceDevHelper\Valence\BlockArray\NewsItemArray;
 use BrightspaceDevHelper\Valence\BlockArray\OrgUnitUserArray;
 use BrightspaceDevHelper\Valence\BlockArray\PostArray;
 use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
 use BrightspaceDevHelper\Valence\CreateBlock\CreateCopyJobRequest;
+use BrightspaceDevHelper\Valence\CreateBlock\NewsItemData;
 
 class ValenceCourse
 {
@@ -245,5 +248,60 @@ class ValenceCourse
 	public function getCopyJobStatus(string $jobToken): ?GetCopyJobResponse
 	{
 		return $this->valence->getCourseCopyJobStatus($this->orgUnitId, $jobToken);
+	}
+
+	public function getAnnouncements(): NewsItemArray
+	{
+		return $this->valence->getCourseAnnouncements($this->orgUnitId);
+	}
+
+	public function getDeletedAnnouncements(): NewsItemArray
+	{
+		return $this->valence->getDeletedCourseAnnouncements($this->orgUnitId);
+	}
+
+	public function getAnnouncementsForUser(int $userId): NewsItemArray
+	{
+		return $this->valence->getCourseAnnouncementsForUser($this->orgUnitId, $userId);
+	}
+
+	public function getAnnouncement(int $newsItemId): NewsItem
+	{
+		return $this->valence->getCourseAnnouncement($this->orgUnitId, $newsItemId);
+	}
+
+	public function postCourseAnnouncement(NewsItemData $input): NewsItem
+	{
+		return $this->valence->postCourseAnnouncement($this->orgUnitId, $input);
+	}
+
+	public function updateCourseAnnouncement(int $newsItemId, NewsItemData $input): void
+	{
+		$this->valence->updateCourseAnnouncement($this->orgUnitId, $newsItemId, $input);
+	}
+
+	public function deleteCourseAnnouncement(int $newsItemId): void
+	{
+		$this->valence->deleteCourseAnnouncement($this->orgUnitId, $newsItemId);
+	}
+
+	public function dismissCourseAnnouncement(int $newsItemId): void
+	{
+		$this->valence->dismissCourseAnnouncement($this->orgUnitId, $newsItemId);
+	}
+
+	public function publishCourseAnnouncement(int $newsItemId): void
+	{
+		$this->valence->publishCourseAnnouncement($this->orgUnitId, $newsItemId);
+	}
+
+	public function restoreCourseAnnouncement(int $newsItemId): void
+	{
+		$this->valence->restoreCourseAnnouncement($this->orgUnitId, $newsItemId);
+	}
+
+	public function restoreDeletedCourseAnnouncement(int $newsItemId): void
+	{
+		$this->valence->restoreDeletedCourseAnnouncement($this->orgUnitId, $newsItemId);
 	}
 }

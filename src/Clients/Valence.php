@@ -5,11 +5,11 @@ namespace BrightspaceDevHelper\Valence\Client;
 use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
 use BrightspaceDevHelper\DataHub\Model\{OrganizationalUnit, User};
 use BrightspaceDevHelper\Valence\Attributes\{GRPENROLL, SECTENROLL};
-use BrightspaceDevHelper\Valence\Block\{CourseOffering, CreateCopyJobResponse, EnrollmentData, Forum, GetCopyJobResponse, GroupCategoryData, GroupData, LegalPreferredNames, Organization, OrgUnitType, Post, ProductVersions, Role, SectionData, SectionPropertyData, TableOfContents, Topic, UserData, WhoAmIUser};
-use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray, ForumArray, GroupCategoryDataArray, GroupDataArray, OrgUnitTypeArray, OrgUnitUserArray, PostArray, ProductVersionArray, RoleArray, SectionDataArray, TopicArray};
-use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest, CreateCourseOffering, RichTextInput};
+use BrightspaceDevHelper\Valence\Block\{CourseOffering, CreateCopyJobResponse, EnrollmentData, Forum, GetCopyJobResponse, GroupCategoryData, GroupData, LegalPreferredNames, NewsItem, Organization, OrgUnitType, Post, ProductVersions, RichText, Role, SectionData, SectionPropertyData, TableOfContents, Topic, UserData, WhoAmIUser};
+use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray, ForumArray, GroupCategoryDataArray, GroupDataArray, NewsItemArray, OrgUnitTypeArray, OrgUnitUserArray, PostArray, ProductVersionArray, RoleArray, SectionDataArray, TopicArray};
+use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest, CreateCourseOffering, NewsItemData, RichTextInput};
 use BrightspaceDevHelper\Valence\Object\{CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
-use BrightspaceDevHelper\Valence\PatchBlock\CourseOfferingInfoPatch;
+use BrightspaceDevHelper\Valence\PatchBlock\{CourseOfferingInfoPatch, NewsItemDataPatch};
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
 use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
 use GuzzleHttp\Client as Guzzle;
@@ -861,5 +861,75 @@ class Valence
 		}
 
 		return $success;
+	}
+
+	public function getCourseAnnouncements(int $orgUnitId): ?NewsItemArray
+	{
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/", "GET");
+		return $this->isValidResponseCode() ? new NewsItemArray($response, $this) : null;
+	}
+
+	public function getDeletedCourseAnnouncements(int $orgUnitId): ?NewsItemArray
+	{
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/deleted/", "GET");
+		return $this->isValidResponseCode() ? new NewsItemArray($response, $this) : null;
+	}
+
+	public function getCourseAnnouncementsForUser(int $orgUnitId, int $userId): ?NewsItemArray
+	{
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/user/$userId/", "GET");
+		return $this->isValidResponseCode() ? new NewsItemArray($response, $this) : null;
+	}
+
+	public function getCourseAnnouncement(int $orgUnitId, int $newsItemId): ?NewsItem
+	{
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/$newsItemId", "GET");
+		return $this->isValidResponseCode() ? new NewsItem($response, $this) : null;
+	}
+
+	public function newNewsItemDataObject(int $orgUnitId, string $Title, RichText $Body, DateTime|string $StartDate, DateTime|string|null $EndDate, bool $IsGlobal, bool $IsPublished, bool $ShowOnlyInCourseOfferings, bool $IsAuthorInfoShown): NewsItemData
+	{
+		return new NewsItemData($this, $orgUnitId, $Title, $Body, $StartDate, $EndDate, $IsGlobal, $IsPublished, $ShowOnlyInCourseOfferings, $IsAuthorInfoShown);
+	}
+
+	public function postCourseAnnouncement(int $orgUnitId, NewsItemData $input): NewsItem
+	{
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/", "POST", $input->toArray());
+		return new NewsItem($response, $this);
+	}
+
+	public function newNewsItemDataPatchObject(int $orgUnitId, int $newsItemId): NewsItemDataPatch
+	{
+		return new NewsItemDataPatch($this, $orgUnitId, $newsItemId);
+	}
+
+	public function updateCourseAnnouncement(int $orgUnitId, int $newsItemId, NewsItemData $input): void
+	{
+		$this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/$newsItemId", "PUT", $input->toArray());
+	}
+
+	public function deleteCourseAnnouncement(int $orgUnitId, int $newsItemId): void
+	{
+		$this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/$newsItemId", "DELETE");
+	}
+
+	public function dismissCourseAnnouncement(int $orgUnitId, int $newsItemId): void
+	{
+		$this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/$newsItemId/dismiss", "POST");
+	}
+
+	public function publishCourseAnnouncement(int $orgUnitId, int $newsItemId): void
+	{
+		$this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/$newsItemId/publish", "POST");
+	}
+
+	public function restoreCourseAnnouncement(int $orgUnitId, int $newsItemId): void
+	{
+		$this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/$newsItemId/restore", "POST");
+	}
+
+	public function restoreDeletedCourseAnnouncement(int $orgUnitId, int $newsItemId): void
+	{
+		$this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/deleted/$newsItemId/restore", "POST");
 	}
 }
