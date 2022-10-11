@@ -28,7 +28,7 @@ class NewsItem extends Block
 		parent::__construct($response, ['Attachments', 'Body', 'CreatedDate', 'LastModifiedDate', 'StartDate', 'EndDate']);
 
 		foreach (['CreatedDate', 'LastModifiedDate', 'StartDate', 'EndDate'] as $key)
-			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key], $valence)->getTimestamp() : null;
+			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key])->getTimestamp() : null;
 
 		$this->Body = new RichText($response['Body']);
 

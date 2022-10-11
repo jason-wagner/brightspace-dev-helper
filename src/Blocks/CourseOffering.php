@@ -28,7 +28,7 @@ class CourseOffering extends Block
 		parent::__construct($response, ['CourseTemplate', 'Semester', 'Department', 'Description', 'StartDate', 'EndDate']);
 
 		foreach (['StartDate', 'EndDate'] as $key)
-			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key], $valence)->getTimestamp() : null;
+			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key])->getTimestamp() : null;
 
 		foreach (['CourseTemplate', 'Semester', 'Department'] as $key)
 			if (is_array($response[$key]))

@@ -45,7 +45,7 @@ class Topic extends Block
 		$this->Description = new RichText($response['Description']);
 
 		foreach (['StartDate', 'EndDate', 'UnlockStartDate', 'UnlockEndDate'] as $key)
-			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key], $valence)->getTimestamp() : null;
+			$this->$key = $response[$key] != '' ? $valence->createDateTimeFromIso8601($response[$key])->getTimestamp() : null;
 
 		$this->ScoringType = SCORING::tryFrom($response['ScoringType']);
 		$this->RatingType = RATING::tryFrom($response['RatingType']);
