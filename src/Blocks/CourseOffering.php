@@ -33,7 +33,7 @@ class CourseOffering extends Block
 		foreach (['CourseTemplate', 'Semester', 'Department'] as $key)
 			if (is_array($response[$key]))
 				$this->$key = new BasicOrgUnit($response[$key]);
-			else if (($response[$key] ?? '') instanceof BasicOrgUnit)
+			elseif (($response[$key] ?? '') instanceof BasicOrgUnit)
 				$this->$key = $response[$key];
 			else
 				$this->$key = null;
