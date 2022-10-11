@@ -6,7 +6,6 @@ use BrightspaceDevHelper\Valence\Client\Valence;
 use BrightspaceDevHelper\Valence\CreateBlock\RichTextInput;
 use BrightspaceDevHelper\Valence\Object\DateTime;
 use BrightspaceDevHelper\Valence\Structure\UpdateBlock;
-use Illuminate\Support\Facades\Date;
 
 class CourseOfferingInfo extends UpdateBlock
 {

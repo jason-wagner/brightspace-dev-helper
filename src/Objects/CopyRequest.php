@@ -3,11 +3,8 @@
 namespace BrightspaceDevHelper\Valence\Object;
 
 use BrightspaceDevHelper\Valence\Attributes\COPYJOBSTATUS;
-use BrightspaceDevHelper\Valence\Block\CreateCopyJobResponse;
-use BrightspaceDevHelper\Valence\Block\GetCopyJobResponse;
 use BrightspaceDevHelper\Valence\Client\Valence;
 use BrightspaceDevHelper\Valence\CreateBlock\CreateCopyJobRequest;
-use \Iterator;
 
 class CopyRequest
 {

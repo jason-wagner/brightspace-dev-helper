@@ -4,9 +4,7 @@ namespace BrightspaceDevHelper\Valence\CreateBlock;
 
 use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
 use BrightspaceDevHelper\Valence\Client\Valence;
-use BrightspaceDevHelper\Valence\Client\ValenceCourse;
 use BrightspaceDevHelper\Valence\Structure\CreateBlock;
-use BrightspaceDevHelper\Valence\Block\CourseOffering;
 
 class CreateCopyJobRequest extends CreateBlock
 {
