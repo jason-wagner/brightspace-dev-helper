@@ -240,14 +240,9 @@ class Valence
 		return $this->convertTimezone;
 	}
 
-	public function disableTimezoneConversion(): void
+	public function setTimezoneConversion(bool $timezoneConverstion): void
 	{
-		$this->convertTimezone = false;
-	}
-
-	public function enableTimezoneConversion(): void
-	{
-		$this->convertTimezone = true;
+		$this->convertTimezone = $timezoneConverstion;
 	}
 
 	public function createDateTimeFromIso8601($datetime): DateTime
