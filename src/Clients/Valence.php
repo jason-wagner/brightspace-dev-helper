@@ -480,7 +480,7 @@ class Valence
 
 	public function getEnrollments(int $orgUnitId): ?OrgUnitUserArray
 	{
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/enrollments/orgUnits/$orgUnitId/users/?isActive=1", "GET");
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/enrollments/orgUnits/$orgUnitId/users/?isActive=1");
 		return $response ? new OrgUnitUserArray($response, $orgUnitId) : null;
 	}
 
@@ -759,43 +759,43 @@ class Valence
 
 	public function getDiscussionForums(int $orgUnitId): ForumArray
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/");
 		return new ForumArray($response);
 	}
 
 	public function getDiscussionForum(int $orgUnitId, int $forumId): ?Forum
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId");
 		return $this->isValidResponseCode() ? new Forum($response, $this) : null;
 	}
 
 	public function getDiscussionTopics(int $orgUnitId, int $forumId): TopicArray
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/");
 		return new TopicArray($response);
 	}
 
 	public function getDiscussionTopic(int $orgUnitId, int $forumId, int $topicId): ?Topic
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId");
 		return $this->isValidResponseCode() ? new Topic($response, $this) : null;
 	}
 
 	public function getDiscussionPosts(int $orgUnitId, int $forumId, int $topicId): PostArray
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId/posts/", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId/posts/");
 		return new PostArray($response);
 	}
 
 	public function getDiscussionPost(int $orgUnitId, int $forumId, int $topicId, int $postId): ?Post
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId/posts/$postId", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/discussions/forums/$forumId/topics/$topicId/posts/$postId");
 		return $this->isValidResponseCode() ? new Post($response, $this) : null;
 	}
 
 	public function getContentToc(int $orgUnitId): ?TableOfContents
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/content/toc", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/content/toc");
 		return $this->isValidResponseCode() ? new TableOfContents($response, $this) : null;
 	}
 
@@ -813,7 +813,7 @@ class Valence
 
 	public function getCourseCopyJobStatus(int $orgUnitId, string $jobToken): ?GetCopyJobResponse
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/import/$orgUnitId/copy/$jobToken", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/import/$orgUnitId/copy/$jobToken");
 		return $this->isValidResponseCode() ? new GetCopyJobResponse($response) : null;
 	}
 
@@ -860,25 +860,25 @@ class Valence
 
 	public function getCourseAnnouncements(int $orgUnitId): ?NewsItemArray
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/");
 		return $this->isValidResponseCode() ? new NewsItemArray($response, $this) : null;
 	}
 
 	public function getDeletedCourseAnnouncements(int $orgUnitId): ?NewsItemArray
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/deleted/", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/deleted/");
 		return $this->isValidResponseCode() ? new NewsItemArray($response, $this) : null;
 	}
 
 	public function getCourseAnnouncementsForUser(int $orgUnitId, int $userId): ?NewsItemArray
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/user/$userId/", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/user/$userId/");
 		return $this->isValidResponseCode() ? new NewsItemArray($response, $this) : null;
 	}
 
 	public function getCourseAnnouncement(int $orgUnitId, int $newsItemId): ?NewsItem
 	{
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/$newsItemId", "GET");
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/$newsItemId");
 		return $this->isValidResponseCode() ? new NewsItem($response, $this) : null;
 	}
 
