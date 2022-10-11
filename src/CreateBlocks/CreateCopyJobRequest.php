@@ -36,7 +36,7 @@ class CreateCopyJobRequest extends CreateBlock
 		return $a;
 	}
 
-	public function create(int $orgUnitId): ValenceCourse|CourseOffering
+	public function create(int $orgUnitId): ?CreateCopyJobRequest
 	{
 		return $this->valence->createCourseCopyRequest($orgUnitId, $this);
 	}
