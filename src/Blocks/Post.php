@@ -2,6 +2,7 @@
 
 namespace BrightspaceDevHelper\Valence\Block;
 
+use BrightspaceDevHelper\Valence\Client\Valence;
 use BrightspaceDevHelper\Valence\Structure\Block;
 
 class Post extends Block
