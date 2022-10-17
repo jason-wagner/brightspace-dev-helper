@@ -9,3 +9,4 @@ composer.lock
 composer.phar
 client-custom/
 tests/
+init.php
