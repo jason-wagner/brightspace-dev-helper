@@ -22,7 +22,6 @@
 		"league/csv": "^9.8"
 	},
 	"autoload": {
-		"classmap": ["client-custom/"],
 		"psr-4": {
 			"BrightspaceDevHelper\\Valence\\Client\\": "src/Clients",
 			"BrightspaceDevHelper\\Valence\\Block\\": "src/Blocks",
