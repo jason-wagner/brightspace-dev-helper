@@ -2,7 +2,9 @@
 	"name": "jason-wagner/brightspace-dev-helper",
 	"type": "library",
 	"description": "This package allows for easier usage of D2L's Data Hub and Valence tools for their Brightspace LMS.",
-	"license": "Apache-2.0",
+	"version": "0.1.0",
+	"license": "MIT",
+	"homepage": "https://jason-wagner.github.io/brightspace-dev-helper",
 	"authors": [
 		{
 			"name": "Jason Wagner",
