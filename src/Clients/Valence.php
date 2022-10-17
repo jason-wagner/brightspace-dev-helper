@@ -5,15 +5,48 @@ namespace BrightspaceDevHelper\Valence\Client;
 use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
 use BrightspaceDevHelper\DataHub\Model\{OrganizationalUnit, User};
 use BrightspaceDevHelper\Valence\Attributes\{GRPENROLL, SECTENROLL};
-use BrightspaceDevHelper\Valence\Block\{CourseOffering, CreateCopyJobResponse, EnrollmentData, Forum, GetCopyJobResponse, GroupCategoryData, GroupData, LegalPreferredNames, NewsItem, Organization, OrgUnitType, Post, ProductVersions, RichText, Role, SectionData, SectionPropertyData, TableOfContents, Topic, UserData, WhoAmIUser};
-use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray, ForumArray, GroupCategoryDataArray, GroupDataArray, NewsItemArray, OrgUnitTypeArray, OrgUnitUserArray, PostArray, ProductVersionArray, RoleArray, SectionDataArray, TopicArray};
+use BrightspaceDevHelper\Valence\Block\{CourseOffering,
+	CreateCopyJobResponse,
+	EnrollmentData,
+	Forum,
+	GetCopyJobResponse,
+	GroupCategoryData,
+	GroupData,
+	LegalPreferredNames,
+	NewsItem,
+	Organization,
+	OrgUnitType,
+	Post,
+	ProductVersions,
+	RichText,
+	Role,
+	SectionData,
+	SectionPropertyData,
+	TableOfContents,
+	Topic,
+	UserData,
+	WhoAmIUser};
+use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray,
+	ForumArray,
+	GroupCategoryDataArray,
+	GroupDataArray,
+	NewsItemArray,
+	OrgUnitTypeArray,
+	OrgUnitUserArray,
+	PostArray,
+	ProductVersionArray,
+	RoleArray,
+	SectionDataArray,
+	TopicArray};
 use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest, CreateCourseOffering, NewsItemData, RichTextInput};
 use BrightspaceDevHelper\Valence\Object\{CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
 use BrightspaceDevHelper\Valence\PatchBlock\{CourseOfferingInfoPatch, NewsItemDataPatch};
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
 use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
 use GuzzleHttp\Client as Guzzle;
-use GuzzleHttp\Exception\{ClientException as GuzzleClientException, ServerException as GuzzleServerException, GuzzleException};
+use GuzzleHttp\Exception\{ClientException as GuzzleClientException,
+	ServerException as GuzzleServerException,
+	GuzzleException};
 use Exception;
 
 class Valence
