@@ -521,8 +521,7 @@ class Valence
 
 	public function createCourseOffering(CreateCourseOffering $input): ValenceCourse|CourseOffering
 	{
-		$data = $input->toArray();
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/courses/", "POST", $input->toArray());
 		return $this->returnObjectOnCreate ? $this->newCourseObject($response['Identifier']) : new CourseOffering($response, $this);
 	}
 
@@ -806,8 +805,7 @@ class Valence
 
 	public function createCourseCopyRequest(int $orgUnitId, CreateCopyJobRequest $input): ?CreateCopyJobResponse
 	{
-		$data = $input->toArray();
-		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/import/$orgUnitId/copy/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/import/$orgUnitId/copy/", "POST", $input->toArray());
 		return $this->isValidResponseCode() ? new CreateCopyJobResponse($response) : null;
 	}
 
