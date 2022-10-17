@@ -18,7 +18,7 @@
 		"vlucas/phpdotenv": "^5.3",
 		"nesbot/carbon": "^2.48",
 		"ext-json": "*",
-		"illuminate/database": "^8.83",
+		"illuminate/database": "^9.0",
 		"league/csv": "^9.8"
 	},
 	"autoload": {
