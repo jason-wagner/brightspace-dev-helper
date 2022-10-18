@@ -85,6 +85,9 @@ class Valence
 	private array $datahubCoursesCurrent = [];
 	private int $datahubDayThreshold = 30;
 
+	private string $roleNameForStudent = 'Student';
+	private string $roleNameForInstructor = 'Instructor';
+
 	private int $copyStatusCheckDelay = 15;
 
 	public function __construct(?string $UserId = null, ?string $UserKey = null)
@@ -388,6 +391,16 @@ class Valence
 		return $this->isValidResponseCode() ? new Role($response) : null;
 	}
 
+	public function setRoleNameForStudent(string $role): void
+	{
+		$this->roleNameForStudent = $role;
+	}
+
+	public function setRoleNameForInstructor(string $role): void
+	{
+		$this->roleNameForInstructor = $role;
+	}
+
 	public function getRoles(): RoleArray
 	{
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/roles/");
@@ -538,7 +551,7 @@ class Valence
 		if (!count($this->roleIds))
 			$this->setInternalIds();
 
-		return $this->enrollUser(new CreateEnrollmentData($this, $OrgUnitId, $UserId, $this->roleIds['Student']));
+		return $this->enrollUser(new CreateEnrollmentData($this, $OrgUnitId, $UserId, $this->roleIds[$this->roleNameForStudent]));
 	}
 
 	public function enrollInstructor(int $OrgUnitId, int $UserId): ?EnrollmentData
@@ -546,7 +559,7 @@ class Valence
 		if (!count($this->roleIds))
 			$this->setInternalIds();
 
-		return $this->enrollUser(new CreateEnrollmentData($this, $OrgUnitId, $UserId, $this->roleIds['Instructor']));
+		return $this->enrollUser(new CreateEnrollmentData($this, $OrgUnitId, $UserId, $this->roleIds[$this->roleNameForInstructor]));
 	}
 
 	public function getCourseOffering(int $orgUnitId): ?CourseOffering
