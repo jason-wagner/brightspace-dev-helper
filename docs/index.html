@@ -81,6 +81,7 @@
 				class="prose prose-slate max-w-none prose-a:scroll-mt-16 prose-headings:font-display prose-headings:font-normal prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-a:decoration-2 prose-pre:rounded-xl prose-pre:bg-slate-900 prose-pre:shadow-lg prose-h4:font-bold snap-y">
 				<a id="introduction"></a>
 				<h1>Introduction</h1>
+				<a id="about-this-package"></a>
 				<h2>About This Package</h2>
 				<div class="not-prose rounded-md bg-red-50 p-4">
 					<p class="font-medium text-red-800">This package is currently a <strong>preview release</strong>.
@@ -267,8 +268,35 @@ $response = $valenceObject->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/user
 				<p>Note the use of the constant <code>Valence::VERSION_LP</code> to get the current version of the
 					learning platform supported by the class.</p>
 				<h3>Querying the Data Hub</h3>
-				<p>You will first need to come up with a starting point, with a query on one of the objects in the
-					database. Typically, this will be a user or course.</p>
+				<p>For the Data Hub, this package uses the Eloquent ORM to define relationships to the tables. Once
+					relationships are defined, you can simply call methods on the classes named after what you're
+					attempting to join. Looking for John Doe's assignment submissions?</p>
+				<pre>
+$user = User::whereUserName('john.doe');
+
+foreach($user->assignmentsubmissions()->get() as $submission)
+    echo implode("\t", [$user->FirstName, $user->LastName, $submission->assignmentsummary->orgunit->Name, $submission->assignmentsummary->Name, $submission->LastSubmissionDate, $submission->Score, $submission->assignmentsummary->PossibleScore]) . "\n";</pre>
+				<p>This creates a tab-delimited table with the student's first name, last name, name of the course the
+					assignment is in, name of the assignment, timestamp of the submission, score, and number of points
+					possible.</p>
+				<p>But what does all of this mean?</p>
+				<p>First, we find the user with the username John Doe. Normally, we would use
+					<code>User::find($UserId)</code>, but since we probably don't know <code>$UserId</code>, a helper
+					function was created to easily find the user by username instead. We can also use other functions of
+					Eloquent to find what we're looking for, such as <code>User::where('Email',
+						'john.doe@school.edu')</code> or <code>User::where('FirstName', 'John')->where('LastName',
+						'Doe')</code>. Then, since the Data Hub has a relationship between the <code>Users</code> table
+					and <code>AssignmentSubmissions</code> table (through <code>UserId</code>), a relationship is
+					defined on the <code>User</code> class in a method called <code>assignmentsubmissions</code>. We
+					call that method, then <code>get()</code>, and loop through the results.</p>
+				<p>Within the results, you can see that there are a few instances where we call
+					<code>assignmentsummary</code> on the <code>$submission</code> object. As we did above, we also
+					defined a relationship on the <code>AssignmentSubmissions</code> and <code>AssignmentSummary</code>
+					tables to join the information. We did this again when we call <code>orgunit</code> to get the name
+					of the course it is in, defining a relationship between <code>AssignmentSummary</code> and
+					<code>OrganizationalUnits</code>.</p>
+				<p>For other examples. you will first need to come up with a starting point, with a query on one of the
+					objects in the database.</p>
 				<p>Then, functions were created for the relationships on each object, in both directions.</p>
 				<p>The syntax of the call for the relationship depends upon the type of relationship.</p>
 				<p>For example, consider the relationship between an <code>OrganizationalUnit</code> and a
@@ -277,22 +305,19 @@ $response = $valenceObject->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/user
 					<code>QuizObject</code>s, but each <code>QuizObject</code> belongs to only one
 					<code>OrganizationalUnit</code>.</p>
 				<p>When something <em>has many</em>, we call it as a function, followed by <code>get()</code>. In this
-					case,
-					to get the <code>QuizObject</code>s of the <code>OrganizationalUnit</code> with
-					<code>OrgUnitId</code>
+					case, to get the <code>QuizObject</code>s of the <code>OrganizationalUnit</code> with <code>OrgUnitId</code>
 					123456, we would use the following code:</p>
 				<pre>
 $orgObject = OrganizationalUnit::find(12345);
 
 foreach($orgObject->quizobjects()->get() as $quizobject)
-// loop through each quiz in $quizobject, such as $quizobject's name in $quizobject->Name</pre>
+	// loop through each quiz in $quizobject, such as $quizobject's name in $quizobject->Name</pre>
 				<p>However, when something <em>belongs to</em>, we call it as an attribute. In this case, to get the
 					<code>OrganizationalUnit</code> that the <code>QuizObject</code> with a <code>QuizId</code> of
 					24680, we would use the following code:
 				<pre>
 $quizObject = QuizObject::find(24680);
-$orgObject = $quizObject->orgObject;
-// record for the org unit is in $orgObject, such as $orgObject's offering code in $orgObject->Code</pre>
+$orgObject = $quizObject->orgunit; // record for the org unit is in $orgObject, such as $orgObject's offering code in $orgObject->Code</pre>
 				<p>In a many-to-many relationship (such as the relationship between <code>Users</code> and <code>OrganizationalUnits</code>,
 					which goes through <code>UserEnrollments</code>), you always use functions. In a one-to-one
 					relationship (such as the relationship between <code>OrganizationalUnits</code> and <code>GradebookSettings</code>),
@@ -816,41 +841,6 @@ UserIdKeyPair</pre>
 					<li><code>Users::whereUserId($userid)</code></li>
 					<li><code>Users::whereUserName($username)</code></li>
 				</ul>
-				<h1>PHP Brightspace Data Hub Helper Package</h1>
-				<a id="about-this-package"></a>
-				<h2>About This Package</h2>
-				<p>This package allows you to utilize Brightspace's Valence API using helper functions to replace API
-					routes.</p>
-				<p>The purpose of these classes is to make it easier to query a local copy of the Data Hub database.
-					This
-					package uses the Eloquent ORM to define relationships to the tables. Once relationships are defined,
-					you
-					can simply call methods on the classes named after what you're attempting to join. Looking for John
-					Doe's assignment submissions?</p>
-				<pre>
-$user = User::whereUserName('john.doe');
-
-foreach($user->assignmentsubmissions()->get() as $submission)
-    echo implode("\t", [$user->FirstName, $user->LastName, $submission->assignmentsummary->orgunit->Name, $submission->assignmentsummary->Name, $submission->LastSubmissionDate, $submission->Score, $submission->assignmentsummary->PossibleScore]) . "\n";</pre>
-				<p>This creates a tab-delimited table with the student's first name, last name, name of the course the
-					assignment is in, name of the assignment, timestamp of the submission, score, and number of points
-					possible.</p>
-				<p>But what does all of this mean?</p>
-				<p>First, we find the user with the username John Doe. Normally, we would use
-					<code>User::find($UserId)</code>, but since we probably don't know <code>$UserId</code>, a helper
-					function was created to easily find the user by username instead. We can also use other functions of
-					Eloquent to find what we're looking for, such as <code>User::where('Email',
-						'john.doe@school.edu')</code> or <code>User::where('FirstName', 'John')->where('LastName',
-						'Doe')</code>. Then, since the Data Hub has a relationship between the <code>Users</code> table
-					and <code>AssignmentSubmissions</code> table (through <code>UserId</code>), a relationship is
-					defined on the <code>User</code> class in a method called <code>assignmentsubmissions</code>. We
-					call that method, then <code>get()</code>, and loop through the results.</p>
-				<p>Within the results, you can see that there are a few instances where we call
-					<code>assignmentsummary</code> on the <code>$submission</code> object. As we did above, we also
-					defined a relationship on the <code>AssignmentSubmissions</code> and <code>AssignmentSummary</code>
-					tables to join the information. We did this again when we call <code>orgunit</code> to get the name
-					of the course it is in, defining a relationship between <code>AssignmentSummary</code> and
-					<code>OrganizationalUnits</code>.</p>
 				<a id="faq"></a>
 				<h1>Frequently Asked Questions</h1>
 				<p><strong>Why are some variables in the hints in camel case (i.e. variableName) and some with uppercase
