@@ -27,7 +27,10 @@ use BrightspaceDevHelper\Valence\BlockArray\PostArray;
 use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
 use BrightspaceDevHelper\Valence\CreateBlock\CreateCopyJobRequest;
+use BrightspaceDevHelper\Valence\CreateBlock\CreateEnrollmentData;
+use BrightspaceDevHelper\Valence\CreateBlock\GroupEnrollment;
 use BrightspaceDevHelper\Valence\CreateBlock\NewsItemData;
+use BrightspaceDevHelper\Valence\CreateBlock\SectionEnrollment;
 
 class ValenceCourse
 {
@@ -57,7 +60,7 @@ class ValenceCourse
 
 	public function enrollUser(int $UserId, int $RoleId): ?EnrollmentData
 	{
-		return $this->valence->enrollUser($this->orgUnitId, $UserId, $RoleId);
+		return $this->valence->enrollUser(new CreateEnrollmentData($this->valence, $this->orgUnitId, $UserId, $RoleId));
 	}
 
 	public function unenrollUser(int $UserId): void
@@ -117,7 +120,7 @@ class ValenceCourse
 
 	public function enrollUserInSection(int $sectionId, int $UserId): array
 	{
-		return $this->valence->enrollUserInCourseSection($this->orgUnitId, $sectionId, $UserId);
+		return $this->valence->enrollUserInCourseSection($this->orgUnitId, $sectionId, new SectionEnrollment($this->valence, $this->orgUnitId, $sectionId, $UserId));
 	}
 
 	public function getSectionSettings(): ?SectionPropertyData
@@ -177,7 +180,7 @@ class ValenceCourse
 
 	public function enrollUserInGroup(int $groupCategoryId, int $groupId, int $UserId): array
 	{
-		return $this->valence->enrollUserInGroup($this->orgUnitId, $groupCategoryId, $groupId, $UserId);
+		return $this->valence->enrollUserInGroup($this->orgUnitId, $groupCategoryId, $groupId, new GroupEnrollment($this->valence, $this->orgUnitId, $groupCategoryId, $groupId, $UserId));
 	}
 
 	public function unenrollUserFromGroup(int $groupCategoryId, int $groupId, int $userId): void

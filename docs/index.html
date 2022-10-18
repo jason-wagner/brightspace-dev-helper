@@ -76,114 +76,142 @@
 		</div>
 	</div>
 	<div class="min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
-		<article
-		">
-		<div
-			class="prose prose-slate max-w-none prose-a:scroll-mt-16 prose-headings:font-display prose-headings:font-normal prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-a:decoration-2 prose-pre:rounded-xl prose-pre:bg-slate-900 prose-pre:shadow-lg prose-h4:font-bold snap-y">
-			<a name="introduction"></a>
-			<h1>Introduction</h1>
-			<h2>About This Package</h2>
-			<div class="not-prose rounded-md bg-red-50 p-4">
-				<p class="font-medium text-red-800">This package is currently a <strong>preview release</strong>. The
-					first official release is expected in January. After the first official release, breaking changes
-					will be avoided whenever possible, with the exception being breaking changes as a result of changes
-					in the Valence API itself. However, as last minute details are worked out, there may be changes to
-					this preview release that may cause code you create with this to be changed. It is being offered for
-					experimental purposes at this time.</p>
-			</div>
-			<p>This open-source package was built to make it easier to use the API (Valence) and data exports (Data Hub)
-				of D2L Brightspace.</p>
-			<p>This package is written in PHP. If you do not use PHP, while the packages themselves may not be of direct
-				use to you in your applications, it may inspire you to port them over to the language of your
-				choice.</p>
-			<p>You'll find that the documentation of this package is sparce, which is intentional. The primary
-				functionality for this package is to use with an IDE, like PhpStorm, which offers completion for using
-				classes, functions, fields, etc.</p>
-			<p>Want to enroll a user in a course with Valence? Just type <code>$valenceobjectname->enroll</code> and
-				check the autocompletes for the function that contains action you're looking for. The idea is that you
-				will not need to dig through documentation, or memorize all of the API routes and fields. You'll use
-				autocomplete to do it for you.</p>
-			<div class="not-prose rounded-md bg-amber-50 p-4">
-				<p class="font-medium text-amber-800">If you do not use an IDE with class-awareness and autocompletion,
-					this package problem won't help you very much. In fact, it will probably increase the amount of time
-					it takes to develop applications with the API as it just adds another layer of documentation you
-					need to read.</h3>
-			</div>
-			<p>Want to access information from the Data Hub? Just type the name of the report you want to retrieve data
-				from (which should autocomplete for you) and access information using the Eloquent ORM.</p>
-			<a name="features"></a>
-			<h2>Features</h2>
-			<ul>
-				<li>Query the Data Hub using the auto-complete feature, chaining methods to find what you're looking
-					for.
-				</li>
-				<li>Join Data Hub reports using methods.</li>
-				<li>Leverage the Valence API using your IDE's autocomplete features, both to find the appropriate API
-					calls as well as access the returned object's fields.
-				</li>
-				<li>Work directly in your timezone, letting the Valence class convert the times returned from API calls
-					in GMT to your LMS's or custom time zone, and convert them back to GMT automatically when making a
-					<code>POST</code> or <code>PUT</code> request, all while using a more friendly format.
-				</li>
-				<li>Use virtual PATCH objects, allowing you to specify the object you want to modify and specify only
-					the fields you want to change, without needing to rebuild the entire data object to send with a PUT.
-				</li>
-				<li>Use the Data Hub as a backdrop for retrieving data, allowing you to specify specific reports to
-					utilize or a certain threshold for how long a course must be completed to use the Data Hub, while
-					returning the data in the same format as the API call, no longer requiring you to use two different
-					sets of code depending upon which source you use.
-				</li>
-			</ul>
-			<h3>Future Possible Features</h3>
-			<ul>
-				<li>More API calls added</li>
-				<li>More documentation, both written and inline</li>
-				<li>More helper functions for specific processes</li>
-				<li>More object-specific classes</li>
-				<li>More report relationships</li>
-				<li>Built-in support to process full and differential reports into a local database</li>
-				<li>Helper functions to use additional features of Eloquent</li>
-				<li>Ability to process monthly changes to the Data Hub</li>
-			</ul>
-			<p>Note that there are some areas of the API that will not be included. For example, Wilkes University does
-				not have the Learning Object Repository or ePortfolio addons, so they will not be included. However, if
-				you review the source code and the documentation below, you will find that you can extend this class to
-				add functions of your own to the API calls not included as needed.</p>
-			<a name="presentations"></a>
-			<h2>Presentations</h2>
-			<p>See the presentation below from the D2L Site Administrator Network Connection Event from May 2021:</p>
-			<div class="not-prose pb-6">
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/VQYqc85OuUs"
-						title="YouTube video player" frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen></iframe>
-			</div>
-			<a name="using-the-package"></a>
-			<a name="setup"></a>
-			<h1>Setup</h1>
-			<h2>Requirements</h2>
-			<p>This class requires you to use PHP 8.1 or later to fully utilize the type hinting options available. It
-				also requires <a href="https://getcomposer.org/" target="_blank">composer</a>. To utilize functionality
-				of the Data Hub, you must have a database setup with each table named after a report and each field in
-				the table named after the corresponding column of the report.</p>
-			<h2>Install the Package</h2>
-			<p>Install the package from composer using the command:</p>
-			<pre>composer require jason-wagner/brightspace-dev-helper:dev-main</pre>
-			<p>This will install the package, as well as all dependencies, including <code>guzzlehttp/guzzle</code>,
-				<code>nesbot/carbon</code>, <code>vlucas/phpdotenv</code>, <code>illuminate/database</code>, and <code>phpleague/csv</code>.
-			</p>
-			<h2>Generate App and User IDs and Keys</h2>
-			<p>You will need to create an API App ID and key. While this package does support user authentication, you
-				may also need to create a service account, and capture that account's USER ID and key as well. You can
-				find the directions to use generate these through <a
-					href="https://community.brightspace.com/s/article/API-Cookbook-Headless-Non-Interactive-Web-Service-Workflow"
-					target="_blank">this community post</a>.</p>
-			<h2>Create the .env File</h2>
-			<p>The .env file contains information about your D2L environment and database where the Data Hub reports
-				have been loaded, and is loaded into <code>$_ENV</code> each time you run a script using this helper
-				class.</p>
-			<p>Use the following to get started with your .env file.</p>
-			<pre>
+		<article>
+			<div
+				class="prose prose-slate max-w-none prose-a:scroll-mt-16 prose-headings:font-display prose-headings:font-normal prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-a:decoration-2 prose-pre:rounded-xl prose-pre:bg-slate-900 prose-pre:shadow-lg prose-h4:font-bold snap-y">
+				<a id="introduction"></a>
+				<h1>Introduction</h1>
+				<h2>About This Package</h2>
+				<div class="not-prose rounded-md bg-red-50 p-4">
+					<p class="font-medium text-red-800">This package is currently a <strong>preview release</strong>.
+						The
+						first official release is expected in January. After the first official release, breaking
+						changes
+						will be avoided whenever possible, with the exception being breaking changes as a result of
+						changes
+						in the Valence API itself. However, as last minute details are worked out, there may be changes
+						to
+						this preview release that may cause code you create with this to be changed. It is being offered
+						for
+						experimental purposes at this time.</p>
+				</div>
+				<p>This open-source package was built to make it easier to use the API (Valence) and data exports (Data
+					Hub)
+					of D2L Brightspace.</p>
+				<p>This package is written in PHP. If you do not use PHP, while the packages themselves may not be of
+					direct
+					use to you in your applications, it may inspire you to port them over to the language of your
+					choice.</p>
+				<p>You'll find that the documentation of this package is sparce, which is intentional. The primary
+					functionality for this package is to use with an IDE, like PhpStorm, which offers completion for
+					using
+					classes, functions, fields, etc.</p>
+				<p>Want to enroll a user in a course with Valence? Just type <code>$valenceobjectname->enroll</code> and
+					check the autocompletes for the function that contains action you're looking for. The idea is that
+					you
+					will not need to dig through documentation, or memorize all of the API routes and fields. You'll use
+					autocomplete to do it for you.</p>
+				<div class="not-prose rounded-md bg-amber-50 p-4">
+					<p class="font-medium text-amber-800">If you do not use an IDE with class-awareness and
+						autocompletion,
+						this package problem won't help you very much. In fact, it will probably increase the amount of
+						time
+						it takes to develop applications with the API as it just adds another layer of documentation you
+						need to read.</p>
+				</div>
+				<p>Want to access information from the Data Hub? Just type the name of the report you want to retrieve
+					data
+					from (which should autocomplete for you) and access information using the Eloquent ORM.</p>
+				<a id="features"></a>
+				<h2>Features</h2>
+				<ul>
+					<li>Query the Data Hub using the auto-complete feature, chaining methods to find what you're looking
+						for.
+					</li>
+					<li>Join Data Hub reports using methods.</li>
+					<li>Leverage the Valence API using your IDE's autocomplete features, both to find the appropriate
+						API
+						calls as well as access the returned object's fields.
+					</li>
+					<li>Work directly in your timezone, letting the Valence class convert the times returned from API
+						calls
+						in GMT to your LMS's or custom time zone, and convert them back to GMT automatically when making
+						a
+						<code>POST</code> or <code>PUT</code> request, all while using a more friendly format.
+					</li>
+					<li>Use virtual PATCH objects, allowing you to specify the object you want to modify and specify
+						only
+						the fields you want to change, without needing to rebuild the entire data object to send with a
+						PUT.
+					</li>
+					<li>Use the Data Hub as a backdrop for retrieving data, allowing you to specify specific reports to
+						utilize or a certain threshold for how long a course must be completed to use the Data Hub,
+						while
+						returning the data in the same format as the API call, no longer requiring you to use two
+						different
+						sets of code depending upon which source you use.
+					</li>
+				</ul>
+				<h3>Future Possible Features</h3>
+				<ul>
+					<li>More API calls added</li>
+					<li>More documentation, both written and inline</li>
+					<li>More helper functions for specific processes</li>
+					<li>More object-specific classes</li>
+					<li>More report relationships</li>
+					<li>Built-in support to process full and differential reports into a local database</li>
+					<li>Helper functions to use additional features of Eloquent</li>
+					<li>Ability to process monthly changes to the Data Hub</li>
+				</ul>
+				<p>Note that there are some areas of the API that will not be included. For example, Wilkes University
+					does
+					not have the Learning Object Repository or ePortfolio addons, so they will not be included. However,
+					if
+					you review the source code and the documentation below, you will find that you can extend this class
+					to
+					add functions of your own to the API calls not included as needed.</p>
+				<a id="presentations"></a>
+				<h2>Presentations</h2>
+				<p>See the presentation below from the D2L Site Administrator Network Connection Event from May
+					2021:</p>
+				<div class="not-prose pb-6">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/VQYqc85OuUs"
+							title="YouTube video player" frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen></iframe>
+				</div>
+				<a id="using-the-package"></a>
+				<a id="setup"></a>
+				<h1>Setup</h1>
+				<h2>Requirements</h2>
+				<p>This class requires you to use PHP 8.1 or later to fully utilize the type hinting options available.
+					It
+					also requires <a href="https://getcomposer.org/" target="_blank">composer</a>. To utilize
+					functionality
+					of the Data Hub, you must have a database setup with each table named after a report and each field
+					in
+					the table named after the corresponding column of the report.</p>
+				<h2>Install the Package</h2>
+				<p>Install the package from composer using the command:</p>
+				<pre>composer require jason-wagner/brightspace-dev-helper:dev-main</pre>
+				<p>This will install the package, as well as all dependencies, including <code>guzzlehttp/guzzle</code>,
+					<code>nesbot/carbon</code>, <code>vlucas/phpdotenv</code>, <code>illuminate/database</code>, and
+					<code>phpleague/csv</code>.
+				</p>
+				<h2>Generate App and User IDs and Keys</h2>
+				<p>You will need to create an API App ID and key. While this package does support user authentication,
+					you
+					may also need to create a service account, and capture that account's USER ID and key as well. You
+					can
+					find the directions to use generate these through <a
+						href="https://community.brightspace.com/s/article/API-Cookbook-Headless-Non-Interactive-Web-Service-Workflow"
+						target="_blank">this community post</a>.</p>
+				<h2>Create the .env File</h2>
+				<p>The .env file contains information about your D2L environment and database where the Data Hub reports
+					have been loaded, and is loaded into <code>$_ENV</code> each time you run a script using this helper
+					class.</p>
+				<p>Use the following to get started with your .env file.</p>
+				<pre>
 D2L_VALENCE_HOST=
 D2L_VALENCE_PORT=
 D2L_VALENCE_SCHEME=
@@ -200,15 +228,19 @@ DB_PASSWORD=
 DB_CHARSET=
 DB_COLLATION=
 DB_PREFIX=</pre>
-			<p>For the configuration, it is recommended that you set the charset to <code>utf</code> and the collation
-				to <code>utf8_unicode_ci</code>. The prefix should be set to be blank, but it is required by the
-				constructor of the database connection class. It may be utilized if additional functionalityt o support
-				it is added in the future.</p>
-			<h2>Create the init.php File</h2>
-			<p>Finally, create an init.php file which will be included in all files you create that use this package.
-				This will automatically include all composer packages, initialize the environment variables and create a
-				database connection.</p>
-			<pre>
+				<p>For the configuration, it is recommended that you set the charset to <code>utf</code> and the
+					collation
+					to <code>utf8_unicode_ci</code>. The prefix should be set to be blank, but it is required by the
+					constructor of the database connection class. It may be utilized if additional functionalityt o
+					support
+					it is added in the future.</p>
+				<h2>Create the init.php File</h2>
+				<p>Finally, create an init.php file which will be included in all files you create that use this
+					package.
+					This will automatically include all composer packages, initialize the environment variables and
+					create a
+					database connection.</p>
+				<pre>
 &lt;?php
 
 require_once __DIR__.'/vendor/autoload.php';
@@ -232,211 +264,247 @@ $capsule->addConnection([
 
 $capsule->setAsGlobal();
 $capsule->bootEloquent();</pre>
-			<p>If you will not be using this to connect to a database utilizing the Data Hub, remove the lines related
-				to the <code>Capsule</code> above.</p>
-			<h1>Using the Package</h1>
-			<a name="basic-examples"></a>
-			<h2>Basic Examples</h2>
-			<h3>Making Valence Requests</h3>
-			<p>First, you will need to create a new Valence Client object:</p>
-			<pre>
+				<p>If you will not be using this to connect to a database utilizing the Data Hub, remove the lines
+					related
+					to the <code>Capsule</code> above.</p>
+				<h1>Using the Package</h1>
+				<a id="basic-examples"></a>
+				<h2>Basic Examples</h2>
+				<h3>Making Valence Requests</h3>
+				<p>First, you will need to create a new Valence Client object:</p>
+				<pre>
 $valenceObject = new Valence();</pre>
-			<p>Then, you just need to find the calls you want to use. Suppose you want to enroll John Smith (UserId
-				12345) into the ENG 101 A (OrgUnitId 67890) as a student (RoleId 246). Then you can use:
-			<pre>
+				<p>Then, you just need to find the calls you want to use. Suppose you want to enroll John Smith (UserId
+					12345) into the ENG 101 A (OrgUnitId 67890) as a student (RoleId 246). Then you can use:
+				<pre>
 $response = $valenceObject->enrollUser(67890, 12345, 246);</pre>
-			<p>The response is an object in which each of the returned items is an attribute. For example, if the
-				returned item has a field that is returned called <code>Identifer</code>, you would access it with
-				<code>$response->Identifier</code>.</p>
-			<p>There are also "IDer functions" which allow you to easily retrieve the IDs of items that have easily
-				queriable codes, like Users and OrgUnits.</p>
-			<p>For example, suppose in the exam above, John Smith's username is jsmith12 and the course has an offering
-				code of 13579.202101. We can use the IDer functions to find these IDs.</p>
-			<pre>
+				<p>The response is an object in which each of the returned items is an attribute. For example, if the
+					returned item has a field that is returned called <code>Identifer</code>, you would access it with
+					<code>$response->Identifier</code>.</p>
+				<p>There are also "IDer functions" which allow you to easily retrieve the IDs of items that have easily
+					queriable codes, like Users and OrgUnits.</p>
+				<p>For example, suppose in the exam above, John Smith's username is jsmith12 and the course has an
+					offering
+					code of 13579.202101. We can use the IDer functions to find these IDs.</p>
+				<pre>
 $userId = $valenceObject->getUserIdFromUsername('jsmith12');
 $orgUnitId = $valenceObject->getOrgUnitIdFromOfferingCode('13579.202101');
 $response = $valenceObject->enrollUser($orgUnitId, $userId, 246);</pre>
-			<p>If a function does not exist for the API call you want to use, you can use the <code>apirequest($route,
-				$method = 'GET', $data = null)</code> function to make the call. <code>$data</code> is an array with the
-				field names provided as keys.</p>
-			<p>For example, suppose the <code>whoami</code> function did not exist in this class:</p>
-			<pre>
+				<p>If a function does not exist for the API call you want to use, you can use the <code>apirequest($route,
+					$method = 'GET', $data = null)</code> function to make the call. <code>$data</code> is an array with
+					the
+					field names provided as keys.</p>
+				<p>For example, suppose the <code>whoami</code> function did not exist in this class:</p>
+				<pre>
 $response = $valenceObject->apirequest("/d2l/api/lp/".Valence::VERSION_LP."/users/whoami");</pre>
-			<p>Note the use of the constant <code>Valence::VERSION_LP</code> to get the current version of the learning
-				platform supported by the class.</p>
-			<h3>Querying the Data Hub</h3>
-			<p>You will first need to come up with a starting point, with a query on one of the objects in the database.
-				Typically, this will be a user or course.</p>
-			<p>Then, functions were created for the relationships on each object, in both directions.</p>
-			<p>The syntax of the call for the relationship depends upon the type of relationship.</p>
-			<p>For example, consider the relationship between an <code>OrganizationalUnit</code> and a
-				<code>QuizObject</code>.</p>
-			<p>This is a one-to-many relationship: each <code>OrganizationalUnit</code> can have many
-				<code>QuizObject</code>s, but each <code>QuizObject</code> belongs to only one
-				<code>OrganizationalUnit</code>.</p>
-			<p>When something <em>has many</em>, we call it as a function, followed by <code>get()</code>. In this case,
-				to get the <code>QuizObject</code>s of the <code>OrganizationalUnit</code> with <code>OrgUnitId</code>
-				123456, we would use the following code:</p>
-			<pre>
+				<p>Note the use of the constant <code>Valence::VERSION_LP</code> to get the current version of the
+					learning
+					platform supported by the class.</p>
+				<h3>Querying the Data Hub</h3>
+				<p>You will first need to come up with a starting point, with a query on one of the objects in the
+					database.
+					Typically, this will be a user or course.</p>
+				<p>Then, functions were created for the relationships on each object, in both directions.</p>
+				<p>The syntax of the call for the relationship depends upon the type of relationship.</p>
+				<p>For example, consider the relationship between an <code>OrganizationalUnit</code> and a
+					<code>QuizObject</code>.</p>
+				<p>This is a one-to-many relationship: each <code>OrganizationalUnit</code> can have many
+					<code>QuizObject</code>s, but each <code>QuizObject</code> belongs to only one
+					<code>OrganizationalUnit</code>.</p>
+				<p>When something <em>has many</em>, we call it as a function, followed by <code>get()</code>. In this
+					case,
+					to get the <code>QuizObject</code>s of the <code>OrganizationalUnit</code> with
+					<code>OrgUnitId</code>
+					123456, we would use the following code:</p>
+				<pre>
 $orgObject = OrganizationalUnit::find(12345);
 
 foreach($orgObject->quizobjects()->get() as $quizobject)
 // loop through each quiz in $quizobject, such as $quizobject's name in $quizobject->Name</pre>
-			<p>However, when something <em>belongs to</em>, we call it as an attribute. In this case, to get the <code>OrganizationalUnit</code>
-				that the <code>QuizObject</code> with a <code>QuizId</code> of 24680, we would use the following code:
-			<pre>
+				<p>However, when something <em>belongs to</em>, we call it as an attribute. In this case, to get the
+					<code>OrganizationalUnit</code>
+					that the <code>QuizObject</code> with a <code>QuizId</code> of 24680, we would use the following
+					code:
+				<pre>
 $quizObject = QuizObject::find(24680);
 $orgObject = $quizObject->orgObject;
 // record for the org unit is in $orgObject, such as $orgObject's offering code in $orgObject->Code</pre>
-			<p>In a many-to-many relationship (such as the relationship between <code>Users</code> and <code>OrganizationalUnits</code>,
-				which goes through <code>UserEnrollments</code>), you always use functions. In a one-to-one relationship
-				(such as the relationship between <code>OrganizationalUnits</code> and <code>GradebookSettings</code>),
-				you always use attributes.</p>
-			<a name="options"></a>
-			<h2>Options</h2>
-			<h3>Logging</h3>
-			<p>The <code>setLogging($mode, $filename)</code> function allows you to automatically log each API call that
-				is requested.</p>
-			<p>If <code>$mode</code> is 0, nothing is logged; if <code>$mode</code> is 1, only API calls that change
-				data (anything besides a GET) is logged; if <code>$mode</code> is 2, all calls, including GETs, are
-				logged.</p>
-			<p>If <code>$filename</code> is provided, the logs will be saved to a file in that path. If
-				<code>$filename</code> is not provided, it will automatically be saved in that directory in a file
-				called valence.log in the current directory.</p>
-			<p>Logging is disabled by default.</p>
-			<h3>Error Handling</h3>
-			<p>The <code>setExitOnError($option)</code> function tells whether the class should exit if there is an HTTP
-				error is encountered, or allow the script to continue.</p>
-			<p>exitOnError is enabled by default. To disable it:</p>
-			<pre>
+				<p>In a many-to-many relationship (such as the relationship between <code>Users</code> and <code>OrganizationalUnits</code>,
+					which goes through <code>UserEnrollments</code>), you always use functions. In a one-to-one
+					relationship
+					(such as the relationship between <code>OrganizationalUnits</code> and
+					<code>GradebookSettings</code>),
+					you always use attributes.</p>
+				<a id="options"></a>
+				<h2>Options</h2>
+				<h3>Logging</h3>
+				<p>The <code>setLogging($mode, $filename)</code> function allows you to automatically log each API call
+					that
+					is requested.</p>
+				<p>If <code>$mode</code> is 0, nothing is logged; if <code>$mode</code> is 1, only API calls that change
+					data (anything besides a GET) is logged; if <code>$mode</code> is 2, all calls, including GETs, are
+					logged.</p>
+				<p>If <code>$filename</code> is provided, the logs will be saved to a file in that path. If
+					<code>$filename</code> is not provided, it will automatically be saved in that directory in a file
+					called valence.log in the current directory.</p>
+				<p>Logging is disabled by default.</p>
+				<h3>Error Handling</h3>
+				<p>The <code>setExitOnError($option)</code> function tells whether the class should exit if there is an
+					HTTP
+					error is encountered, or allow the script to continue.</p>
+				<p>exitOnError is enabled by default. To disable it:</p>
+				<pre>
 $valenceObject->setExitOnError(false);</pre>
-			<p>However, if you disable it, be sure to check the HTTP status code after each call to ensure the API calls
-				have been successful.</p>
-			<p>To re-enable it, set it to <code>true</code>.</p>
-			<h3>Return Object on Create</h3>
-			<p>The <code>setReturnObjectOnCreate($option)</code> function tells whether the class should return a User
-				or Course client object when one of these entities is created with the Valence class using <code>createCourseOffering</code>
-				or <code>createUser</code>. If it is set to false, it will return the default object, which is the
-				default setting. However, to use it:</p>
-			<pre>
+				<p>However, if you disable it, be sure to check the HTTP status code after each call to ensure the API
+					calls
+					have been successful.</p>
+				<p>To re-enable it, set it to <code>true</code>.</p>
+				<h3>Return Object on Create</h3>
+				<p>The <code>setReturnObjectOnCreate($option)</code> function tells whether the class should return a
+					User
+					or Course client object when one of these entities is created with the Valence class using <code>createCourseOffering</code>
+					or <code>createUser</code>. If it is set to false, it will return the default object, which is the
+					default setting. However, to use it:</p>
+				<pre>
 $valenceObject->setReturnObjectOnCreate(true);
 $newCourseObject = $valenceObject->createCourseOffering(...);
 print_r($newCourseObject->get()); // displays course information
 $userid = $valence->getUserIdFromUsername('jsmith12');
 $response = $newCourseObject->enrollInstructor($userid); // enroll John Smith in the course</pre>
-			<p>Alternatively, if it were not enabled:</p>
-			<pre>
+				<p>Alternatively, if it were not enabled:</p>
+				<pre>
 $valenceObject->setReturnObjectOnCreate(false); // not necessary unless it was previously enabled
 $newCourseResponse = $valenceObject->createCourseOffering(...);
 print_r($newCourseResponse); // displays course information
 $userid = $valence->getUserIdFromUsername('jsmith12');
 $newCourseObject = $valence->course($newCourseResponse->Identifier); // to get object, must use OrgUnitId from response on creation
 $response = $newCourseObject->enrollInstructor($userid); // enroll John Smith in the course</pre>
-			<h3>Set Class Clients</h3>
-			<p>There are functions, <code>setUserClass</code> and <code>setCourseClass</code>, that allow you to set
-				which class should be used to create User and Course clients if you choose to extend them to add more
-				customized functions. See the section below on Extending Clients.</p>
-			<a name="extending-clients"></a>
-			<h2>Create Objects</h2>
-			<p>To use create objects, use the constructor to create the object you want to create. When you're created
-				it, you can simply call the <code>create()</code>.</p>
-			<pre>
+				<h3>Set Class Clients</h3>
+				<p>There are functions, <code>setUserClass</code> and <code>setCourseClass</code>, that allow you to set
+					which class should be used to create User and Course clients if you choose to extend them to add
+					more
+					customized functions. See the section below on Extending Clients.</p>
+				<a id="extending-clients"></a>
+				<h2>Create Objects</h2>
+				<p>To use create objects, use the constructor to create the object you want to create. When you're
+					created
+					it, you can simply call the <code>create()</code>.</p>
+				<pre>
 $newCourse = $valence->newCreateCourseOfferingObject(/* arguments here */);
 $newCourse->create();</pre>
-			<p>This will make the appropriate API call. Alternatively, you can manually call the method for the API call
-				and pass the object as a parameter.</p>
-			<pre>
+				<p>This will make the appropriate API call. Alternatively, you can manually call the method for the API
+					call
+					and pass the object as a parameter.</p>
+				<pre>
 $newCourse = $valence->newCreateCourseOfferingObject(/* arguments here */);
 $valence->createCourseOffering($newCourse);</pre>
-			<h2>Update Objects</h2>
-			<p>To use update objecrts, they work similarly to create objects except you'll call the
-				<code>update()</code> method when finished.</p>
-			<pre>
+				<h2>Update Objects</h2>
+				<p>To use update objecrts, they work similarly to create objects except you'll call the
+					<code>update()</code> method when finished.</p>
+				<pre>
 $updateCourse = $valence->newCourseOfferingInfoObject(/* arguments here */);
 $updateCourse->update();</pre>
-			<p>Like above, you can also create an update object and pass it as an argument to the method for teh API
-				call.</p>
-			<pre>
+				<p>Like above, you can also create an update object and pass it as an argument to the method for teh API
+					call.</p>
+				<pre>
 $updateCourse = $valence->newCourseOfferingInfoObject(/* arguments here */);
 $valence->updateCourseOffering($updateCourse);</pre>
-			<h2>Patch Objects</h2>
-			<p>Patch Objects allow you to update an entity while specifying only the fields you want to change and
-				automatically carrying over existing items by at GET request in the background.</p>
-			<p>For example, suppose you want to activate the course with the OrgId 123456.</p>
-			<pre>
+				<h2>Patch Objects</h2>
+				<p>Patch Objects allow you to update an entity while specifying only the fields you want to change and
+					automatically carrying over existing items by at GET request in the background.</p>
+				<p>For example, suppose you want to activate the course with the OrgId 123456.</p>
+				<pre>
 $patchObject = $valence->newCourseOfferingInfoPatchObject(123456);
 $patchObject->setIsActive(true);
 $patchObject->update();</pre>
-			<p>Note that there is a method, <code>setXXXXX($value)</code> method for every property of the block.</p>
-			<h2>Array Block Objects</h2>
-			<p>Array Blocks allow you to iterate through an array of results of a given object.</p>
-			<p>Support you want to iterate all of the topics in ForumId 7890 of OrgUnit 123456:</p>
-			<pre>
+				<p>Note that there is a method, <code>setXXXXX($value)</code> method for every property of the block.
+				</p>
+				<h2>Array Block Objects</h2>
+				<p>Array Blocks allow you to iterate through an array of results of a given object.</p>
+				<p>Support you want to iterate all of the topics in ForumId 7890 of OrgUnit 123456:</p>
+				<pre>
 $topics = $valence->getDiscussionTopics(123456, 7890);
 
 foreach($topics as $topic)
     // use $topic->TopicId, $topic->Name, etc.</pre>
-			<p>For results that are paginated, this will <strong>automatically</strong> grab the next page of results
-				and continue through the loop. There is no need to manually maek another API call.</p>
-			<h2>Extending Clients</h2>
-			<p>In the event that you need to make custom classes, you can extend any of the clients and include them in
-				your application. This may be to add additional functions that are not supported, or to customize
-				functions for your instance or institution.</p>
-			<p>For example, at Wilkes University, all course offering codes follow the format <code>crn.termcode</code>
-				from Banner. Thus, I may create a helper function by doing the following:</p>
-			<pre>
+				<p>For results that are paginated, this will <strong>automatically</strong> grab the next page of
+					results
+					and continue through the loop. There is no need to manually maek another API call.</p>
+				<h2>Extending Clients</h2>
+				<p>In the event that you need to make custom classes, you can extend any of the clients and include them
+					in
+					your application. This may be to add additional functions that are not supported, or to customize
+					functions for your instance or institution.</p>
+				<p>For example, at Wilkes University, all course offering codes follow the format
+					<code>crn.termcode</code>
+					from Banner. Thus, I may create a helper function by doing the following:</p>
+				<pre>
 class MyValance extends Valence {
     public function findIdFromCrn(int $termcode, int $crn) {
         return $this->getOrgUnitIdFromOfferingCode($crn . "." . $termcode):
     }
 }</pre>
-			<p>If you override any class besides the main Valence class, you should set the Valence object to utilize
-				that new class.</p>
-			<p>For example, if you extend the ValenceCourse class:</p>
-			<pre>
+				<p>If you override any class besides the main Valence class, you should set the Valence object to
+					utilize
+					that new class.</p>
+				<p>For example, if you extend the ValenceCourse class:</p>
+				<pre>
 class MyValanceCourse extends ValenceCourse {
     ...
 }</pre>
-			<p>Then, to tell the course object generator in the Valence class to use this when you make a new course
-				object, use the following:</p>
-			<pre>
+				<p>Then, to tell the course object generator in the Valence class to use this when you make a new course
+					object, use the following:</p>
+				<pre>
 $valenceObject->setCourseClass(MyValenceCourse::class);</pre>
-			<a name="using-eloquent"></a>
-			<h2>Using Eloquent</h2>
-			<p>To do more advanced querying of the database, you should use Laravel's Eloquent ORM. Each of the reports
-				from the Data Hub was created in this package as an Eloquent model. To learn more about what you can do
-				with Eloquent, check out <a href="https://laravel.com/docs/8.x/eloquent" target="_blank">Laravel's
-					documentation</a>.</p>
-			<div class="not-prose rounded-md bg-amber-50 p-4 space-y-4">
-				<p class="font-medium text-amber-800">If you do not use an IDE with class-awareness and autocompletion,
-					this package problem won't help you very much. In fact, it will probably increase the amount of time
-					it takes to develop applications with the API as it just adds another layer of documentation you
-					need to read.</p>
-				<p class="font-medium text-amber-800">There are some more advanced features of Eloquent that use
-					relationships that you may attempt to use, but may encounter errors if you attempt to use them. This
-					is because many of Eloquent's features rely on default settings with a database created with
-					specific naming conventions that are not utilized by the Data Hub. All of the tables in the Data Hub
-					are named exactly as the name of the respective report with spaces removed, while the fields in the
-					table are named exactly as the name of the respective column in the report.</p>
-				<p class="font-medium text-amber-800">For example, under Laravel's naming conventions, all tables are to
-					be named, in lowercase, of the plural of the object, with a primary key of <code>id</code>, and when
-					used as a foreign key, is to take on the name <code>singularoftablename_id</code>. However, in Data
-					Hub, the tables utilize "uppercase words" casing, and the primary key is <code>TablenameId</code>.
-				</p>
-				<p class="font-medium text-amber-800">For the majority of Laravel's operations, the default behavior is
-					also to assume there is a single field as a primary key; however, the Data Hub does have several
-					tables which have a composite key.</p>
-				<p class="font-medium text-amber-800">You can still use many of this additional functionality of
-					Eloquent; however, you may need to dig into the documentation further to find the additional fields
-					that you need to provide to the different functions.</p>
-			</div>
-			<a name="function-reference"></a>
-			<h1>Function Reference</h1>
-			<a name="valence-functions"></a>
-			<h2>Valence Functions</h2>
-			<h3>Valence Client</h3>
-			<h4>Options Functions</h4>
-			<pre>
+				<a id="using-eloquent"></a>
+				<h2>Using Eloquent</h2>
+				<p>To do more advanced querying of the database, you should use Laravel's Eloquent ORM. Each of the
+					reports
+					from the Data Hub was created in this package as an Eloquent model. To learn more about what you can
+					do
+					with Eloquent, check out <a href="https://laravel.com/docs/8.x/eloquent" target="_blank">Laravel's
+						documentation</a>.</p>
+				<div class="not-prose rounded-md bg-amber-50 p-4 space-y-4">
+					<p class="font-medium text-amber-800">If you do not use an IDE with class-awareness and
+						autocompletion,
+						this package problem won't help you very much. In fact, it will probably increase the amount of
+						time
+						it takes to develop applications with the API as it just adds another layer of documentation you
+						need to read.</p>
+					<p class="font-medium text-amber-800">There are some more advanced features of Eloquent that use
+						relationships that you may attempt to use, but may encounter errors if you attempt to use them.
+						This
+						is because many of Eloquent's features rely on default settings with a database created with
+						specific naming conventions that are not utilized by the Data Hub. All of the tables in the Data
+						Hub
+						are named exactly as the name of the respective report with spaces removed, while the fields in
+						the
+						table are named exactly as the name of the respective column in the report.</p>
+					<p class="font-medium text-amber-800">For example, under Laravel's naming conventions, all tables
+						are to
+						be named, in lowercase, of the plural of the object, with a primary key of <code>id</code>, and
+						when
+						used as a foreign key, is to take on the name <code>singularoftablename_id</code>. However, in
+						Data
+						Hub, the tables utilize "uppercase words" casing, and the primary key is
+						<code>TablenameId</code>.
+					</p>
+					<p class="font-medium text-amber-800">For the majority of Laravel's operations, the default behavior
+						is
+						also to assume there is a single field as a primary key; however, the Data Hub does have several
+						tables which have a composite key.</p>
+					<p class="font-medium text-amber-800">You can still use many of this additional functionality of
+						Eloquent; however, you may need to dig into the documentation further to find the additional
+						fields
+						that you need to provide to the different functions.</p>
+				</div>
+				<a id="function-reference"></a>
+				<h1>Function Reference</h1>
+				<a id="valence-functions"></a>
+				<h2>Valence Functions</h2>
+				<h3>Valence Client</h3>
+				<h4>Options Functions</h4>
+				<pre>
 getDatahubSearch(string $report): int
 getTimezone(): string
 getTimezoneConvert(): bool
@@ -451,8 +519,8 @@ setReturnObjectOnCreate(bool $returnobject): void
 setTimezone(string $timezone): void
 setTimezoneConversion(bool $timezoneConversion): void
 setUserClass($userclass): void</pre>
-			<h4>Client Helper Functions</h4>
-			<pre>
+				<h4>Client Helper Functions</h4>
+				<pre>
 __construct(?string $UserId = null, ?string $UserKey = null)
 apirequest(string $route, string $method = 'GET', ?array $data = null): ?array
 apirequestfile(string $route, string $filepath)
@@ -465,24 +533,27 @@ isValidResponseCode(): bool
 logrequest(string $route, string $method, ?array $data = null): void
 responseCode(): ?int
 responseError(): ?string</pre>
-			<h4>Authentication Functions</h4>
-			<pre>
+				<h4>Authentication Functions</h4>
+				<pre>
 getAuthUrl(string $appUrl): string
 getUserCredentials(): ?UserIdKeyPair</pre>
-			<h4>Object Generator Functions</h4>
-			<pre>
+				<h4>Object Generator Functions</h4>
+				<pre>
 newCourseObject(int $orgid): ValenceCourse
 newUserObject(int $userid): ValenceUser</pre>
-			<h4>Create/Patch Object Functions</h4>
-			<pre>
+				<h4>Create/Patch Object Functions</h4>
+				<pre>
 newCourseOfferingInfoObject(int $orgUnitId, string $Name, string $Code, bool $IsActive, ?string $StartDate, ?string $EndDate, RichTextInput $Description, bool $CanSelfRegister): CourseOfferingInfo
 newCourseOfferingInfoPatchObject(int $orgUnitId): CourseOfferingInfoPatch
 newCreateCopyJobRequest(int $SourceOrgUnitId, COPYCOMPONENT|array|null $Components, ?string $CallbackUrl, ?int $DaysToOffsetDates, ?float $HoursToOffsetDates, ?bool $OffsetByStartDate): CreateCopyJobRequest
 newCreateCourseOfferingObject(string $Name, string $Code, ?string $Path, int $CourseTemplateId, ?int $SemesterId, DateTime|string|null $StartDate, DateTime|string|null $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, RichTextInput $Description, ?bool $CanSelfRegister): CreateCourseOffering
+newCreateEnrollmentDataObject(int $OrgUnitId, int $UserId, int $RoleId): CreateEnrollmentData
+newGroupEnrollmentObject(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): GroupEnrollment
 newNewsItemDataObject(int $orgUnitId, string $Title, RichText $Body, DateTime|string $StartDate, DateTime|string|null $EndDate, bool $IsGlobal, bool $IsPublished, bool $ShowOnlyInCourseOfferings, bool $IsAuthorInfoShown): NewsItemData
-newNewsItemDataPatchObject(int $orgUnitId, int $newsItemId): NewsItemDataPatch </pre>
-			<h4>ID Retriever Functions</h4>
-			<pre>
+newNewsItemDataPatchObject(int $orgUnitId, int $newsItemId): NewsItemDataPatch
+newSectionEnrollmentObject(int $orgUnitId, int $sectionId, int $UserId): SectionEnrollment</pre>
+				<h4>ID Retriever Functions</h4>
+				<pre>
 getOrgUnitIdFromCode(string $orgUnitCode, int $orgUnitType): ?int
 getOrgUnitIdFromDepartmentCode(string $departmentCode): ?int
 getOrgUnitIdFromOfferingCode(string $offeringCode): ?int
@@ -490,8 +561,8 @@ getOrgUnitIdFromSemesterCode(string $semesterCode): ?int
 getOrgUnitIdFromTemplateCode(string $templateCode): ?int
 getUserIdFromOrgDefinedId(string $orgDefinedId): ?int
 getUserIdFromUsername(string $username): ?int</pre>
-			<h4>API Helper Functions</h4>
-			<pre>
+				<h4>API Helper Functions</h4>
+				<pre>
 createCourseCopyRequest(int $orgUnitId, CreateCopyJobRequest $input): ?CreateCopyJobResponse
 createCourseCopyRequestAndWait(int $orgUnitId, CreateCopyJobRequest $input): bool
 createCourseCopyRequestsAndWait(CopyRequestQueue $requests): bool
@@ -508,8 +579,8 @@ deleteUserPicture(int $userId): void
 dismissCourseAnnouncement(int $orgUnitId, int $newsItemId): void
 enrollInstructor(int $OrgUnitId, int $UserId): ?EnrollmentData
 enrollStudent(int $OrgUnitId, int $UserId): ?EnrollmentData
-enrollUser(int $OrgUnitId, int $UserId, int $RoleId): ?EnrollmentData
-enrollUserInCourseSection(int $orgUnitId, int $sectionId, int $UserId): array
+enrollUser(CreateEnrollmentData $input): ?EnrollmentData
+enrollUserInCourseSection(int $orgUnitId, int $sectionId, SectionEnrollment $input): array
 enrollUserInGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): array
 getBrightSpaceDataSets(): BrightspaceDataSetReportInfoArray
 getContentToc(int $orgUnitId): ?TableOfContents
@@ -566,8 +637,8 @@ uploadUserPicture(int $userId, string $filepath): bool
 version(string $productCode): ?ProductVersions
 versions(): ProductVersionArray
 whoami(): ?WhoAmIUser</pre>
-			<h3>Course Client API Helper Functions</h3>
-			<pre>
+				<h3>Course Client API Helper Functions</h3>
+				<pre>
 __construct(Valence $valence, int $orgUnitId)
 createCopyRequest(CreateCopyJobRequest $input): ?CreateCopyJobResponse
 createGroup(int $groupCategoryId, string $Name, string $Code, string $DescriptionText): ?GroupData
@@ -622,15 +693,15 @@ updateGroupCategory(int $groupCategoryId, string $Name, string $DescriptionText,
 updateSection(int $sectionId, string $Name, string $Code, string $DescriptionText): ?SectionData
 updateSectionSettings(SECTENROLL $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): ?SectionPropertyData
 uploadCourseImage(string $filepath, string $name): bool</pre>
-			<h3>User Client API Helper Functions</h3>
-			<pre>
+				<h3>User Client API Helper Functions</h3>
+				<pre>
 __construct(Valence $valence, int $userId)
 deletePicture(): void
 enrollAsInstructor(int $OrgUnitId): ?EnrollmentData
 enrollAsStudent(int $OrgUnitId): ?EnrollmentData
 enrollInCourse(int $OrgUnitId, int $RoleId): ?EnrollmentData
 enrollInCourseSection(int $orgUnitId, int $sectionId): array
-enrollInGroup(int $orgUnitId, int $groupCategoryId, int $groupId): array
+enrollInGroup(int $orgUnitId, int $groupCategoryId, GroupEnrollment $input): array
 get(): ?UserData
 getEnrollment(int $orgUnitId): ?EnrollmentData
 getNames(): LegalPreferredNames
@@ -642,12 +713,12 @@ unenrollFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId): void
 unpinCourse(int $orgUnitId): void
 updateNames(string $LegalFirstName, string $LegalLastName, ?string $PreferredFirstName, ?string $PreferredLastName): LegalPreferredNames
 uploadPicture(string $filepath): bool</pre>
-			<h3>Objects</h3>
-			<h4>Arrays</h4>
-			<pre>
+				<h3>Objects</h3>
+				<h4>Arrays</h4>
+				<pre>
 COPYCOMPONENT</pre>
-			<h4>Attributes</h4>
-			<pre>
+				<h4>Attributes</h4>
+				<pre>
 ACTIVITYTYPE
 AVAILABILITY
 CONTENT_COMPLETIONTYPE
@@ -656,8 +727,8 @@ GRPENROLL
 RATING
 SCORING
 SECTENROLL</pre>
-			<h4>Blocks</h4>
-			<pre>
+				<h4>Blocks</h4>
+				<pre>
 BasicOrgUnit
 BrightspaceDatasetReportInfo
 CourseOffering
@@ -688,8 +759,8 @@ User
 UserActivationData
 UserData
 WhoAmIUser</pre>
-			<h4>Block Arrays</h4>
-			<pre>
+				<h4>Block Arrays</h4>
+				<pre>
 BrightspaceDataSetReportInfoArray
 BrightspaceDataSetReportInfoPreviousArray
 ForumArray
@@ -705,165 +776,184 @@ SectionDataArray
 TableOfContentsModuleArray
 TableOfContentsTopicArray
 TopicArray</pre>
-			<h4>Create Blocks</h4>
-			<pre>
+				<h4>Create Blocks</h4>
+				<pre>
 CreateCopyJobRequest
 CreateCourseOffering
+CreateEnrollmentData
+GroupEnrollment
 NewsItemData
-RichTextInput</pre>
-			<h4>Update Blocks</h4>
-			<pre>
+RichTextInput
+SectionEnrollment</pre>
+				<h4>Update Blocks</h4>
+				<pre>
 CourseOfferingInfo</pre>
-			<h4>Patch Blocks</h4>
-			<pre>
+				<h4>Patch Blocks</h4>
+				<pre>
 CourseOfferingInfoPatch
 NewsItemDataPatch</pre>
-			<h4>Class Objects</h4>
-			<pre>
+				<h4>Class Objects</h4>
+				<pre>
 CopyRequest
 CopyRequestQueue
 DateTime
 NotInDatahub
 UserIdKeyPair</pre>
-			<a name="datahub-functions"></a>
-			<h2>Data Hub Related Functions</h2>
-			<h3>Relationship Mappings</h3>
-			<p>While this release contains all of the objects for the Data Hub, it does not have all of the
-				relationships mapped. These are the relationships that are currently included:</p>
-			<ul>
-				<li>AssignmentSubmission
-					<ul>
-						<li>assignmentsubmissions</li>
-						<li>assignmentsummary</li>
-						<li>orgunit</li>
-						<li>users</li>
-					</ul>
-				</li>
-				<li>DiscussionForum
-					<ul>
-						<li>discussiontopics</li>
-						<li>orgunit</li>
-					</ul>
-				</li>
-				<li>DiscussionPost
-					<ul>
-						<li>discussiontopic</li>
-						<li>users</li>
-					</ul>
-				</li>
-				<li>DiscussionTopic
-					<ul>
-						<li>discussionforum</li>
-						<li>discussionposts</li>
-					</ul>
-				</li>
-				<li>OrganizationalUnit
-					<ul>
-						<li>assignments</li>
-						<li>department</li>
-						<li>discussionforums</li>
-						<li>parents</li>
-						<li>quizobjects</li>
-						<li>semester</li>
-						<li>template</li>
-						<li>users</li>
-					</ul>
-				</li>
-				<li>QuizAttempt
-					<ul>
-						<li>quizobject</li>
-						<li>user</li>
-					</ul>
-				</li>
-				<li>QuizObject
-					<ul>
-						<li>orgunit</li>
-						<li>quizattempts</li>
-					</ul>
-				</li>
-				<li>User
-					<ul>
-						<li>assignmentsubmissions</li>
-						<li>courses</li>
-						<li>discussionposts</li>
-						<li>quizattempts</li>
-					</ul>
-				</li>
-			</ul>
-			<h3>Helper Functions</h3>
-			<p>The following helper functions exist to find some of the objects that have a more common identifier you
-				may be familiar with.</p>
-			<ul>
-				<li><code>OrganizationalUnit::whereCode($code)</code></li>
-				<li><code>OrganizationalUnit::whereCodeAndType($code, $type)</code></li>
-				<li><code>OrganizationalUnit::whereOrgUnitId($orgunitid)</code></li>
-				<li><code>OrganizationalUnit::isCurrent($orgUnitId, $thresholdInDays)</code></li>
-				<li><code>Users::whereOrgDefinedId($orgdefinedid)</code></li>
-				<li><code>Users::whereUserId($userid)</code></li>
-				<li><code>Users::whereUserName($username)</code></li>
-			</ul>
-			<h1>PHP Brightspace Data Hub Helper Package</h1>
-			<a name="about-this-package"></a>
-			<h2>About This Package</h2>
-			<p>This package allows you to utilize Brightspace's Valence API using helper functions to replace API
-				routes.</p>
-			<p>The purpose of these classes is to make it easier to query a local copy of the Data Hub database. This
-				package uses the Eloquent ORM to define relationships to the tables. Once relationships are defined, you
-				can simply call methods on the classes named after what you're attempting to join. Looking for John
-				Doe's assignment submissions?</p>
-			<pre>
+				<a id="datahub-functions"></a>
+				<h2>Data Hub Related Functions</h2>
+				<h3>Relationship Mappings</h3>
+				<p>While this release contains all of the objects for the Data Hub, it does not have all of the
+					relationships mapped. These are the relationships that are currently included:</p>
+				<ul>
+					<li>AssignmentSubmission
+						<ul>
+							<li>assignmentsubmissions</li>
+							<li>assignmentsummary</li>
+							<li>orgunit</li>
+							<li>users</li>
+						</ul>
+					</li>
+					<li>DiscussionForum
+						<ul>
+							<li>discussiontopics</li>
+							<li>orgunit</li>
+						</ul>
+					</li>
+					<li>DiscussionPost
+						<ul>
+							<li>discussiontopic</li>
+							<li>users</li>
+						</ul>
+					</li>
+					<li>DiscussionTopic
+						<ul>
+							<li>discussionforum</li>
+							<li>discussionposts</li>
+						</ul>
+					</li>
+					<li>OrganizationalUnit
+						<ul>
+							<li>assignments</li>
+							<li>department</li>
+							<li>discussionforums</li>
+							<li>parents</li>
+							<li>quizobjects</li>
+							<li>semester</li>
+							<li>template</li>
+							<li>users</li>
+						</ul>
+					</li>
+					<li>QuizAttempt
+						<ul>
+							<li>quizobject</li>
+							<li>user</li>
+						</ul>
+					</li>
+					<li>QuizObject
+						<ul>
+							<li>orgunit</li>
+							<li>quizattempts</li>
+						</ul>
+					</li>
+					<li>User
+						<ul>
+							<li>assignmentsubmissions</li>
+							<li>courses</li>
+							<li>discussionposts</li>
+							<li>quizattempts</li>
+						</ul>
+					</li>
+				</ul>
+				<h3>Helper Functions</h3>
+				<p>The following helper functions exist to find some of the objects that have a more common identifier
+					you
+					may be familiar with.</p>
+				<ul>
+					<li><code>OrganizationalUnit::whereCode($code)</code></li>
+					<li><code>OrganizationalUnit::whereCodeAndType($code, $type)</code></li>
+					<li><code>OrganizationalUnit::whereOrgUnitId($orgunitid)</code></li>
+					<li><code>OrganizationalUnit::isCurrent($orgUnitId, $thresholdInDays)</code></li>
+					<li><code>Users::whereOrgDefinedId($orgdefinedid)</code></li>
+					<li><code>Users::whereUserId($userid)</code></li>
+					<li><code>Users::whereUserName($username)</code></li>
+				</ul>
+				<h1>PHP Brightspace Data Hub Helper Package</h1>
+				<a id="about-this-package"></a>
+				<h2>About This Package</h2>
+				<p>This package allows you to utilize Brightspace's Valence API using helper functions to replace API
+					routes.</p>
+				<p>The purpose of these classes is to make it easier to query a local copy of the Data Hub database.
+					This
+					package uses the Eloquent ORM to define relationships to the tables. Once relationships are defined,
+					you
+					can simply call methods on the classes named after what you're attempting to join. Looking for John
+					Doe's assignment submissions?</p>
+				<pre>
 $user = User::whereUserName('john.doe');
 
 foreach($user->assignmentsubmissions()->get() as $submission)
     echo implode("\t", [$user->FirstName, $user->LastName, $submission->assignmentsummary->orgunit->Name, $submission->assignmentsummary->Name, $submission->LastSubmissionDate, $submission->Score, $submission->assignmentsummary->PossibleScore]) . "\n";</pre>
-			<p>This creates a tab-delimited table with the student's first name, last name, name of the course the
-				assignment is in, name of the assignment, timestamp of the submission, score, and number of points
-				possible.</p>
-			<p>But what does all of this mean?</p>
-			<p>First, we find the user with the username John Doe. Normally, we would use
-				<code>User::find($UserId)</code>, but since we probably don't know <code>$UserId</code>, a helper
-				function was created to easily find the user by username instead. We can also use other functions of
-				Eloquent to find what we're looking for, such as <code>User::where('Email',
-					'john.doe@school.edu')</code> or <code>User::where('FirstName', 'John')->where('LastName',
-					'Doe')</code>. Then, since the Data Hub has a relationship between the <code>Users</code> table and
-				<code>AssignmentSubmissions</code> table (through <code>UserId</code>), a relationship is defined on the
-				<code>User</code> class in a method called <code>assignmentsubmissions</code>. We call that method, then
-				<code>get()</code>, and loop through the results.</p>
-			<p>Within the results, you can see that there are a few instances where we call
-				<code>assignmentsummary</code> on the <code>$submission</code> object. As we did above, we also defined
-				a relationship on the <code>AssignmentSubmissions</code> and <code>AssignmentSummary</code> tables to
-				join the information. We did this again when we call <code>orgunit</code> to get the name of the course
-				it is in, defining a relationship between <code>AssignmentSummary</code> and
-				<code>OrganizationalUnits</code>.</p>
-			<a name="faq"></a>
-			<h1>Frequently Asked Questions</h1>
-			<p><strong>Why are some variables in the hints in camel case (i.e. variableName) and some with uppercase
-				words (VariableName)?</strong></p>
-			<p>This is intentionally done to be consistent with the corresponding variables in the API. In general,
-				variables in URLs (such as parameters within the API calls and query strings) are in camel case and
-				fields within the JSON parameters have the uppercase first words.</p>
-			<p><strong>Why are the variables inconsistent in terms of some being arrays and some being objects? Is there
-				a way to have all functions return arrays instead of objects?</strong></p>
-			<p>This is to best utilize the functionality of your IDE. In PHP, there is no way to define anything like an
-				"array template." Thus, if we simply utilized an array, you would still need to dig in to the
-				documentation to find the fields that are available. However, by using objects, and using type-hinting
-				to define the return type of an function to be an particular object, your IDE can then autocomplete the
-				attributes of an object returned by a function. Although a later version of PHP introduces the ability
-				to specify that a function may return one of several different object types, it would break -- at least
-				partially -- the ability to autocomplete attributes of a class if we were to specify that an array could
-				also be returned.</p>
-			<footer>
-				<a name="contact-information"></a>
-				<h1>Contact Information</h1>
-				<p>
-					Jason Wagner, Application Developer, Office of Technology for Teaching and Learning, Wilkes
-					University<br>
-					Email: <span class="fw-bold">jason.wagner1 [at] wilkes [dot] edu</span><br>
-					Twitter: <a href="https://twitter.com/jsnwgnr" target="_blank">@jsnwgnr</a><br>
-					<a href="https://linkedin.com/in/wagnerjaw" target="_blank">Connect with me on LinkedIn</a>
-				</p>
-			</footer>
-		</div>
+				<p>This creates a tab-delimited table with the student's first name, last name, name of the course the
+					assignment is in, name of the assignment, timestamp of the submission, score, and number of points
+					possible.</p>
+				<p>But what does all of this mean?</p>
+				<p>First, we find the user with the username John Doe. Normally, we would use
+					<code>User::find($UserId)</code>, but since we probably don't know <code>$UserId</code>, a helper
+					function was created to easily find the user by username instead. We can also use other functions of
+					Eloquent to find what we're looking for, such as <code>User::where('Email',
+						'john.doe@school.edu')</code> or <code>User::where('FirstName', 'John')->where('LastName',
+						'Doe')</code>. Then, since the Data Hub has a relationship between the <code>Users</code> table
+					and
+					<code>AssignmentSubmissions</code> table (through <code>UserId</code>), a relationship is defined on
+					the
+					<code>User</code> class in a method called <code>assignmentsubmissions</code>. We call that method,
+					then
+					<code>get()</code>, and loop through the results.</p>
+				<p>Within the results, you can see that there are a few instances where we call
+					<code>assignmentsummary</code> on the <code>$submission</code> object. As we did above, we also
+					defined
+					a relationship on the <code>AssignmentSubmissions</code> and <code>AssignmentSummary</code> tables
+					to
+					join the information. We did this again when we call <code>orgunit</code> to get the name of the
+					course
+					it is in, defining a relationship between <code>AssignmentSummary</code> and
+					<code>OrganizationalUnits</code>.</p>
+				<a id="faq"></a>
+				<h1>Frequently Asked Questions</h1>
+				<p><strong>Why are some variables in the hints in camel case (i.e. variableName) and some with uppercase
+					words (VariableName)?</strong></p>
+				<p>This is intentionally done to be consistent with the corresponding variables in the API. In general,
+					variables in URLs (such as parameters within the API calls and query strings) are in camel case and
+					fields within the JSON parameters have the uppercase first words.</p>
+				<p><strong>Why are the variables inconsistent in terms of some being arrays and some being objects? Is
+					there
+					a way to have all functions return arrays instead of objects?</strong></p>
+				<p>This is to best utilize the functionality of your IDE. In PHP, there is no way to define anything
+					like an
+					"array template." Thus, if we simply utilized an array, you would still need to dig in to the
+					documentation to find the fields that are available. However, by using objects, and using
+					type-hinting
+					to define the return type of an function to be an particular object, your IDE can then autocomplete
+					the
+					attributes of an object returned by a function. Although a later version of PHP introduces the
+					ability
+					to specify that a function may return one of several different object types, it would break -- at
+					least
+					partially -- the ability to autocomplete attributes of a class if we were to specify that an array
+					could
+					also be returned.</p>
+				<footer>
+					<a id="contact-information"></a>
+					<h1>Contact Information</h1>
+					<p>
+						Jason Wagner, Application Developer, Office of Technology for Teaching and Learning, Wilkes
+						University<br>
+						Email: <span class="fw-bold">jason.wagner1 [at] wilkes [dot] edu</span><br>
+						Twitter: <a href="https://twitter.com/jsnwgnr" target="_blank">@jsnwgnr</a><br>
+						<a href="https://linkedin.com/in/wagnerjaw" target="_blank">Connect with me on LinkedIn</a>
+					</p>
+				</footer>
+			</div>
 		</article>
 	</div>
 </div>

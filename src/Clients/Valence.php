@@ -38,7 +38,13 @@ use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray,
 	RoleArray,
 	SectionDataArray,
 	TopicArray};
-use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest, CreateCourseOffering, NewsItemData, RichTextInput};
+use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest,
+	CreateCourseOffering,
+	CreateEnrollmentData,
+	GroupEnrollment,
+	NewsItemData,
+	RichTextInput,
+	SectionEnrollment};
 use BrightspaceDevHelper\Valence\Object\{CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
 use BrightspaceDevHelper\Valence\PatchBlock\{CourseOfferingInfoPatch, NewsItemDataPatch};
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
@@ -499,11 +505,15 @@ class Valence
 		return $this->getOrgUnitIdFromCode($departmentCode, $this->orgtypeIds['Department']);
 	}
 
-	public function enrollUser(int $OrgUnitId, int $UserId, int $RoleId): ?EnrollmentData
+	public function enrollUser(CreateEnrollmentData $input): ?EnrollmentData
 	{
-		$data = compact('OrgUnitId', 'UserId', 'RoleId');
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/enrollments/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/enrollments/", "POST", $input->toArray());
 		return $response ? new EnrollmentData($response) : null;
+	}
+
+	public function newCreateEnrollUserDataObject(int $OrgUnitId, int $UserId, int $RoleId): CreateEnrollmentData
+	{
+		return new CreateEnrollmentData($this, $OrgUnitId, $UserId, $RoleId);
 	}
 
 	public function unenrollUser(int $userId, int $orgUnitId): void
@@ -528,7 +538,7 @@ class Valence
 		if (!count($this->roleIds))
 			$this->setInternalIds();
 
-		return $this->enrollUser($OrgUnitId, $UserId, $this->roleIds['Student']);
+		return $this->enrollUser(new CreateEnrollmentData($this, $OrgUnitId, $UserId, $this->roleIds['Student']));
 	}
 
 	public function enrollInstructor(int $OrgUnitId, int $UserId): ?EnrollmentData
@@ -536,7 +546,7 @@ class Valence
 		if (!count($this->roleIds))
 			$this->setInternalIds();
 
-		return $this->enrollUser($OrgUnitId, $UserId, $this->roleIds['Instructor']);
+		return $this->enrollUser(new CreateEnrollmentData($this, $OrgUnitId, $UserId, $this->roleIds['Instructor']));
 	}
 
 	public function getCourseOffering(int $orgUnitId): ?CourseOffering
@@ -634,10 +644,14 @@ class Valence
 		$this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/sections/$sectionId", "DELETE");
 	}
 
-	public function enrollUserInCourseSection(int $orgUnitId, int $sectionId, int $UserId): array
+	public function enrollUserInCourseSection(int $orgUnitId, int $sectionId, SectionEnrollment $input): array
 	{
-		$data = compact('UserId');
-		return $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/sections/$sectionId/enrollments/", "POST", $data);
+		return $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/sections/$sectionId/enrollments/", "POST", $input->toArray());
+	}
+
+	public function newSectionEnrollmentObject(int $orgUnitId, int $sectionId, int $UserId): SectionEnrollment
+	{
+		return new SectionEnrollment($this, $orgUnitId, $sectionId, $UserId);
 	}
 
 	public function getCourseSectionSettings(int $orgUnitId): ?SectionPropertyData
@@ -717,10 +731,14 @@ class Valence
 		return $response ? new GroupData($response) : null;
 	}
 
-	public function enrollUserInGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): array
+	public function enrollUserInGroup(int $orgUnitId, int $groupCategoryId, int $groupId, GroupEnrollment $input): array
 	{
-		$data = compact('UserId');
-		return $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId/enrollments/", "POST", $data);
+		return $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId/enrollments/", "POST", $input->toArray());
+	}
+
+	public function newGroupEnrollmentObject(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): GroupEnrollment
+	{
+		return new GroupEnrollment($this, $orgUnitId, $groupCategoryId, $groupId, $UserId);
 	}
 
 	public function unenrollUserFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $userId): void

@@ -5,6 +5,10 @@ namespace BrightspaceDevHelper\Valence\Client;
 use BrightspaceDevHelper\Valence\Block\EnrollmentData;
 use BrightspaceDevHelper\Valence\Block\LegalPreferredNames;
 use BrightspaceDevHelper\Valence\Block\UserData;
+use BrightspaceDevHelper\Valence\CreateBlock\CreateEnrollmentData;
+use BrightspaceDevHelper\Valence\CreateBlock\GroupEnrollment;
+use BrightspaceDevHelper\Valence\CreateBlock\SectionEnrollment;
+use Couchbase\Group;
 
 class ValenceUser
 {
@@ -54,7 +58,7 @@ class ValenceUser
 
 	public function enrollInCourse(int $OrgUnitId, int $RoleId): ?EnrollmentData
 	{
-		return $this->valence->enrollUser($OrgUnitId, $this->userId, $RoleId);
+		return $this->valence->enrollUser(new CreateEnrollmentData($this->valence, $OrgUnitId, $this->userId, $RoleId));
 	}
 
 	public function enrollAsStudent(int $OrgUnitId): ?EnrollmentData
@@ -79,12 +83,12 @@ class ValenceUser
 
 	public function enrollInCourseSection(int $orgUnitId, int $sectionId): array
 	{
-		return $this->valence->enrollUserInCourseSection($orgUnitId, $sectionId, $this->userId);
+		return $this->valence->enrollUserInCourseSection($orgUnitId, $sectionId, new SectionEnrollment($this->valence, $orgUnitId, $sectionId, $this->userId));
 	}
 
 	public function enrollInGroup(int $orgUnitId, int $groupCategoryId, int $groupId): array
 	{
-		return $this->valence->enrollUserInGroup($orgUnitId, $groupCategoryId, $groupId, $this->userId);
+		return $this->valence->enrollUserInGroup($orgUnitId, $groupCategoryId, $groupId, new GroupEnrollment($this->valence, $orgUnitId, $groupCategoryId, $groupId, $this->userId));
 	}
 
 	public function unenrollFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId): void
