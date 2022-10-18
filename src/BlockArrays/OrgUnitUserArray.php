@@ -19,7 +19,7 @@ class OrgUnitUserArray extends BlockArray
 
 	public function build(array $response): void
 	{
-		$this->nextPageRoute = $response['PagingInfo']['HasMoreItems'] ? "/d2l/api/lp/" . Valence::VERSION_LP . "/enrollments/orgUnits/{$this->orgUnitId}/users/?isActive=1&bookmark=" . $response['PagingInfo']['Bookmark'] : null;
+		$this->nextPageRoute = $response['PagingInfo']['HasMoreItems'] ? "/d2l/api/lp/" . Valence::VERSION_LP . "/enrollments/orgUnits/$this->orgUnitId/users/?isActive=1&bookmark=" . $response['PagingInfo']['Bookmark'] : null;
 		parent::build($response['Items']);
 	}
 

@@ -42,19 +42,19 @@ class COPYCOMPONENT
 
 	public function __construct(bool $defaultValue)
 	{
-		foreach ($this as $k => $v)
-			$this->$k = $defaultValue;
+		foreach ($this as $key => $value)
+			$this->$key = $defaultValue;
 	}
 
 	public function toArray(): array
 	{
-		$a = [];
+		$data = [];
 
-		foreach ($this as $k => $v)
-			if ($v)
-				$a[] = $k;
+		foreach ($this as $key => $value)
+			if ($value)
+				$data[] = $key;
 
-		return $a;
+		return $data;
 	}
 
 	public function setAttendanceRegisters(bool $value): void

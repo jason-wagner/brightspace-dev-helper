@@ -3,6 +3,7 @@
 namespace BrightspaceDevHelper\Valence\Client;
 
 use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
+use http\Encoding\Stream;
 use BrightspaceDevHelper\DataHub\Model\{OrganizationalUnit, User};
 use BrightspaceDevHelper\Valence\Attributes\{GRPENROLL, SECTENROLL};
 use BrightspaceDevHelper\Valence\Block\{CourseOffering,
@@ -25,7 +26,8 @@ use BrightspaceDevHelper\Valence\Block\{CourseOffering,
 	TableOfContents,
 	Topic,
 	UserData,
-	WhoAmIUser};
+	WhoAmIUser
+};
 use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray,
 	ForumArray,
 	GroupCategoryDataArray,
@@ -37,14 +39,16 @@ use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray,
 	ProductVersionArray,
 	RoleArray,
 	SectionDataArray,
-	TopicArray};
+	TopicArray
+};
 use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest,
 	CreateCourseOffering,
 	CreateEnrollmentData,
 	GroupEnrollment,
 	NewsItemData,
 	RichTextInput,
-	SectionEnrollment};
+	SectionEnrollment
+};
 use BrightspaceDevHelper\Valence\Object\{CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
 use BrightspaceDevHelper\Valence\PatchBlock\{CourseOfferingInfoPatch, NewsItemDataPatch};
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
@@ -52,7 +56,8 @@ use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\{ClientException as GuzzleClientException,
 	ServerException as GuzzleServerException,
-	GuzzleException};
+	GuzzleException
+};
 use Exception;
 
 class Valence
@@ -785,8 +790,7 @@ class Valence
 
 	public function updateUserNames(int $userId, string $LegalFirstName, string $LegalLastName, ?string $PreferredFirstName, ?string $PreferredLastName): ?LegalPreferredNames
 	{
-		$data = compact('LegalFirstName', 'LegalLastName', 'PreferredFirstName', 'PreferredLastName');
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/$userId/names", "PUT", $data);
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/users/$userId/names", "PUT", compact('LegalFirstName', 'LegalLastName', 'PreferredFirstName', 'PreferredLastName'));
 		return $this->isValidResponseCode() ? new LegalPreferredNames($response) : null;
 	}
 

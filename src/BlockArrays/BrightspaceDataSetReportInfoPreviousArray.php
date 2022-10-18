@@ -2,14 +2,14 @@
 
 namespace BrightspaceDevHelper\Valence\BlockArray;
 
-use BrightspaceDevHelper\Valence\Block\BrightspaceDatasetReportInfo;
+use BrightspaceDevHelper\Valence\Block\BrightspaceDataSetReportInfo;
 use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class BrightspaceDataSetReportInfoPreviousArray extends BlockArray
 {
-	public string $blockClass = BrightspaceDatasetReportInfo::class;
+	public string $blockClass = BrightspaceDataSetReportInfo::class;
 
-	public function current(): ?BrightspaceDatasetReportInfo
+	public function current(): ?BrightspaceDataSetReportInfo
 	{
 		return parent::current();
 	}

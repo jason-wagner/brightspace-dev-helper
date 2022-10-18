@@ -18,11 +18,8 @@ class CourseOfferingInfoPatch extends CourseOfferingInfo
 
 		$data = $this->valence->getCourseOffering($this->orgUnitId);
 
-		foreach (['Name', 'Code', 'IsActive', 'StartDate', 'EndDate', 'CanSelfRegister'] as $k) {
-			if (in_array($k, ['valence', 'nonprops']) || in_array($k, $this->nonprops))
-				continue;
-
-			$this->$k = $data->$k;
+		foreach (['Name', 'Code', 'IsActive', 'StartDate', 'EndDate', 'CanSelfRegister'] as $key) {
+			$this->$key = $data->$key;
 		}
 
 		$this->Description = $data->Description->toInput();

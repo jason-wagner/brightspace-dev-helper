@@ -43,7 +43,7 @@ class CourseOffering extends Block
 
 	public static function fromDatahub(OrganizationalUnit $record, Valence $valence): CourseOffering
 	{
-		$a = [
+		return new CourseOffering([
 			'Identifier' => $record->OrgUnitId,
 			'Name' => $record->Name,
 			'Code' => $record->Code,
@@ -56,8 +56,6 @@ class CourseOffering extends Block
 			'Department' => BasicOrgUnit::fromDatahub($record->department()->first()),
 			'Description' => new NotInDatahub(),
 			'CanSelfRegister' => new NotInDatahub()
-		];
-
-		return new CourseOffering($a, $valence);
+		], $valence);
 	}
 }

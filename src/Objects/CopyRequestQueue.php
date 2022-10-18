@@ -2,7 +2,7 @@
 
 namespace BrightspaceDevHelper\Valence\Object;
 
-use \Iterator;
+use Iterator;
 
 class CopyRequestQueue implements Iterator
 {
@@ -24,7 +24,7 @@ class CopyRequestQueue implements Iterator
 		return $this->data[$this->pointer];
 	}
 
-	public function key(): mixed
+	public function key(): int
 	{
 		return $this->pointer;
 	}

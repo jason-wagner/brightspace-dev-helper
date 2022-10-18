@@ -2,12 +2,12 @@
 
 namespace BrightspaceDevHelper\Valence\BlockArray;
 
-use BrightspaceDevHelper\Valence\Block\BrightspaceDatasetReportInfo;
+use BrightspaceDevHelper\Valence\Block\BrightspaceDataSetReportInfo;
 use BrightspaceDevHelper\Valence\Structure\BlockArray;
 
 class BrightspaceDataSetReportInfoArray extends BlockArray
 {
-	public string $blockClass = BrightspaceDatasetReportInfo::class;
+	public string $blockClass = BrightspaceDataSetReportInfo::class;
 
 	public function build(array $response): void
 	{

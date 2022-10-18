@@ -4,7 +4,7 @@ namespace BrightspaceDevHelper\DataHub\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AuditorRelationshipsLog extends Model
+class AuditorRelationshipLog extends Model
 {
 	protected $guarded = [];
 	protected $table = 'AuditorRelationshipsLog';

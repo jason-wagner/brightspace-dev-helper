@@ -3,6 +3,7 @@
 namespace BrightspaceDevHelper\Valence\CreateBlock;
 
 use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
+use BrightspaceDevHelper\Valence\Block\CreateCopyJobResponse;
 use BrightspaceDevHelper\Valence\Client\Valence;
 use BrightspaceDevHelper\Valence\Structure\CreateBlock;
 
@@ -24,17 +25,17 @@ class CreateCopyJobRequest extends CreateBlock
 
 	public function toArray(): array
 	{
-		$a = parent::toArray();
+		$data = parent::toArray();
 
 		if ($this->DaysToOffsetDates || $this->HoursToOffsetDates)
-			unset($a['OffsetByStartDateDifference']);
+			unset($data['OffsetByStartDateDifference']);
 		else
-			unset($a['DaysToOffsetDates'], $a['HoursToOffsetDates']);
+			unset($data['DaysToOffsetDates'], $data['HoursToOffsetDates']);
 
-		return $a;
+		return $data;
 	}
 
-	public function create(int $orgUnitId): ?CreateCopyJobRequest
+	public function create(int $orgUnitId): ?CreateCopyJobResponse
 	{
 		return $this->valence->createCourseCopyRequest($orgUnitId, $this);
 	}

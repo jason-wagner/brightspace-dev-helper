@@ -11,14 +11,12 @@ class BasicOrgUnit extends Block
 	public string $Name;
 	public string $Code;
 
-	public static function fromDatahub(OrganizationalUnit $record)
+	public static function fromDatahub(OrganizationalUnit $record): BasicOrgUnit
 	{
-		$a = [
+		return new BasicOrgUnit([
 			'Identifier' => $record->OrgUnitId,
 			'Name' => $record->Name,
 			'Code' => $record->Code
-		];
-
-		return new BasicOrgUnit($a);
+		]);
 	}
 }

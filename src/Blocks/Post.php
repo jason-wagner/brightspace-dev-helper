@@ -23,8 +23,8 @@ class Post extends Block
 	public ?string $LastEditedDate;
 	public ?int $LastEditedBy;
 	public bool $CanRate;
-	public $ReplyPostIds;
-	public array $WordCount;
+	public array $ReplyPostIds;
+	public int $WordCount;
 	public int $AttachmentCount;
 
 	public function __construct(array $response, Valence $valence)

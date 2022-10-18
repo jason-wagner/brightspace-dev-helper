@@ -13,14 +13,14 @@ class Block
 				$this->$key = $value;
 	}
 
-	public function toArray()
+	public function toArray(): array
 	{
-		$a = [];
+		$data = [];
 
-		foreach ($this as $k => $v)
-			if (!in_array($k, ['valence', 'nonprops']) && !in_array($k, $this->nonprops))
-				$a[$k] = is_object($v) ? $v->toArray() : $v;
+		foreach ($this as $key => $value)
+			if (!in_array($key, ['valence', 'nonprops']) && !in_array($key, $this->nonprops))
+				$data[$key] = is_object($value) ? $value->toArray() : $value;
 
-		return $a;
+		return $data;
 	}
 }

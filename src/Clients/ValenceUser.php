@@ -8,7 +8,6 @@ use BrightspaceDevHelper\Valence\Block\UserData;
 use BrightspaceDevHelper\Valence\CreateBlock\CreateEnrollmentData;
 use BrightspaceDevHelper\Valence\CreateBlock\GroupEnrollment;
 use BrightspaceDevHelper\Valence\CreateBlock\SectionEnrollment;
-use Couchbase\Group;
 
 class ValenceUser
 {

@@ -5,7 +5,7 @@ namespace BrightspaceDevHelper\Valence\Block;
 use BrightspaceDevHelper\Valence\BlockArray\BrightspaceDataSetReportInfoPreviousArray;
 use BrightspaceDevHelper\Valence\Structure\Block;
 
-class BrightspaceDatasetReportInfo extends Block
+class BrightspaceDataSetReportInfo extends Block
 {
 	public string $PluginId;
 	public string $Name;

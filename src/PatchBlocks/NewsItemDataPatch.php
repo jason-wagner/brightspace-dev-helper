@@ -11,6 +11,8 @@ class NewsItemDataPatch extends NewsItemData
 {
 	protected array $nonprops = ['orgUnitId', 'newsItemId'];
 
+	public int $newsItemId;
+
 	public function __construct(Valence $valence, int $orgUnitId, int $newsItemId)
 	{
 		$this->valence = $valence;
@@ -19,11 +21,8 @@ class NewsItemDataPatch extends NewsItemData
 
 		$data = $this->valence->getCourseAnnouncement($this->orgUnitId, $this->newsItemId);
 
-		foreach (['Title', 'Body', 'StartDate', 'EndDate', 'IsGlobal', 'IsPublished', 'ShowOnlyInCourseOfferings', 'IsAuthorInfoShown'] as $k) {
-			if (in_array($k, ['valence', 'nonprops']) || in_array($k, $this->nonprops))
-				continue;
-
-			$this->$k = $data->$k;
+		foreach (['Title', 'Body', 'StartDate', 'EndDate', 'IsGlobal', 'IsPublished', 'ShowOnlyInCourseOfferings', 'IsAuthorInfoShown'] as $key) {
+			$this->$key = $data->$key;
 		}
 	}
 

@@ -32,7 +32,7 @@ class UserData extends Block
 
 	public static function fromDatahub(User $record, Valence $valence): UserData
 	{
-		$a = [
+		return new UserData([
 			'OrgId' => new NotInDatahub(),
 			'UserId' => $record->UserId,
 			'FirstName' => $record->FirstName,
@@ -45,8 +45,6 @@ class UserData extends Block
 			'Activation' => ['IsActive' => (bool)$record->IsActive],
 			'LastAccessedDate' => DateTime::createFromTimestamp($record->LastAccessed, $valence)->getIso8601(),
 			'Pronouns' => new NotInDatahub()
-		];
-
-		return new UserData($a, $valence);
+		], $valence);
 	}
 }

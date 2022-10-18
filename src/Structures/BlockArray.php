@@ -40,7 +40,7 @@ class BlockArray implements Iterator
 		return $this->valence ? new $this->blockClass($this->data[$this->pointer], $this->valence) : new $this->blockClass($this->data[$this->pointer]);
 	}
 
-	public function key(): mixed
+	public function key(): int
 	{
 		return $this->pointer;
 	}

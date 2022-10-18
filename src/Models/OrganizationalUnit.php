@@ -70,6 +70,6 @@ class OrganizationalUnit extends Model
 
 	public function users()
 	{
-		return $this->belongsToMany(Users::class, 'UserEnrollments', 'OrgUnitId', 'UserId');
+		return $this->belongsToMany(User::class, 'UserEnrollments', 'OrgUnitId', 'UserId');
 	}
 }
