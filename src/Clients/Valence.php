@@ -5,14 +5,16 @@ namespace BrightspaceDevHelper\Valence\Client;
 use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
 use http\Encoding\Stream;
 use BrightspaceDevHelper\DataHub\Model\{OrganizationalUnit, User};
-use BrightspaceDevHelper\Valence\Attributes\{GRPENROLL, SECTENROLL};
+use BrightspaceDevHelper\Valence\Attributes\{GROUPSJOBSTATUS, GRPENROLL, SECTENROLL};
 use BrightspaceDevHelper\Valence\Block\{CourseOffering,
 	CreateCopyJobResponse,
 	EnrollmentData,
 	Forum,
 	GetCopyJobResponse,
 	GroupCategoryData,
+	GroupCategoryJobStatus,
 	GroupData,
+	GroupsJobData,
 	LegalPreferredNames,
 	NewsItem,
 	Organization,
@@ -698,13 +700,34 @@ class Valence
 		return $response ? new GroupCategoryData($response) : null;
 	}
 
-	public function createCourseGroupCategory(int $orgUnitId, string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData
+	public function createCourseGroupCategory(int $orgUnitId, string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupsJobData
 	{
 		$data = compact('Name', 'EnrollmentQuantity', 'AutoEnroll', 'RandomizeEnrollments', 'NumberOfGroups', 'MaxUsersPerGroup', 'AllocateAfterExpiry', 'SelfEnrollmentExpiryDate', 'GroupPrefix', 'RestrictedByOrgUnitId');
 		$data['EnrollmentStyle'] = $EnrollmentStyle->value;
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/", "POST", $data);
-		return $response ? new GroupCategoryData($response) : null;
+		return $response ? new GroupsJobData($response) : null;
+	}
+
+	public function getCreateCourseGroupCategoryJobStatus(int $orgUnitId, int $groupCategoryId): ?GroupCategoryJobStatus
+	{
+		$response = $this->apirequest("/d2l/api/lp" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId/status");
+		return $response ? new GroupCategoryJobStatus($response) : null;
+	}
+
+	public function createCourseGroupCategoryAndWait(int $orgUnitId, string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupsJobData
+	{
+		$object = $response = $this->createCourseGroupCategory($orgUnitId, $Name, $DescriptionText, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
+
+		$groupCategoryId = $response->CategoryId;
+
+		while ($response->Status == GROUPSJOBSTATUS::Processing) {
+			sleep(5);
+			$response = $this->getCreateCourseGroupCategoryJobStatus($orgUnitId, $groupCategoryId);
+		}
+
+		$object->Status = $response->Status;
+		return $object;
 	}
 
 	public function deleteCourseGroupCategory(int $orgUnitId, int $groupCategoryId): void
