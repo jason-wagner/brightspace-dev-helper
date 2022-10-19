@@ -706,13 +706,13 @@ class Valence
 		$data['EnrollmentStyle'] = $EnrollmentStyle->value;
 		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
 		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/", "POST", $data);
-		return $response ? new GroupsJobData($response) : null;
+		return $response ? new GroupsJobData($response, $this) : null;
 	}
 
 	public function getCreateCourseGroupCategoryJobStatus(int $orgUnitId, int $groupCategoryId): ?GroupCategoryJobStatus
 	{
 		$response = $this->apirequest("/d2l/api/lp" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId/status");
-		return $response ? new GroupCategoryJobStatus($response) : null;
+		return $response ? new GroupCategoryJobStatus($response, $this) : null;
 	}
 
 	public function createCourseGroupCategoryAndWait(int $orgUnitId, string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupsJobData
