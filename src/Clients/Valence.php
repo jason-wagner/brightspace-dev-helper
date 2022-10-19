@@ -50,7 +50,7 @@ use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest,
 	RichTextInput,
 	SectionEnrollment
 };
-use BrightspaceDevHelper\Valence\Object\{CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
+use BrightspaceDevHelper\Valence\Object\{BrightspaceConfig, CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
 use BrightspaceDevHelper\Valence\PatchBlock\{CourseOfferingInfoPatch, NewsItemDataPatch};
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
 use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
@@ -96,13 +96,13 @@ class Valence
 
 	private int $copyStatusCheckDelay = 15;
 
-	public function __construct(?string $UserId = null, ?string $UserKey = null)
+	public function __construct(BrightspaceConfig $config)
 	{
 		$authContextFactory = new D2LAppContextFactory();
-		$authContext = $authContextFactory->createSecurityContext($_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY']);
-		$hostSpec = new D2LHostSpec($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME']);
-		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $UserId ?? $_ENV['D2L_VALENCE_USER_ID'], $UserKey ?? $_ENV['D2L_VALENCE_USER_KEY']);
-		$this->httpclient = new Guzzle(['base_uri' => "{$_ENV['D2L_VALENCE_SCHEME']}://{$_ENV['D2L_VALENCE_HOST']}'/"]);
+		$authContext = $authContextFactory->createSecurityContext($config->appId, $config->appKey);
+		$hostSpec = new D2LHostSpec($config->host, $config->port, $config->scheme);
+		$this->handler = $authContext->createUserContextFromHostSpec($hostSpec, $config->userId, $config->userKey);
+		$this->httpclient = new Guzzle(['base_uri' => "$config->scheme://$config->host'/"]);
 
 		$org = $this->getOrganization();
 

@@ -217,8 +217,11 @@ DB_PREFIX=</pre>
 require_once __DIR__.'/vendor/autoload.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use BrightspaceDevHelper\Valence\Object\BrightspaceConfig;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__)->load();
+
+$valence_config = new BrightspaceConfig($_ENV['D2L_VALENCE_HOST'], $_ENV['D2L_VALENCE_PORT'], $_ENV['D2L_VALENCE_SCHEME'], $_ENV['D2L_VALENCE_APP_ID'], $_ENV['D2L_VALENCE_APP_KEY'], $_ENV['D2L_VALENCE_USER_ID'], $_ENV['D2L_VALENCE_USER_KEY']);
 
 $capsule = new Capsule;
 
@@ -243,7 +246,7 @@ $capsule->bootEloquent();</pre>
 				<h3>Making Valence Requests</h3>
 				<p>First, you will need to create a new Valence Client object:</p>
 				<pre>
-$valenceObject = new Valence();</pre>
+$valenceObject = new Valence($valence_config);</pre>
 				<p>Then, you just need to find the calls you want to use. Suppose you want to enroll John Smith (UserId
 					12345) into the ENG 101 A (OrgUnitId 67890) as a student (RoleId 246). Then you can use:
 				<pre>
@@ -488,7 +491,7 @@ setTimezoneConversion(bool $timezoneConversion): void
 setUserClass($userclass): void</pre>
 				<h4>Client Helper Functions</h4>
 				<pre>
-__construct(?string $UserId = null, ?string $UserKey = null)
+__construct(BrightspanceConfig $config)
 apirequest(string $route, string $method = 'GET', ?array $data = null): ?array
 apirequestfile(string $route, string $filepath)
 apisendfile(string $route, string $method, string $filepath, string $field, string $name)
@@ -761,6 +764,7 @@ CourseOfferingInfoPatch
 NewsItemDataPatch</pre>
 				<h4>Class Objects</h4>
 				<pre>
+BrightspaceConfig
 CopyRequest
 CopyRequestQueue
 DateTime
