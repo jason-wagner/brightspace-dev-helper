@@ -123,9 +123,9 @@ class ValenceCourse
 		$this->valence->deleteCourseSection($this->orgUnitId, $sectionId);
 	}
 
-	public function enrollUserInSection(int $sectionId, int $UserId): array
+	public function enrollUserInSection(int $sectionId, int $UserId): void
 	{
-		return $this->valence->enrollUserInCourseSection($this->orgUnitId, $sectionId, new SectionEnrollment($this->valence, $this->orgUnitId, $sectionId, $UserId));
+		$this->valence->enrollUserInCourseSection($this->orgUnitId, $sectionId, new SectionEnrollment($this->valence, $this->orgUnitId, $sectionId, $UserId));
 	}
 
 	public function getSectionSettings(): ?SectionPropertyData
@@ -193,9 +193,9 @@ class ValenceCourse
 		return $this->valence->updateCourseGroup($this->orgUnitId, $groupCategoryId, $groupId, $Name, $Code, $DescriptionText);
 	}
 
-	public function enrollUserInGroup(int $groupCategoryId, int $groupId, int $UserId): array
+	public function enrollUserInGroup(int $groupCategoryId, int $groupId, int $UserId): void
 	{
-		return $this->valence->enrollUserInGroup($this->orgUnitId, $groupCategoryId, $groupId, new GroupEnrollment($this->valence, $this->orgUnitId, $groupCategoryId, $groupId, $UserId));
+		$this->valence->enrollUserInGroup($this->orgUnitId, $groupCategoryId, $groupId, new GroupEnrollment($this->valence, $this->orgUnitId, $groupCategoryId, $groupId, $UserId));
 	}
 
 	public function unenrollUserFromGroup(int $groupCategoryId, int $groupId, int $userId): void

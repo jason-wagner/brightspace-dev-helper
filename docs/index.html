@@ -554,8 +554,8 @@ dismissCourseAnnouncement(int $orgUnitId, int $newsItemId): void
 enrollInstructor(int $OrgUnitId, int $UserId): ?EnrollmentData
 enrollStudent(int $OrgUnitId, int $UserId): ?EnrollmentData
 enrollUser(CreateEnrollmentData $input): ?EnrollmentData
-enrollUserInCourseSection(int $orgUnitId, int $sectionId, SectionEnrollment $input): array
-enrollUserInGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): array
+enrollUserInCourseSection(int $orgUnitId, int $sectionId, SectionEnrollment $input): void
+enrollUserInGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): void
 getBrightSpaceDataSets(): BrightspaceDataSetReportInfoArray
 getContentToc(int $orgUnitId): ?TableOfContents
 getContentTopicFile(int $orgUnitId, int $topicId, string $filepath): bool
@@ -626,8 +626,8 @@ dismissCourseAnnouncement(int $newsItemId): void
 enrollInstructor(int $UserId): ?EnrollmentData
 enrollStudent(int $UserId): ?EnrollmentData
 enrollUser(int $UserId, int $RoleId): ?EnrollmentData
-enrollUserInGroup(int $groupCategoryId, int $groupId, int $UserId): array
-enrollUserInSection(int $sectionId, int $UserId): array
+enrollUserInGroup(int $groupCategoryId, int $groupId, int $UserId): void
+enrollUserInSection(int $sectionId, int $UserId): void
 get(): ?CourseOffering
 getAnnouncement(int $newsItemId): NewsItem
 getAnnouncements(): NewsItemArray
@@ -674,8 +674,8 @@ deletePicture(): void
 enrollAsInstructor(int $OrgUnitId): ?EnrollmentData
 enrollAsStudent(int $OrgUnitId): ?EnrollmentData
 enrollInCourse(int $OrgUnitId, int $RoleId): ?EnrollmentData
-enrollInCourseSection(int $orgUnitId, int $sectionId): array
-enrollInGroup(int $orgUnitId, int $groupCategoryId, GroupEnrollment $input): array
+enrollInCourseSection(int $orgUnitId, int $sectionId): void
+enrollInGroup(int $orgUnitId, int $groupCategoryId, GroupEnrollment $input): void
 get(): ?UserData
 getEnrollment(int $orgUnitId): ?EnrollmentData
 getNames(): LegalPreferredNames

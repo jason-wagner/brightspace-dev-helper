@@ -80,14 +80,14 @@ class ValenceUser
 		return $this->valence->getEnrollment($orgUnitId, $this->userId);
 	}
 
-	public function enrollInCourseSection(int $orgUnitId, int $sectionId): array
+	public function enrollInCourseSection(int $orgUnitId, int $sectionId): void
 	{
-		return $this->valence->enrollUserInCourseSection($orgUnitId, $sectionId, new SectionEnrollment($this->valence, $orgUnitId, $sectionId, $this->userId));
+		$this->valence->enrollUserInCourseSection($orgUnitId, $sectionId, new SectionEnrollment($this->valence, $orgUnitId, $sectionId, $this->userId));
 	}
 
-	public function enrollInGroup(int $orgUnitId, int $groupCategoryId, int $groupId): array
+	public function enrollInGroup(int $orgUnitId, int $groupCategoryId, int $groupId): void
 	{
-		return $this->valence->enrollUserInGroup($orgUnitId, $groupCategoryId, $groupId, new GroupEnrollment($this->valence, $orgUnitId, $groupCategoryId, $groupId, $this->userId));
+		$this->valence->enrollUserInGroup($orgUnitId, $groupCategoryId, $groupId, new GroupEnrollment($this->valence, $orgUnitId, $groupCategoryId, $groupId, $this->userId));
 	}
 
 	public function unenrollFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId): void

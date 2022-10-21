@@ -668,9 +668,9 @@ class Valence
 		$this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/sections/$sectionId", "DELETE");
 	}
 
-	public function enrollUserInCourseSection(int $orgUnitId, int $sectionId, SectionEnrollment $input): array
+	public function enrollUserInCourseSection(int $orgUnitId, int $sectionId, SectionEnrollment $input): void
 	{
-		return $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/sections/$sectionId/enrollments/", "POST", $input->toArray());
+		$this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/sections/$sectionId/enrollments/", "POST", $input->toArray());
 	}
 
 	public function newSectionEnrollmentObject(int $orgUnitId, int $sectionId, int $UserId): SectionEnrollment
@@ -781,9 +781,9 @@ class Valence
 		return $response ? new GroupData($response) : null;
 	}
 
-	public function enrollUserInGroup(int $orgUnitId, int $groupCategoryId, int $groupId, GroupEnrollment $input): array
+	public function enrollUserInGroup(int $orgUnitId, int $groupCategoryId, int $groupId, GroupEnrollment $input): void
 	{
-		return $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId/enrollments/", "POST", $input->toArray());
+		$this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId/groups/$groupId/enrollments/", "POST", $input->toArray());
 	}
 
 	public function newGroupEnrollmentObject(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): GroupEnrollment
