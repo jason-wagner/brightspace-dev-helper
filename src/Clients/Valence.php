@@ -45,11 +45,13 @@ use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray,
 use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest,
 	CreateCourseOffering,
 	CreateEnrollmentData,
+	GroupCategoryDataCreate,
+	GroupDataCreate,
 	GroupEnrollment,
 	NewsItemData,
 	RichTextInput,
-	SectionEnrollment
-};
+	SectionDataCreate,
+	SectionEnrollment};
 use BrightspaceDevHelper\Valence\Object\{BrightspaceConfig, CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
 use BrightspaceDevHelper\Valence\PatchBlock\{CourseOfferingInfoPatch, NewsItemDataPatch};
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
@@ -634,12 +636,15 @@ class Valence
 		return $response ? new SectionData($response) : null;
 	}
 
-	public function createCourseSection(int $orgUnitId, string $Name, string $Code, string $DescriptionText): ?SectionData
+	public function createCourseSection(int $orgUnitId, SectionDataCreate $input): ?SectionData
 	{
-		$data = compact('Name', 'Code');
-		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId)/sections/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId)/sections/", "POST", $input->toArray());
 		return $response ? new SectionData($response) : null;
+	}
+
+	public function newSectionDataCreate(int $orgUnitId, string $Name, int $Code, RichTextInput $Description): SectionDataCreate
+	{
+		return new SectionDataCreate($this, $orgUnitId, $Name, $Code, $Description);
 	}
 
 	public function updateCourseSection(int $orgUnitId, int $sectionId, string $Name, string $Code, string $DescriptionText): ?SectionData
@@ -699,13 +704,15 @@ class Valence
 		return $response ? new GroupCategoryData($response) : null;
 	}
 
-	public function createCourseGroupCategory(int $orgUnitId, string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupsJobData
+	public function createCourseGroupCategory(int $orgUnitId, GroupCategoryDataCreate $input): ?GroupsJobData
 	{
-		$data = compact('Name', 'EnrollmentQuantity', 'AutoEnroll', 'RandomizeEnrollments', 'NumberOfGroups', 'MaxUsersPerGroup', 'AllocateAfterExpiry', 'SelfEnrollmentExpiryDate', 'GroupPrefix', 'RestrictedByOrgUnitId');
-		$data['EnrollmentStyle'] = $EnrollmentStyle->value;
-		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/", "POST", $input->toArray());
 		return $response ? new GroupsJobData($response, $this) : null;
+	}
+
+	public function newGroupCategoryDataCreate(int $orgUnitId, string $Name, RichTextInput $Description, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryDataCreate
+	{
+		return new GroupCategoryDataCreate($this, $orgUnitId, $Name, $Description, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
 	}
 
 	public function getCreateCourseGroupCategoryJobStatus(int $orgUnitId, int $groupCategoryId): ?GroupCategoryJobStatus
@@ -714,9 +721,9 @@ class Valence
 		return $response ? new GroupCategoryJobStatus($response, $this) : null;
 	}
 
-	public function createCourseGroupCategoryAndWait(int $orgUnitId, string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupsJobData
+	public function createCourseGroupCategoryAndWait(int $orgUnitId, GroupCategoryDataCreate $input): ?GroupsJobData
 	{
-		$object = $response = $this->createCourseGroupCategory($orgUnitId, $Name, $DescriptionText, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
+		$object = $response = $this->createCourseGroupCategory($orgUnitId, $input);
 
 		$groupCategoryId = $response->CategoryId;
 
@@ -755,12 +762,15 @@ class Valence
 		return $response ? new GroupData($response) : null;
 	}
 
-	public function createCourseGroup(int $orgUnitId, int $groupCategoryId, string $Name, string $Code, string $DescriptionText): ?GroupData
+	public function createCourseGroup(int $orgUnitId, int $groupCategoryId, GroupDataCreate $input): ?GroupData
 	{
-		$data = compact('Name', 'Code');
-		$data['Description'] = ['Type' => 'Text', 'Content' => $DescriptionText];
-		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId/groups/", "POST", $data);
+		$response = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/$orgUnitId/groupcategories/$groupCategoryId/groups/", "POST", $input->toArray());
 		return $response ? new GroupData($response) : null;
+	}
+
+	public function newGroupDataCreate(int $orgUnitId, int $groupCategoryId, string $Name, string $Code, RichTextInput $Description): GroupDataCreate
+	{
+		return new GroupDataCreate($this, $orgUnitId, $groupCategoryId, $Name, $Code, $Description);
 	}
 
 	public function updateCourseGroup(int $orgUnitId, int $groupCategoryId, int $groupId, string $Name, string $Code, string $DescriptionText): ?GroupData

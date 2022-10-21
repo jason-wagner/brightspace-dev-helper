@@ -30,8 +30,11 @@ use BrightspaceDevHelper\Valence\BlockArray\SectionDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\TopicArray;
 use BrightspaceDevHelper\Valence\CreateBlock\CreateCopyJobRequest;
 use BrightspaceDevHelper\Valence\CreateBlock\CreateEnrollmentData;
+use BrightspaceDevHelper\Valence\CreateBlock\GroupCategoryDataCreate;
 use BrightspaceDevHelper\Valence\CreateBlock\GroupEnrollment;
 use BrightspaceDevHelper\Valence\CreateBlock\NewsItemData;
+use BrightspaceDevHelper\Valence\CreateBlock\RichTextInput;
+use BrightspaceDevHelper\Valence\CreateBlock\SectionDataCreate;
 use BrightspaceDevHelper\Valence\CreateBlock\SectionEnrollment;
 
 class ValenceCourse
@@ -100,9 +103,9 @@ class ValenceCourse
 		return $this->valence->getCourseSection($this->orgUnitId, $sectionid);
 	}
 
-	public function createSection(string $Name, string $Code, string $DescriptionText): ?SectionData
+	public function createSection(string $Name, string $Code, RichTextInput $Description): ?SectionData
 	{
-		return $this->valence->createCourseSection($this->orgUnitId, $Name, $Code, $DescriptionText);
+		return $this->valence->createCourseSection($this->orgUnitId, new SectionDataCreate($this->valence, $this->orgUnitId, $Name, $Code, $Description));
 	}
 
 	public function updateSection(int $sectionId, string $Name, string $Code, string $DescriptionText): ?SectionData
@@ -147,7 +150,7 @@ class ValenceCourse
 
 	public function createGroupCategory(string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupsJobData
 	{
-		return $this->valence->createCourseGroupCategory($this->orgUnitId, $Name, $DescriptionText, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
+		return $this->valence->createCourseGroupCategory($this->orgUnitId, new GroupCategoryDataCreate($this->valence, $this->orgUnitId, $Name, $DescriptionText, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId));
 	}
 
 	public function getCreateCourseGroupCategoryJobStatus(int $groupCategoryId): ?GroupCategoryJobStatus
@@ -157,7 +160,7 @@ class ValenceCourse
 
 	public function createGroupCategoryAndWait(string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupsJobData
 	{
-		return $this->valence->createCourseGroupCategoryAndWait($this->orgUnitId, $Name, $DescriptionText, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId);
+		return $this->valence->createCourseGroupCategoryAndWait($this->orgUnitId, new GroupCategoryDataCreate($this->valence, $this->orgUnitId, $Name, $DescriptionText, $EnrollmentStyle, $EnrollmentQuantity, $AutoEnroll, $RandomizeEnrollments, $NumberOfGroups, $MaxUsersPerGroup, $AllocateAfterExpiry, $SelfEnrollmentExpiryDate, $GroupPrefix, $RestrictedByOrgUnitId));
 	}
 
 	public function deleteGroupCategory(int $groupCategoryId): void

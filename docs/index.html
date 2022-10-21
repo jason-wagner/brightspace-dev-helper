@@ -518,9 +518,12 @@ newCourseOfferingInfoPatchObject(int $orgUnitId): CourseOfferingInfoPatch
 newCreateCopyJobRequest(int $SourceOrgUnitId, COPYCOMPONENT|array|null $Components, ?string $CallbackUrl, ?int $DaysToOffsetDates, ?float $HoursToOffsetDates, ?bool $OffsetByStartDate): CreateCopyJobRequest
 newCreateCourseOfferingObject(string $Name, string $Code, ?string $Path, int $CourseTemplateId, ?int $SemesterId, DateTime|string|null $StartDate, DateTime|string|null $EndDate, ?int $LocaleId, bool $ForceLocale, bool $ShowAddressBook, RichTextInput $Description, ?bool $CanSelfRegister): CreateCourseOffering
 newCreateEnrollmentDataObject(int $OrgUnitId, int $UserId, int $RoleId): CreateEnrollmentData
+newGroupCategoryDataCreate(int $orgUnitId, string $Name, RichTextInput $Description, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryDataCreate
+newGroupDataCreate(int $orgUnitId, int $groupCategoryId, string $Name, string $Code, RichTextInput $Description): ?GroupDataCreate
 newGroupEnrollmentObject(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): GroupEnrollment
 newNewsItemDataObject(int $orgUnitId, string $Title, RichText $Body, DateTime|string $StartDate, DateTime|string|null $EndDate, bool $IsGlobal, bool $IsPublished, bool $ShowOnlyInCourseOfferings, bool $IsAuthorInfoShown): NewsItemData
 newNewsItemDataPatchObject(int $orgUnitId, int $newsItemId): NewsItemDataPatch
+newSectionDataCreate(int $orgUnitId, string $Name, string $Code, RichTextInput $Description): ?SectionDataCreate
 newSectionEnrollmentObject(int $orgUnitId, int $sectionId, int $UserId): SectionEnrollment</pre>
 				<h4>ID Retriever Functions</h4>
 				<pre>
@@ -536,10 +539,11 @@ getUserIdFromUsername(string $username): ?int</pre>
 createCourseCopyRequest(int $orgUnitId, CreateCopyJobRequest $input): ?CreateCopyJobResponse
 createCourseCopyRequestAndWait(int $orgUnitId, CreateCopyJobRequest $input): bool
 createCourseCopyRequestsAndWait(CopyRequestQueue $requests): bool
-createCourseGroup(int $orgUnitId, int $groupCategoryId, string $Name, string $Code, string $DescriptionText): ?GroupData
-createCourseGroupCategory(int $orgUnitId, string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData
+createCourseGroup(int $orgUnitId, int $groupCategoryId, GroupDataCreate $input): ?GroupData
+createCourseGroupCategory(int $orgUnitId, GroupCategoryDataCreate $input): ?GroupCategoryData
+createCourseGroupCategoryAndWait(int $orgUnitId, GroupCategoryDataCreate $input): ?GroupCategoryData
 createCourseOffering(CreateCourseOffering $input): ValenceCourse|CourseOffering
-createCourseSection(int $orgUnitId, string $Name, string $Code, string $DescriptionText): ?SectionData
+createCourseSection(int $orgUnitId, SectionDataCreate $input): ?SectionData
 deleteCourseAnnouncement(int $orgUnitId, int $newsItemId): void
 deleteCourseGroup(int $orgUnitId, int $groupCategoryId, int $groupId): void
 deleteCourseGroupCategory(int $orgUnitId, int $groupCategoryId): void
@@ -613,7 +617,7 @@ __construct(Valence $valence, int $orgUnitId)
 createCopyRequest(CreateCopyJobRequest $input): ?CreateCopyJobResponse
 createGroup(int $groupCategoryId, string $Name, string $Code, string $DescriptionText): ?GroupData
 createGroupCategory(string $Name, string $DescriptionText, GRPENROLL $EnrollmentStyle, ?int $EnrollmentQuantity, bool $AutoEnroll, bool $RandomizeEnrollments, ?int $NumberOfGroups, ?int $MaxUsersPerGroup, bool $AllocateAfterExpiry, ?string $SelfEnrollmentExpiryDate, ?string $GroupPrefix, ?int $RestrictedByOrgUnitId): ?GroupCategoryData
-createSection(string $Name, string $Code, string $DescriptionText): ?SectionData
+createSection(string $Name, string $Code, RichText $Description): ?SectionData
 deleteCourseAnnouncement(int $newsItemId): void
 deleteGroup(int $groupCategoryId, int $groupId): void
 deleteGroupCategory(int $groupCategoryId): void
@@ -751,9 +755,12 @@ TopicArray</pre>
 CreateCopyJobRequest
 CreateCourseOffering
 CreateEnrollmentData
+GroupCategoryDataCreate
+GroupDataCreate
 GroupEnrollment
 NewsItemData
 RichTextInput
+SectionDataCreate
 SectionEnrollment</pre>
 				<h4>Update Blocks</h4>
 				<pre>

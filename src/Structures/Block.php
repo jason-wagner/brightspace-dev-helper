@@ -17,9 +17,17 @@ class Block
 	{
 		$data = [];
 
-		foreach ($this as $key => $value)
-			if (!in_array($key, ['valence', 'nonprops']) && !in_array($key, $this->nonprops))
-				$data[$key] = is_object($value) ? $value->toArray() : $value;
+		foreach ($this as $key => $value) {
+			if (in_array($key, ['valence', 'nonprops']) || in_array($key, $this->nonprops))
+				continue;
+
+			if ($value instanceof \UnitEnum)
+				$data[$key] = $value->value;
+			elseif (is_object($value))
+				$data[$key] = $value->toArray();
+			else
+				$data[$key] = $value;
+		}
 
 		return $data;
 	}
