@@ -27,8 +27,8 @@ use BrightspaceDevHelper\Valence\Block\{CourseOffering,
 	TableOfContents,
 	Topic,
 	UserData,
-	WhoAmIUser
-};
+	UserProfile,
+	WhoAmIUser};
 use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray,
 	ForumArray,
 	GroupCategoryDataArray,
@@ -826,9 +826,10 @@ class Valence
 		return $this->isValidResponseCode() ? new LegalPreferredNames($response) : null;
 	}
 
-	public function getUserProfile(int $userId): array
+	public function getUserProfile(int $userId): UserProfile
 	{
-		return $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/profile/user/$userId");
+		$reponse = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/profile/user/$userId");
+		return $this->isValidResponseCode() ? new UserProfile($reponse) : null;
 	}
 
 	public function getUserPicture(int $userId, string $filepath): bool

@@ -589,7 +589,7 @@ getRoles(): RoleArray
 getUser(int $userId): ?UserData
 getUserNames(int $userId): ?LegalPreferredNames
 getUserPicture(int $userId, string $filepath): bool
-getUserProfile(int $userId): array
+getUserProfile(int $userId): UserProfile
 initializeCourseSections(int $orgUnitId, SECTENROLL $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): ?SectionData
 pinCourse(int $orgUnitId, int $userId): void
 postCourseAnnouncement(int $orgUnitId, NewsItemData $input): NewsItem
@@ -680,7 +680,7 @@ get(): ?UserData
 getEnrollment(int $orgUnitId): ?EnrollmentData
 getNames(): LegalPreferredNames
 getPicture(string $filepath): bool
-getProfile(): ?array
+getProfile(): ?UserProfile
 pinCourse(int $orgUnitId): void
 unenroll(int $orgUnitId): void
 unenrollFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId): void
@@ -704,6 +704,7 @@ SECTENROLL</pre>
 				<h4>Blocks</h4>
 				<pre>
 BasicOrgUnit
+Birthday
 BrightspaceDatasetReportInfo
 CourseOffering
 CreateCopyJobResponse
@@ -725,6 +726,7 @@ Role
 RoleInfo
 SectionData
 SectionPropertyData
+SocialMediaUrl
 TableOfContents
 TableOfContentsModule
 TableOfContentsTopic
@@ -732,6 +734,7 @@ Topic
 User
 UserActivationData
 UserData
+UserProfile
 WhoAmIUser</pre>
 				<h4>Block Arrays</h4>
 				<pre>
@@ -747,6 +750,7 @@ PostArray
 ProductVersionArray
 RoleArray
 SectionDataArray
+SocialMediaUrls
 TableOfContentsModuleArray
 TableOfContentsTopicArray
 TopicArray</pre>

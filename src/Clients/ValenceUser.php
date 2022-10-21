@@ -5,6 +5,7 @@ namespace BrightspaceDevHelper\Valence\Client;
 use BrightspaceDevHelper\Valence\Block\EnrollmentData;
 use BrightspaceDevHelper\Valence\Block\LegalPreferredNames;
 use BrightspaceDevHelper\Valence\Block\UserData;
+use BrightspaceDevHelper\Valence\Block\UserProfile;
 use BrightspaceDevHelper\Valence\CreateBlock\CreateEnrollmentData;
 use BrightspaceDevHelper\Valence\CreateBlock\GroupEnrollment;
 use BrightspaceDevHelper\Valence\CreateBlock\SectionEnrollment;
@@ -35,7 +36,7 @@ class ValenceUser
 		return $this->valence->updateUserNames($this->userId, $LegalFirstName, $LegalLastName, $PreferredFirstName, $PreferredLastName);
 	}
 
-	public function getProfile(): ?array
+	public function getProfile(): ?UserProfile
 	{
 		return $this->valence->getUserProfile($this->userId);
 	}
