@@ -589,7 +589,7 @@ getRoles(): RoleArray
 getUser(int $userId): ?UserData
 getUserNames(int $userId): ?LegalPreferredNames
 getUserPicture(int $userId, string $filepath): bool
-getUserProfile(int $userId): UserProfile
+getUserProfile(int $userId): ?UserProfile
 initializeCourseSections(int $orgUnitId, SECTENROLL $EnrollmentStyle, int $EnrollmentQuantity, bool $AuthEnroll, bool $RandomizeEnrollments): ?SectionData
 pinCourse(int $orgUnitId, int $userId): void
 postCourseAnnouncement(int $orgUnitId, NewsItemData $input): NewsItem

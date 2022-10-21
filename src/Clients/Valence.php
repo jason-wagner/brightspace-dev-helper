@@ -826,7 +826,7 @@ class Valence
 		return $this->isValidResponseCode() ? new LegalPreferredNames($response) : null;
 	}
 
-	public function getUserProfile(int $userId): UserProfile
+	public function getUserProfile(int $userId): ?UserProfile
 	{
 		$reponse = $this->apirequest("/d2l/api/lp/" . self::VERSION_LP . "/profile/user/$userId");
 		return $this->isValidResponseCode() ? new UserProfile($reponse) : null;
