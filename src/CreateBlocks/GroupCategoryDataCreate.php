@@ -11,20 +11,20 @@ class GroupCategoryDataCreate extends CreateBlock
 {
 	protected array $nonprops = ['orgUnitId', 'groupCategoryId'];
 
-	public function __construct(Valence          $valence,
-								public int       $orgUnitId,
-								public string    $Name,
-								public string    $DescriptionText,
-								public GRPENROLL $EnrollmentStyle,
-								public ?int      $EnrollmentQuantity,
-								public bool      $AutoEnroll,
-								public bool      $RandomizeEnrollments,
-								public ?int      $NumberOfGroups,
-								public ?int      $MaxUsersPerGroup,
-								public bool      $AllocateAfterExpiry,
-								public ?string   $SelfEnrollmentExpiryDate,
-								public ?string   $GroupPrefix,
-								public ?int      $RestrictedByOrgUnitId)
+	public function __construct(Valence              $valence,
+								public int           $orgUnitId,
+								public string        $Name,
+								public RichTextInput $Description,
+								public GRPENROLL     $EnrollmentStyle,
+								public ?int          $EnrollmentQuantity,
+								public bool          $AutoEnroll,
+								public bool          $RandomizeEnrollments,
+								public ?int          $NumberOfGroups,
+								public ?int          $MaxUsersPerGroup,
+								public bool          $AllocateAfterExpiry,
+								public ?string       $SelfEnrollmentExpiryDate,
+								public ?string       $GroupPrefix,
+								public ?int          $RestrictedByOrgUnitId)
 	{
 		$this->valence = $valence;
 	}
