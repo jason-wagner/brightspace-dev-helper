@@ -231,6 +231,11 @@ class Valence
 		}
 	}
 
+	public function apirequesturl(string $route, string $method = 'GET'): string
+	{
+		return $this->handler->createAuthenticatedUri(str_replace(' ', '%20', $route), $method);
+	}
+
 	private function logrequest(string $route, string $method, ?array $data = null): void
 	{
 		$logEntry = date("Y-m-d H:i:s") . " $method $route " . json_encode($data ?? []) . " $this->responseCode\n";
