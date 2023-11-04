@@ -26,6 +26,7 @@ use BrightspaceDevHelper\Valence\Block\{CourseOffering,
 	SectionPropertyData,
 	TableOfContents,
 	Topic,
+	UserAccommodations,
 	UserData,
 	UserProfile,
 	WhoAmIUser};
@@ -49,9 +50,11 @@ use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest,
 	GroupDataCreate,
 	GroupEnrollment,
 	NewsItemData,
+	QuizzingAccommodationsCreate,
 	RichTextInput,
 	SectionDataCreate,
-	SectionEnrollment};
+	SectionEnrollment,
+	UserAccommodationsCreate};
 use BrightspaceDevHelper\Valence\Object\{BrightspaceConfig, CopyRequest, CopyRequestQueue, DateTime, UserIdKeyPair};
 use BrightspaceDevHelper\Valence\PatchBlock\{CourseOfferingInfoPatch, NewsItemDataPatch};
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
@@ -1030,5 +1033,22 @@ class Valence
 	public function restoreDeletedCourseAnnouncement(int $orgUnitId, int $newsItemId): void
 	{
 		$this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/$orgUnitId/news/deleted/$newsItemId/restore", "POST");
+	}
+
+	public function getAccommodations(int $orgUnitId, int $userId): UserAccommodations
+	{
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/accommodations/$orgUnitId/users/$userId");
+		return new UserAccommodations($response);
+	}
+
+	public function setAccommodations(UserAccommodationsCreate $input): UserAccommodations
+	{
+		$response = $this->apirequest("/d2l/api/le/" . self::VERSION_LE . "/accommodations/", "PUT", $input->toArray());
+		return new UserAccommodations($response);
+	}
+
+	public function newUserAccommodationsCreateObject(int $OrgUnitId, int $UserId, QuizzingAccommodationsCreate $QuizzingAccommodations): UserAccommodationsCreate
+	{
+		return new UserAccommodationsCreate($this, $OrgUnitId, $UserId, $QuizzingAccommodations);
 	}
 }

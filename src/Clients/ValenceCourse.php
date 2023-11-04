@@ -19,7 +19,7 @@ use BrightspaceDevHelper\Valence\Block\SectionData;
 use BrightspaceDevHelper\Valence\Block\SectionPropertyData;
 use BrightspaceDevHelper\Valence\Block\TableOfContents;
 use BrightspaceDevHelper\Valence\Block\Topic;
-
+use BrightspaceDevHelper\Valence\Block\UserAccommodations;
 use BrightspaceDevHelper\Valence\BlockArray\ForumArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupCategoryDataArray;
 use BrightspaceDevHelper\Valence\BlockArray\GroupDataArray;
@@ -321,5 +321,10 @@ class ValenceCourse
 	public function restoreDeletedCourseAnnouncement(int $newsItemId): void
 	{
 		$this->valence->restoreDeletedCourseAnnouncement($this->orgUnitId, $newsItemId);
+	}
+
+	public function getAccommodations(int $userId): UserAccommodations
+	{
+		return $this->valence->getAccommodations($this->orgUnitId, $userId);
 	}
 }

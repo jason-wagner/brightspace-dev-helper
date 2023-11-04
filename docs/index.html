@@ -524,7 +524,8 @@ newGroupEnrollmentObject(int $orgUnitId, int $groupCategoryId, int $groupId, int
 newNewsItemDataObject(int $orgUnitId, string $Title, RichText $Body, DateTime|string $StartDate, DateTime|string|null $EndDate, bool $IsGlobal, bool $IsPublished, bool $ShowOnlyInCourseOfferings, bool $IsAuthorInfoShown): NewsItemData
 newNewsItemDataPatchObject(int $orgUnitId, int $newsItemId): NewsItemDataPatch
 newSectionDataCreate(int $orgUnitId, string $Name, string $Code, RichTextInput $Description): ?SectionDataCreate
-newSectionEnrollmentObject(int $orgUnitId, int $sectionId, int $UserId): SectionEnrollment</pre>
+newSectionEnrollmentObject(int $orgUnitId, int $sectionId, int $UserId): SectionEnrollment
+newUserAccommodationsCreateObject(int $OrgUnitId, int $UserId, QuizzingAccommodations $QuizzingAccommodations): UserAccommodationsCreate</pre>
 				<h4>ID Retriever Functions</h4>
 				<pre>
 getOrgUnitIdFromCode(string $orgUnitCode, int $orgUnitType): ?int
@@ -556,6 +557,7 @@ enrollStudent(int $OrgUnitId, int $UserId): ?EnrollmentData
 enrollUser(CreateEnrollmentData $input): ?EnrollmentData
 enrollUserInCourseSection(int $orgUnitId, int $sectionId, SectionEnrollment $input): void
 enrollUserInGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $UserId): void
+getAccommodations(int $orgUnitId, int $userId): UserAccommodations
 getBrightSpaceDataSets(): BrightspaceDataSetReportInfoArray
 getContentToc(int $orgUnitId): ?TableOfContents
 getContentTopicFile(int $orgUnitId, int $topicId, string $filepath): bool
@@ -596,6 +598,7 @@ postCourseAnnouncement(int $orgUnitId, NewsItemData $input): NewsItem
 publishCourseAnnouncement(int $orgUnitId, int $newsItemId): void
 restoreCourseAnnouncement(int $orgUnitId, int $newsItemId): void
 restoreDeletedCourseAnnouncement(int $orgUnitId, int $newsItemId): void
+setAccommodations(UserAccommodationsCreate $input): UserAccommodations
 unenrollUser(int $userId, int $orgUnitId): void
 unenrollUserFromGroup(int $orgUnitId, int $groupCategoryId, int $groupId, int $userId): void
 unpinCourse(int $orgUnitId, int $userId): void
@@ -629,6 +632,7 @@ enrollUser(int $UserId, int $RoleId): ?EnrollmentData
 enrollUserInGroup(int $groupCategoryId, int $groupId, int $UserId): void
 enrollUserInSection(int $sectionId, int $UserId): void
 get(): ?CourseOffering
+getAccommodations(int $userId): UserAccommodations
 getAnnouncement(int $newsItemId): NewsItem
 getAnnouncements(): NewsItemArray
 getAnnouncementsForUser(int $userId): NewsItemArray
@@ -677,6 +681,7 @@ enrollInCourse(int $OrgUnitId, int $RoleId): ?EnrollmentData
 enrollInCourseSection(int $orgUnitId, int $sectionId): void
 enrollInGroup(int $orgUnitId, int $groupCategoryId, GroupEnrollment $input): void
 get(): ?UserData
+getAccommodations(int $orgUnitId): UserAccommodations
 getEnrollment(int $orgUnitId): ?EnrollmentData
 getNames(): LegalPreferredNames
 getPicture(string $filepath): bool
@@ -700,7 +705,8 @@ COPYJOBSTATUS
 GRPENROLL
 RATING
 SCORING
-SECTENROLL</pre>
+SECTENROLL
+TIMEOP</pre>
 				<h4>Blocks</h4>
 				<pre>
 BasicOrgUnit
@@ -721,6 +727,9 @@ Organization
 Permissions
 Post
 ProductVersions
+QuizzingAccommodations
+QuizControlAccommodation
+QuizTimeLimitAccommodation
 RichText
 Role
 RoleInfo
@@ -732,6 +741,7 @@ TableOfContentsModule
 TableOfContentsTopic
 Topic
 User
+UserAccommodations
 UserActivationData
 UserData
 UserProfile
@@ -763,9 +773,13 @@ GroupCategoryDataCreate
 GroupDataCreate
 GroupEnrollment
 NewsItemData
+QuizzingAccommodationsCreate
+QuizControlAccommodationCreate
+QuizTimeLimitAccommodationCreate
 RichTextInput
 SectionDataCreate
-SectionEnrollment</pre>
+SectionEnrollment
+UserAccommodationsCreate</pre>
 				<h4>Update Blocks</h4>
 				<pre>
 CourseOfferingInfo</pre>

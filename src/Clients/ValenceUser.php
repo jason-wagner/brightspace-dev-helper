@@ -4,6 +4,7 @@ namespace BrightspaceDevHelper\Valence\Client;
 
 use BrightspaceDevHelper\Valence\Block\EnrollmentData;
 use BrightspaceDevHelper\Valence\Block\LegalPreferredNames;
+use BrightspaceDevHelper\Valence\Block\UserAccommodations;
 use BrightspaceDevHelper\Valence\Block\UserData;
 use BrightspaceDevHelper\Valence\Block\UserProfile;
 use BrightspaceDevHelper\Valence\CreateBlock\CreateEnrollmentData;
@@ -104,5 +105,10 @@ class ValenceUser
 	public function unpinCourse(int $orgUnitId): void
 	{
 		$this->valence->unpinCourse($orgUnitId, $this->userId);
+	}
+
+	public function getAccommodations(int $orgUnitId): UserAccommodations
+	{
+		return $this->valence->getAccommodations($orgUnitId, $this->userId);
 	}
 }
