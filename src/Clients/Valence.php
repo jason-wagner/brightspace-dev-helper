@@ -77,8 +77,8 @@ class Valence
 	private bool $exitOnError = true;
 	public bool $convertTimezone = true;
 
-	public const VERSION_LP = '1.39';
-	public const VERSION_LE = '1.63';
+	public const string VERSION_LP = '1.39';
+	public const string VERSION_LE = '1.63';
 
 	protected ?int $responseCode = null;
 	protected ?string $responseError = null;
