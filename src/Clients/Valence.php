@@ -2,8 +2,8 @@
 
 namespace BrightspaceDevHelper\Valence\Client;
 
-use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
 use BrightspaceDevHelper\DataHub\Model\{OrganizationalUnit, User};
+use BrightspaceDevHelper\Valence\Array\COPYCOMPONENT;
 use BrightspaceDevHelper\Valence\Attributes\{GROUPSJOBSTATUS, GRPENROLL, SECTENROLL};
 use BrightspaceDevHelper\Valence\Block\{CourseOffering,
 	CreateCopyJobResponse,
@@ -41,8 +41,7 @@ use BrightspaceDevHelper\Valence\BlockArray\{BrightspaceDataSetReportInfoArray,
 	ProductVersionArray,
 	RoleArray,
 	SectionDataArray,
-	TopicArray
-};
+	TopicArray};
 use BrightspaceDevHelper\Valence\CreateBlock\{CreateCopyJobRequest,
 	CreateCourseOffering,
 	CreateEnrollmentData,
@@ -59,12 +58,11 @@ use BrightspaceDevHelper\Valence\Object\{BrightspaceConfig, CopyRequest, CopyReq
 use BrightspaceDevHelper\Valence\PatchBlock\{CourseOfferingInfoPatch, NewsItemDataPatch};
 use BrightspaceDevHelper\Valence\SDK\{D2LAppContextFactory, D2LHostSpec, D2LUserContext};
 use BrightspaceDevHelper\Valence\UpdateBlock\CourseOfferingInfo;
+use Exception;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\{ClientException as GuzzleClientException,
-	ServerException as GuzzleServerException,
-	GuzzleException
-};
-use Exception;
+	GuzzleException,
+	ServerException as GuzzleServerException};
 
 class Valence
 {
